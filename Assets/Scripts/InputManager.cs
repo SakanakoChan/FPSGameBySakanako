@@ -153,7 +153,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        if (lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || hasControllerButtonInput)
+        if (moveInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || hasControllerButtonInput)
         {
             currentInputDevice = InputDevice.Controller;
         }
