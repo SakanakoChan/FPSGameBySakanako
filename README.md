@@ -1,17 +1,14 @@
 # FPSGameBySakanako
 My first real fps game
 
-This project is a personal FPS demo focused on **input responsiveness**, **controller support**, and **modern FPS control feel**.  
-It is not intended to be a full game, but rather a playable and well-polished prototype.
-
 ---
 
 ## 🎯 Current Goals
 
-- Implement **responsive controller stick input curves**
+- Implement **responsive curve** for controller
   - Linear
-  - Traditional / Standard (COD-style)
-  - Optional dynamic curve (if feasible)
+  - Traditional / Standard 
+  - Optional dynamic curve (if feasible, COD style)
 
 - Add **pre-input mechanics**
   - Input buffering
