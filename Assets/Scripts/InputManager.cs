@@ -3,8 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputTest : MonoBehaviour
+public enum InputDevice
 {
+    MouseAndKeyboard,
+    Controller
+}
+
+public enum ControllerLayout
+{
+    XBox,
+    PlayStation,
+    NintendoSwitch
+}
+
+public class InputManager : MonoBehaviour
+{
+    public static InputManager instance { get; private set; }
+
     [Header("Rewired input info")]
     [SerializeField] private int playerIDForRewired = 0;
     private Player player;
@@ -16,7 +31,10 @@ public class InputTest : MonoBehaviour
     [SerializeField] private Vector2 lookInputRaw;
 
     [Space]
-    [SerializeField] private Vector2 lookInputReal;
+    public Vector2 lookInputReal;
+
+    [Space]
+    public Vector2 mouseInput;
 
 
     [Header("Dead zone info")]
@@ -32,6 +50,30 @@ public class InputTest : MonoBehaviour
     )]
     [SerializeField] private float outerDeadZone = 1f;
 
+
+    [Header("Input Device Switch info")]
+    public float deadZoneToTriggerControllerInput = 0.2f;
+    public float mouseDeltaThresholdToTriggerMouseInput = 0.5f;
+    public InputDevice currentInputDevice { get; private set; } = InputDevice.MouseAndKeyboard;
+    public ControllerLayout currentControllerLayout { get; private set; } = ControllerLayout.XBox;
+    private Joystick currentActiveJoystick = null;
+
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
     private void Start()
     {
         player = ReInput.players.GetPlayer(playerIDForRewired);
@@ -45,6 +87,9 @@ public class InputTest : MonoBehaviour
         lookInputRaw = new Vector2(player.GetAxisRaw("Look Horizontal"), player.GetAxisRaw("Look Vertical"));
 
         lookInputReal = ProcessStickInput(lookInputRaw, innerDeadZone, outerDeadZone);
+
+        mouseInput = new Vector2(player.GetAxisRaw("MouseX"), player.GetAxisRaw("MouseY"));
+
 
         if (player.GetButtonDown("Jump"))
         {
@@ -68,7 +113,12 @@ public class InputTest : MonoBehaviour
             Debug.Log("Switch Weapon button pressed");
         }
 
+        InputDeviceDetection();
 
+        DetectCurrentControllerLayout();
+
+        Debug.Log("Current input device: " + currentInputDevice);
+        Debug.Log("Current controller layout: " + currentControllerLayout);
 
         //foreach (var controller in player.controllers.Controllers)
         //{
@@ -83,6 +133,61 @@ public class InputTest : MonoBehaviour
         //    }
         //}
     }
+
+    private void InputDeviceDetection()
+    {
+        bool hasKeyboardInput = ReInput.controllers.Keyboard.GetAnyButtonDown();
+        if (mouseInput.sqrMagnitude > mouseDeltaThresholdToTriggerMouseInput || hasKeyboardInput)
+        {
+            currentInputDevice = InputDevice.MouseAndKeyboard;
+            return;
+        }
+
+        bool hasControllerButtonInput = false;
+        foreach (var joystick in ReInput.controllers.Joysticks)
+        {
+            if (joystick.GetAnyButtonDown())
+            {
+                hasControllerButtonInput = true;
+                break;
+            }
+        }
+
+        if (lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || hasControllerButtonInput)
+        {
+            currentInputDevice = InputDevice.Controller;
+        }
+    }
+
+    private void DetectCurrentControllerLayout()
+    {
+        Controller lastInputDevice = player.controllers.GetLastActiveController();
+        if (lastInputDevice != null && lastInputDevice.type == ControllerType.Joystick)
+        {
+            currentActiveJoystick = lastInputDevice as Joystick;
+        }
+
+
+        if (currentActiveJoystick != null)
+        {
+            string controllerName = currentActiveJoystick.name;
+
+            if (controllerName.Contains("Sony") || controllerName.Contains("Dual"))
+            {
+                currentControllerLayout = ControllerLayout.PlayStation;
+            }
+            else if (controllerName.Contains("Nintendo") || controllerName.Contains("Switch"))
+            {
+                currentControllerLayout = ControllerLayout.NintendoSwitch;
+            }
+            else
+            {
+                currentControllerLayout = ControllerLayout.XBox;
+            }
+        }
+    }
+
+
 
     private Vector2 ProcessStickInput(Vector2 _rawInput, float _innerDeadZone, float _outerDeadZone)
     {
