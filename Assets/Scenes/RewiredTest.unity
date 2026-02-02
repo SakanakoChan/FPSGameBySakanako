@@ -1620,7 +1620,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vcam: {fileID: 1892233978}
-  lookSensitivity: 0.2
+  lookSensitivity_Mouse: 0.2
+  lookSensitivity_Controller: 1
   invertYAxis: 0
 --- !u!1 &1892233977
 GameObject:
