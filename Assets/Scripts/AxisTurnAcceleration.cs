@@ -6,7 +6,6 @@ using UnityEngine;
 public class AxisTurnAcceleration
 {
     [Header("Turn acceleration info")]
-    //public bool enableTurnAcceleration = true;
     [Range(0f, 1f)] [SerializeField] private float turnAccelerationStickThreshold = 0.9f;
     [SerializeField] private float turnAccelerationStartDelay = 0.2f;
     [SerializeField] private float turnAccelerationRampUpTime = 0.3f;

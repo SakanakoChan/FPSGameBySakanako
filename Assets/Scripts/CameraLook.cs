@@ -35,16 +35,6 @@ public class CameraLook : MonoBehaviour
     public AxisTurnAcceleration horizontalTurnAcceleration;
     public AxisTurnAcceleration verticalTurnAcceleration;
 
-    //[Space]
-    //public bool enableTurnAcceleration = true;
-    //[Range(0f, 1f)] public float turnAccelerationStickThreshold = 0.9f;
-    //public float turnAccelerationStartDelay = 0.2f;
-    //public float turnAccelerationRampUpTime = 0.3f;
-    //[Range(1f, 3f)] public float maxTurnAccelerationSensitivityMultiplier = 2f;
-
-    //private float turnAccelerationTimer = 0;
-    //private float currentTurnAccelerationSensitvityMultiplier = 1f;
-
 
     [Header("Common settings")]
     public bool invertYAxis = false;
@@ -146,37 +136,4 @@ public class CameraLook : MonoBehaviour
         return direction * curvedMagnitude;
     }
 
-    //private Vector2 ApplyTurnAcceleration(Vector2 _rawLookInput, Vector2 _lookInputToAddTurnAcceleration)
-    //{
-    //    if (enableTurnAcceleration == false)
-    //    {
-    //        return _lookInputToAddTurnAcceleration;
-    //    }
-
-    //    float magnitude = _rawLookInput.magnitude;
-
-    //    if (magnitude >= turnAccelerationStickThreshold)
-    //    {
-    //        turnAccelerationTimer += Time.deltaTime;
-
-    //        if (turnAccelerationTimer > turnAccelerationStartDelay)
-    //        {
-    //            float t = (turnAccelerationTimer - turnAccelerationStartDelay) / turnAccelerationRampUpTime;
-    //            t = Mathf.Clamp01(t);
-
-    //            currentTurnAccelerationSensitvityMultiplier = Mathf.Lerp(1f, maxTurnAccelerationSensitivityMultiplier, t);
-    //        }
-    //        else
-    //        {
-    //            currentTurnAccelerationSensitvityMultiplier = 1f;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        turnAccelerationTimer = 0f;
-    //        currentTurnAccelerationSensitvityMultiplier = 1f;
-    //    }
-
-    //    return _lookInputToAddTurnAcceleration * currentTurnAccelerationSensitvityMultiplier;
-    //}
 }
