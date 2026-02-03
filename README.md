@@ -5,7 +5,7 @@ My first real fps game
 
 ## 🎯 Current Goals
 
-- ~~Implement **~~~~responsive curve~~~~** for controller~~
+- ~~Implement **responsive curve** for controller~~
   - ~~Linear~~
   - ~~Traditional / Standard ~~
   - ~~Optional dynamic curve (if feasible, COD style)~~
