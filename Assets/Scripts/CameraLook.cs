@@ -21,11 +21,24 @@ public class CameraLook : MonoBehaviour
 
     [Header("Controller look control info")]
     public float lookSensitivity_Controller = 1f;
+
+    [Space]
     public ResponsiveCurve responsiveCurve;
     [Range(1f, 3f)]
     public float standardCurveExponent = 1.8f;
     [Range(0f, 1f)]
     public float dynamicCurveThreshold = 0.6f;
+
+    [Space]
+    public bool enableTurnAcceleration = true;
+    [Range(0f, 1f)] public float turnAccelerationStickThreshold = 0.9f;
+    public float turnAccelerationStartDelay = 0.2f;
+    public float turnAccelerationRampUpTime = 0.3f;
+    [Range(1f, 3f)] public float maxTurnAccelerationSensitivityMultiplier = 2f;
+
+    private float turnAccelerationTimer = 0;
+    private float currentTurnAccelerationSensitvityMultiplier = 1f;
+
 
     [Header("Common settings")]
     public bool invertYAxis = false;
@@ -54,13 +67,14 @@ public class CameraLook : MonoBehaviour
         }
         else
         {
-            Vector2 lookInputAfterApplyingCurve = ApplyResponsiveCurve(InputManager.instance.lookInputReal);
+            Vector2 processedLookInput = ApplyResponsiveCurve(InputManager.instance.lookInputReal);
+            processedLookInput = ApplyTurnAcceleration(processedLookInput);
 
             //in rewired, controller stick related axis actions always return absolute value
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent
             //under different frame rates
-            lookX = lookInputAfterApplyingCurve.x * Time.deltaTime;
-            lookY = lookInputAfterApplyingCurve.y * Time.deltaTime;
+            lookX = processedLookInput.x * Time.deltaTime;
+            lookY = processedLookInput.y * Time.deltaTime;
 
             sensitivity = lookSensitivity_Controller;
         }
@@ -78,12 +92,12 @@ public class CameraLook : MonoBehaviour
     }
 
 
-    private Vector2 ApplyResponsiveCurve(Vector2 input)
+    private Vector2 ApplyResponsiveCurve(Vector2 _lookInput)
     {
-        float magnitude = input.magnitude;
+        float magnitude = _lookInput.magnitude;
         if (magnitude <= 0f) return Vector2.zero;
 
-        Vector2 direction = input / magnitude;
+        Vector2 direction = _lookInput / magnitude;
         //same as
         //Vector2 direction = input.normalized;
         float curvedMagnitude = magnitude;
@@ -115,5 +129,39 @@ public class CameraLook : MonoBehaviour
         }
 
         return direction * curvedMagnitude;
+    }
+
+    private Vector2 ApplyTurnAcceleration(Vector2 _lookInput)
+    {
+        if (enableTurnAcceleration == false)
+        {
+            return _lookInput;
+        }
+
+        float magnitude = _lookInput.magnitude;
+
+        if (magnitude >= turnAccelerationStickThreshold)
+        {
+            turnAccelerationTimer += Time.deltaTime;
+
+            if (turnAccelerationTimer > turnAccelerationStartDelay)
+            {
+                float t = (turnAccelerationTimer - turnAccelerationStartDelay) / turnAccelerationRampUpTime;
+                t = Mathf.Clamp01(t);
+
+                currentTurnAccelerationSensitvityMultiplier = Mathf.Lerp(1f, maxTurnAccelerationSensitivityMultiplier, t);
+            }
+            else
+            {
+                currentTurnAccelerationSensitvityMultiplier = 1f;
+            }
+        }
+        else
+        {
+            turnAccelerationTimer = 0f;
+            currentTurnAccelerationSensitvityMultiplier = 1f;
+        }
+
+        return _lookInput * currentTurnAccelerationSensitvityMultiplier;
     }
 }

@@ -1625,6 +1625,11 @@ MonoBehaviour:
   responsiveCurve: 0
   standardCurveExponent: 1.8
   dynamicCurveThreshold: 0.3
+  enableTurnAcceleration: 1
+  turnAccelerationStickThreshold: 0.9
+  turnAccelerationStartDelay: 0.3
+  turnAccelerationRampUpTime: 0.3
+  maxTurnAccelerationSensitivityMultiplier: 1.5
   invertYAxis: 0
 --- !u!1 &1892233977
 GameObject:
