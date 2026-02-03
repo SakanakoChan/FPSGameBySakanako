@@ -7,7 +7,7 @@ My first real fps game
 
 - ~~Implement **responsive curve** for controller~~
   - ~~Linear~~
-  - ~~Traditional / Standard ~~
+  - ~~Traditional / Standard~~
   - ~~Optional dynamic curve (if feasible, COD style)~~
 ~~
 - Add **pre-input mechanics**
