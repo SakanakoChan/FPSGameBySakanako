@@ -1305,7 +1305,7 @@ MonoBehaviour:
   m_VerticalAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 3000
+    m_MaxSpeed: 30000
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: 
@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 3000
+    m_MaxSpeed: 30000
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: 
@@ -1621,15 +1621,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vcam: {fileID: 1892233978}
   lookSensitivity_Mouse: 0.2
-  lookSensitivity_Controller: 240
+  lookSensitivity_Controller: 320
+  verticalSensitivityMultiplier: 0.75
   responsiveCurve: 0
   standardCurveExponent: 1.8
   dynamicCurveThreshold: 0.3
   enableTurnAcceleration: 1
-  turnAccelerationStickThreshold: 0.9
-  turnAccelerationStartDelay: 0.3
-  turnAccelerationRampUpTime: 0.3
-  maxTurnAccelerationSensitivityMultiplier: 1.5
+  horizontalTurnAcceleration:
+    turnAccelerationStickThreshold: 0.9
+    turnAccelerationStartDelay: 0.2
+    turnAccelerationRampUpTime: 0.3
+    maxTurnAccelerationSensitivityMultiplier: 2
+  verticalTurnAcceleration:
+    turnAccelerationStickThreshold: 0.95
+    turnAccelerationStartDelay: 0.2
+    turnAccelerationRampUpTime: 0.3
+    maxTurnAccelerationSensitivityMultiplier: 1.4
   invertYAxis: 0
 --- !u!1 &1892233977
 GameObject:

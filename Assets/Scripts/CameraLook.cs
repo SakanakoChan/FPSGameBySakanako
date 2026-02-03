@@ -21,6 +21,7 @@ public class CameraLook : MonoBehaviour
 
     [Header("Controller look control info")]
     public float lookSensitivity_Controller = 1f;
+    public float verticalSensitivityMultiplier = 0.75f;
 
     [Space]
     public ResponsiveCurve responsiveCurve;
@@ -31,13 +32,18 @@ public class CameraLook : MonoBehaviour
 
     [Space]
     public bool enableTurnAcceleration = true;
-    [Range(0f, 1f)] public float turnAccelerationStickThreshold = 0.9f;
-    public float turnAccelerationStartDelay = 0.2f;
-    public float turnAccelerationRampUpTime = 0.3f;
-    [Range(1f, 3f)] public float maxTurnAccelerationSensitivityMultiplier = 2f;
+    public AxisTurnAcceleration horizontalTurnAcceleration;
+    public AxisTurnAcceleration verticalTurnAcceleration;
 
-    private float turnAccelerationTimer = 0;
-    private float currentTurnAccelerationSensitvityMultiplier = 1f;
+    //[Space]
+    //public bool enableTurnAcceleration = true;
+    //[Range(0f, 1f)] public float turnAccelerationStickThreshold = 0.9f;
+    //public float turnAccelerationStartDelay = 0.2f;
+    //public float turnAccelerationRampUpTime = 0.3f;
+    //[Range(1f, 3f)] public float maxTurnAccelerationSensitivityMultiplier = 2f;
+
+    //private float turnAccelerationTimer = 0;
+    //private float currentTurnAccelerationSensitvityMultiplier = 1f;
 
 
     [Header("Common settings")]
@@ -50,44 +56,53 @@ public class CameraLook : MonoBehaviour
 
     private void Update()
     {
-        float lookX = InputManager.instance.mouseInput.x;
-        float lookY = InputManager.instance.mouseInput.y;
+        float lookDeltaX = InputManager.instance.mouseInput.x;
+        float lookDeltaY = InputManager.instance.mouseInput.y;
 
         float sensitivity = lookSensitivity_Mouse;
 
         if (InputManager.instance.currentInputDevice == InputDevice.MouseAndKeyboard)
         {
+            sensitivity = lookSensitivity_Mouse;
+
             //in rewired, mouse related axis actions always return relative value
             //which already calculates the delta value between 2 frames
             //so it shouldn't be mutiplied by Time.deltaTime
-            lookX = InputManager.instance.mouseInput.x;
-            lookY = InputManager.instance.mouseInput.y;
-
-            sensitivity = lookSensitivity_Mouse;
+            lookDeltaX = InputManager.instance.mouseInput.x * sensitivity;
+            lookDeltaY = InputManager.instance.mouseInput.y * sensitivity;
         }
         else
         {
-            Vector2 processedLookInput = ApplyResponsiveCurve(InputManager.instance.lookInputReal);
-            processedLookInput = ApplyTurnAcceleration(processedLookInput);
+            sensitivity = lookSensitivity_Controller;
+
+            Vector2 rawLookInput = InputManager.instance.lookInputReal;
+            Vector2 processedLookInput = ApplyResponsiveCurve(rawLookInput);
+
+            float processedLookInputX = processedLookInput.x;
+            float processedLookInputY = processedLookInput.y;
+
+            if (enableTurnAcceleration)
+            {
+                processedLookInputX = horizontalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.x, processedLookInputX);
+                processedLookInputY = verticalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.y, processedLookInputY);
+            }
 
             //in rewired, controller stick related axis actions always return absolute value
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent
             //under different frame rates
-            lookX = processedLookInput.x * Time.deltaTime;
-            lookY = processedLookInput.y * Time.deltaTime;
-
-            sensitivity = lookSensitivity_Controller;
+            lookDeltaX = processedLookInputX * Time.deltaTime * sensitivity;
+            lookDeltaY = processedLookInputY * Time.deltaTime * verticalSensitivityMultiplier * sensitivity;
         }
 
-        pov.m_HorizontalAxis.Value += lookX * sensitivity;
+        pov.m_HorizontalAxis.Value += lookDeltaX;
 
         if (invertYAxis)
         {
-            pov.m_VerticalAxis.Value += lookY * sensitivity;
+            pov.m_VerticalAxis.Value += lookDeltaY;
         }
         else
         {
-            pov.m_VerticalAxis.Value -= lookY * sensitivity;
+            pov.m_VerticalAxis.Value -= lookDeltaY;
         }
     }
 
@@ -131,37 +146,37 @@ public class CameraLook : MonoBehaviour
         return direction * curvedMagnitude;
     }
 
-    private Vector2 ApplyTurnAcceleration(Vector2 _lookInput)
-    {
-        if (enableTurnAcceleration == false)
-        {
-            return _lookInput;
-        }
+    //private Vector2 ApplyTurnAcceleration(Vector2 _rawLookInput, Vector2 _lookInputToAddTurnAcceleration)
+    //{
+    //    if (enableTurnAcceleration == false)
+    //    {
+    //        return _lookInputToAddTurnAcceleration;
+    //    }
 
-        float magnitude = _lookInput.magnitude;
+    //    float magnitude = _rawLookInput.magnitude;
 
-        if (magnitude >= turnAccelerationStickThreshold)
-        {
-            turnAccelerationTimer += Time.deltaTime;
+    //    if (magnitude >= turnAccelerationStickThreshold)
+    //    {
+    //        turnAccelerationTimer += Time.deltaTime;
 
-            if (turnAccelerationTimer > turnAccelerationStartDelay)
-            {
-                float t = (turnAccelerationTimer - turnAccelerationStartDelay) / turnAccelerationRampUpTime;
-                t = Mathf.Clamp01(t);
+    //        if (turnAccelerationTimer > turnAccelerationStartDelay)
+    //        {
+    //            float t = (turnAccelerationTimer - turnAccelerationStartDelay) / turnAccelerationRampUpTime;
+    //            t = Mathf.Clamp01(t);
 
-                currentTurnAccelerationSensitvityMultiplier = Mathf.Lerp(1f, maxTurnAccelerationSensitivityMultiplier, t);
-            }
-            else
-            {
-                currentTurnAccelerationSensitvityMultiplier = 1f;
-            }
-        }
-        else
-        {
-            turnAccelerationTimer = 0f;
-            currentTurnAccelerationSensitvityMultiplier = 1f;
-        }
+    //            currentTurnAccelerationSensitvityMultiplier = Mathf.Lerp(1f, maxTurnAccelerationSensitivityMultiplier, t);
+    //        }
+    //        else
+    //        {
+    //            currentTurnAccelerationSensitvityMultiplier = 1f;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        turnAccelerationTimer = 0f;
+    //        currentTurnAccelerationSensitvityMultiplier = 1f;
+    //    }
 
-        return _lookInput * currentTurnAccelerationSensitvityMultiplier;
-    }
+    //    return _lookInputToAddTurnAcceleration * currentTurnAccelerationSensitvityMultiplier;
+    //}
 }
