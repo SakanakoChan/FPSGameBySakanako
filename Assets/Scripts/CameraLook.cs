@@ -44,6 +44,12 @@ public class CameraLook : MonoBehaviour
         pov = vcam.GetCinemachineComponent<CinemachinePOV>();
     }
 
+    private void Start()
+    {
+        PauseManager.instance.OnPauseStateChanged += HandlePause;
+    }
+
+
     private void Update()
     {
         float lookDeltaX = InputManager.instance.mouseInput.x;
@@ -96,6 +102,11 @@ public class CameraLook : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        PauseManager.instance.OnPauseStateChanged -= HandlePause;
+    }
+
 
     private Vector2 ApplyResponsiveCurve(Vector2 _lookInput)
     {
@@ -134,6 +145,11 @@ public class CameraLook : MonoBehaviour
         }
 
         return direction * curvedMagnitude;
+    }
+
+    private void HandlePause(bool _gameIsPaused)
+    {
+        enabled = !_gameIsPaused;
     }
 
 }
