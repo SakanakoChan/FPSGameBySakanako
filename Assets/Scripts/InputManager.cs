@@ -54,9 +54,22 @@ public class InputManager : MonoBehaviour
     [Header("Input Device Switch info")]
     public float deadZoneToTriggerControllerInput = 0.2f;
     public float mouseDeltaThresholdToTriggerMouseInput = 0.5f;
+
     public InputDevice currentInputDevice { get; private set; } = InputDevice.MouseAndKeyboard;
+    private InputDevice previousInputDevice = InputDevice.MouseAndKeyboard;
+
     public ControllerLayout currentControllerLayout { get; private set; } = ControllerLayout.XBox;
+    private ControllerLayout previousControllerLayout = ControllerLayout.XBox;
+
     private Joystick currentActiveJoystick = null;
+
+    #region Button Bools
+    public bool JumpPressed => player.GetButtonDown("Jump");
+    public bool CrouchPressed => player.GetButtonDown("Crouch");
+    public bool ReloadPressed => player.GetButtonDown("Reload");
+    public bool SwitchWeaponPressed => player.GetButtonDown("Switch Weapon");   
+    public bool TogglePauseMenuPressed => player.GetButtonDown("Toggle Pause Menu");
+    #endregion
 
 
 
@@ -90,39 +103,16 @@ public class InputManager : MonoBehaviour
 
         mouseInput = new Vector2(player.GetAxisRaw("MouseX"), player.GetAxisRaw("MouseY"));
 
-
-        if (player.GetButtonDown("Jump"))
-        {
-            Debug.Log("Jump button pressed");
-
-            AddControllerVibration(0.5f, 0.5f, 0.2f);
-        }
-
-        if (player.GetButtonDown("Crouch"))
-        {
-            Debug.Log("Crouch button pressed");
-        }
-
-        if (player.GetButtonDown("Reload"))
-        {
-            Debug.Log("Reload button pressed");
-        }
-
-        if (player.GetButtonDown("Switch Weapon"))
-        {
-            Debug.Log("Switch Weapon button pressed");
-        }
-
         InputDeviceDetection();
 
         DetectCurrentControllerLayout();
 
-        Debug.Log("Current input device: " + currentInputDevice);
-        Debug.Log("Current controller layout: " + currentControllerLayout);
+        //DetectControllerInputElement();
 
         //foreach (var controller in player.controllers.Controllers)
         //{
         //    Debug.Log($"Controller: {controller.name}, Type: {controller.type}");
+        //}
 
         //    foreach (var map in player.controllers.maps.GetMaps(controller))
         //    {
@@ -134,12 +124,21 @@ public class InputManager : MonoBehaviour
         //}
     }
 
+
+
     private void InputDeviceDetection()
     {
         bool hasKeyboardInput = ReInput.controllers.Keyboard.GetAnyButtonDown();
         if (mouseInput.sqrMagnitude > mouseDeltaThresholdToTriggerMouseInput || hasKeyboardInput)
         {
             currentInputDevice = InputDevice.MouseAndKeyboard;
+
+            if (previousInputDevice != currentInputDevice)
+            {
+                Debug.Log("Current input device: " + currentInputDevice);
+            }
+
+            previousInputDevice = currentInputDevice;
             return;
         }
 
@@ -156,6 +155,13 @@ public class InputManager : MonoBehaviour
         if (moveInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || hasControllerButtonInput)
         {
             currentInputDevice = InputDevice.Controller;
+
+            if (previousInputDevice != currentInputDevice)
+            {
+                Debug.Log("Current input device: " + currentInputDevice);
+            }
+
+            previousInputDevice = currentInputDevice;
         }
     }
 
@@ -184,9 +190,39 @@ public class InputManager : MonoBehaviour
             {
                 currentControllerLayout = ControllerLayout.XBox;
             }
+
+            if (previousControllerLayout != currentControllerLayout)
+            {
+                Debug.Log("Current controller layout: " + currentControllerLayout);
+            }
+            previousControllerLayout = currentControllerLayout;
         }
     }
 
+    private void DetectControllerInputElement()
+    {
+        if (currentActiveJoystick != null)
+        {
+            if (currentActiveJoystick.GetAnyButtonDown())
+            {
+                ControllerPollingInfo pollingInfo = currentActiveJoystick.PollForFirstElementDown();
+
+                if (pollingInfo.success)
+                {
+                    Debug.Log("The element pressed: " + pollingInfo.elementIdentifierName + " Related id: " + pollingInfo.elementIdentifierId);
+
+                    int pressedIdentifierID = pollingInfo.elementIdentifierId;
+
+                    var gamepadTemplate = currentActiveJoystick.GetTemplate<IGamepadTemplate>();
+                    if (gamepadTemplate != null)
+                    {
+
+                    }
+                }
+            }
+
+        }
+    }
 
 
     private Vector2 ProcessStickInput(Vector2 _rawInput, float _innerDeadZone, float _outerDeadZone)
