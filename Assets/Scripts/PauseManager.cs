@@ -31,6 +31,7 @@ public class PauseManager : MonoBehaviour
         }
     }
 
+
     private void TogglePause()
     {
         gameIsPaused = !gameIsPaused;
