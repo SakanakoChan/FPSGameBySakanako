@@ -564,9 +564,9 @@ MonoBehaviour:
       _userAssignable: 1
       _categoryId: 0
     - _id: 11
-      _name: Toggle Pause Menu
+      _name: Open Pause Menu
       _type: 1
-      _descriptiveName: Toggle Pause Menu
+      _descriptiveName: Open Pause Menu
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _key: 
