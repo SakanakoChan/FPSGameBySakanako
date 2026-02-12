@@ -34,12 +34,43 @@ public class PauseManager : MonoBehaviour
 
     private void TogglePause()
     {
-        gameIsPaused = !gameIsPaused;
+        if (gameIsPaused)
+        {
+            UnpauseGame();
+        }
+        else
+        {
+            PauseGame();
+        }
 
-        Time.timeScale = gameIsPaused ? 0f : 1f;
+        //gameIsPaused = !gameIsPaused;
 
-        UIManager.instance.ShowPauseMenu(gameIsPaused);
+        //Time.timeScale = gameIsPaused ? 0f : 1f;
 
+        //OnPauseStateChanged?.Invoke(gameIsPaused);
+    }
+
+    private void PauseGame()
+    {
+        if (gameIsPaused)
+        {
+            return;
+        }
+
+        gameIsPaused = true;
+        Time.timeScale = 0;
+        OnPauseStateChanged?.Invoke(gameIsPaused);
+    }
+
+    private void UnpauseGame()
+    {
+        if (!gameIsPaused)
+        {
+            return;
+        }
+
+        gameIsPaused = false;
+        Time.timeScale = 1;
         OnPauseStateChanged?.Invoke(gameIsPaused);
     }
 }

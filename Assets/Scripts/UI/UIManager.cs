@@ -22,19 +22,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        //OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-    }
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    private void Start()
+    {
+        //OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+
+        PauseManager.instance.OnPauseStateChanged += ShowPauseMenu;
+
+        ShowPauseMenu(PauseManager.instance.gameIsPaused);
+    }
+
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        PauseManager.instance.OnPauseStateChanged -= ShowPauseMenu;
     }
 
 
