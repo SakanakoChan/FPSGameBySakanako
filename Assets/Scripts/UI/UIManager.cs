@@ -45,15 +45,87 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.instance.TogglePauseMenuPressed)
+        if (InputManager.instance.OpenPauseMenuPressed)
         {
-            HandleTogglePauseMenu();
+            HandleOpenPauseMenu();
+        }
+
+        if (InputManager.instance.UICancelPressed)
+        {
+            HandleUICancel();
         }
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    #region Statemachine Design
+    private void SwitchState(MenuState _targetState)
+    {
+        if (currentState == _targetState)
+        {
+            return;
+        }
+
+        ExitState(currentState);
+        currentState = _targetState;
+        EnterState(_targetState);
+    }
+
+    private void EnterState(MenuState _targetState)
+    {
+        switch (_targetState)
+        {
+            case MenuState.None:
+                PauseManager.instance?.UnpauseGame();
+                ShowPauseMenu(false);
+                InputManager.instance?.EnterUIMapMode(false);
+                break;
+
+            case MenuState.PauseMenu:
+                PauseManager.instance?.PauseGame();
+                ShowPauseMenu(true);
+                InputManager.instance?.EnterUIMapMode(true);
+                break;
+        }
+    }
+
+    private void ExitState(MenuState _state)
+    {
+        switch (_state)
+        {
+            case MenuState.None:
+                break;
+
+            case MenuState.PauseMenu:
+                break;
+        }
+    }
+    #endregion
+
+    private void HandleOpenPauseMenu()
+    {
+        switch (currentState)
+        {
+            case MenuState.None:
+                SwitchState(MenuState.PauseMenu);
+                break;
+        }
+    }
+
+    private void HandleUICancel()
+    {
+        switch (currentState)
+        {
+            case MenuState.None:
+                break;
+
+            case MenuState.PauseMenu:
+                SwitchState(MenuState.None);
+                break;
+        }
     }
 
 
@@ -83,21 +155,5 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void HandleTogglePauseMenu()
-    {
-        switch (currentState)
-        {
-            case MenuState.None:
-                PauseManager.instance?.PauseGame();
-                ShowPauseMenu(true);
-                currentState = MenuState.PauseMenu;
-                break;
 
-            case MenuState.PauseMenu:
-                PauseManager.instance?.UnpauseGame();
-                ShowPauseMenu(false);
-                currentState = MenuState.None;
-                break;
-        }
-    }
 }

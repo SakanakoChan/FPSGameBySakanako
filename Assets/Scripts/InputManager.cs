@@ -68,7 +68,8 @@ public class InputManager : MonoBehaviour
     public bool CrouchPressed => player.GetButtonDown("Crouch");
     public bool ReloadPressed => player.GetButtonDown("Reload");
     public bool SwitchWeaponPressed => player.GetButtonDown("Switch Weapon");   
-    public bool TogglePauseMenuPressed => player.GetButtonDown("Toggle Pause Menu");
+    public bool OpenPauseMenuPressed => player.GetButtonDown("Open Pause Menu");
+    public bool UICancelPressed => player.GetButtonDown("UI Cancel");
     #endregion
 
 
@@ -107,6 +108,7 @@ public class InputManager : MonoBehaviour
 
         DetectCurrentControllerLayout();
 
+
         //DetectControllerInputElement();
 
         //foreach (var controller in player.controllers.Controllers)
@@ -124,6 +126,11 @@ public class InputManager : MonoBehaviour
         //}
     }
 
+    public void EnterUIMapMode(bool _value)
+    {
+        player.controllers.maps.SetMapsEnabled(_value, "UI");
+        player.controllers.maps.SetMapsEnabled(!_value, "Default");
+    }
 
 
     private void InputDeviceDetection()
