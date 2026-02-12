@@ -23,14 +23,6 @@ public class PauseManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (InputManager.instance.TogglePauseMenuPressed)
-        {
-            TogglePause();
-        }
-    }
-
 
     private void TogglePause()
     {
@@ -50,7 +42,7 @@ public class PauseManager : MonoBehaviour
         //OnPauseStateChanged?.Invoke(gameIsPaused);
     }
 
-    private void PauseGame()
+    public void PauseGame()
     {
         if (gameIsPaused)
         {
@@ -62,7 +54,7 @@ public class PauseManager : MonoBehaviour
         OnPauseStateChanged?.Invoke(gameIsPaused);
     }
 
-    private void UnpauseGame()
+    public void UnpauseGame()
     {
         if (!gameIsPaused)
         {

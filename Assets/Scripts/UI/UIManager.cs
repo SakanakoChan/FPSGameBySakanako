@@ -7,6 +7,15 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
 
+    private enum MenuState
+    {
+        None,
+        PauseMenu,
+        SettingsMenu
+    }
+
+    private MenuState currentState = MenuState.None;
+
     private GameObject pauseMenu;
 
     private void Awake()
@@ -31,19 +40,20 @@ public class UIManager : MonoBehaviour
     {
         //OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
-        PauseManager.instance.OnPauseStateChanged += ShowPauseMenu;
-
         ShowPauseMenu(PauseManager.instance.gameIsPaused);
+    }
+
+    private void Update()
+    {
+        if (InputManager.instance.TogglePauseMenuPressed)
+        {
+            HandleTogglePauseMenu();
+        }
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnDestroy()
-    {
-        PauseManager.instance.OnPauseStateChanged -= ShowPauseMenu;
     }
 
 
@@ -73,5 +83,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void HandleTogglePauseMenu()
+    {
+        switch (currentState)
+        {
+            case MenuState.None:
+                PauseManager.instance?.PauseGame();
+                ShowPauseMenu(true);
+                currentState = MenuState.PauseMenu;
+                break;
 
+            case MenuState.PauseMenu:
+                PauseManager.instance?.UnpauseGame();
+                ShowPauseMenu(false);
+                currentState = MenuState.None;
+                break;
+        }
+    }
 }
