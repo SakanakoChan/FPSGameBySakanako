@@ -73,6 +73,9 @@ public class InputManager : MonoBehaviour
     #endregion
 
 
+    public event System.Action<InputDevice> OnInputDeviceChanged;
+
+
 
     private void Awake()
     {
@@ -143,6 +146,7 @@ public class InputManager : MonoBehaviour
             if (previousInputDevice != currentInputDevice)
             {
                 Debug.Log("Current input device: " + currentInputDevice);
+                OnInputDeviceChanged?.Invoke(currentInputDevice);
             }
 
             previousInputDevice = currentInputDevice;
@@ -166,6 +170,7 @@ public class InputManager : MonoBehaviour
             if (previousInputDevice != currentInputDevice)
             {
                 Debug.Log("Current input device: " + currentInputDevice);
+                OnInputDeviceChanged?.Invoke(currentInputDevice);
             }
 
             previousInputDevice = currentInputDevice;

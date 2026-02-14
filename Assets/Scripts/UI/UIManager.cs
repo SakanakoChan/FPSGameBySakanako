@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
 
-    private enum MenuState
+    public enum MenuState
     {
         None,
         PauseMenu,
@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviour
 
     private MenuState currentState = MenuState.None;
 
-    private GameObject pauseMenu;
+    private PauseMenu pauseMenu;
+    private IUIAction currentUIAction = null;
 
     private void Awake()
     {
@@ -29,6 +30,8 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        InputManager.instance.OnInputDeviceChanged += OnInputDeviceChanged;
     }
 
     private void OnEnable()
@@ -61,8 +64,13 @@ public class UIManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void OnDestroy()
+    {
+        InputManager.instance.OnInputDeviceChanged -= OnInputDeviceChanged;
+    }
+
     #region Statemachine Design
-    private void SwitchState(MenuState _targetState)
+    public void SwitchState(MenuState _targetState)
     {
         if (currentState == _targetState)
         {
@@ -82,12 +90,14 @@ public class UIManager : MonoBehaviour
                 PauseManager.instance?.UnpauseGame();
                 ShowPauseMenu(false);
                 InputManager.instance?.EnterUIMapMode(false);
+                currentUIAction = null;
                 break;
 
             case MenuState.PauseMenu:
                 PauseManager.instance?.PauseGame();
                 ShowPauseMenu(true);
                 InputManager.instance?.EnterUIMapMode(true);
+                currentUIAction = pauseMenu;
                 break;
         }
     }
@@ -117,14 +127,29 @@ public class UIManager : MonoBehaviour
 
     private void HandleUICancel()
     {
-        switch (currentState)
+        if(currentState == MenuState.None)
         {
-            case MenuState.None:
-                break;
+            return;
+        }
 
-            case MenuState.PauseMenu:
-                SwitchState(MenuState.None);
-                break;
+        currentUIAction?.UICancel();
+    }
+
+    private void OnInputDeviceChanged(InputDevice _currentInputDevice)
+    {
+        if (currentState == MenuState.None)
+        {
+            return;
+        }
+
+        if (_currentInputDevice == InputDevice.MouseAndKeyboard)
+        {
+            currentUIAction?.ClearSelectedUIItem();
+        }
+        else if (_currentInputDevice == InputDevice.Controller)
+        {
+            // Set selected UI item to first button in menu
+            currentUIAction?.SelectFirstUIItem();
         }
     }
 
@@ -137,12 +162,12 @@ public class UIManager : MonoBehaviour
 
         if (pauseMenu != null)
         {
-            RegisterPauseMenu(pauseMenu.gameObject);
+            RegisterPauseMenu(pauseMenu);
         }
     }
 
 
-    public void RegisterPauseMenu(GameObject _pauseMenu)
+    public void RegisterPauseMenu(PauseMenu _pauseMenu)
     {
         pauseMenu = _pauseMenu;
     }
@@ -151,7 +176,7 @@ public class UIManager : MonoBehaviour
     {
         if (pauseMenu != null)
         {
-            pauseMenu.SetActive(_value);
+            pauseMenu.gameObject.SetActive(_value);
         }
     }
 
