@@ -1235,7 +1235,7 @@ MonoBehaviour:
       customControllerUid: 0
       actionElementMaps:
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 16
         _elementType: 0
         _elementIdentifierId: 0
         _axisRange: 0
@@ -1246,7 +1246,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 17
         _elementType: 0
         _elementIdentifierId: 1
         _axisRange: 0
@@ -1495,7 +1495,7 @@ MonoBehaviour:
       customControllerUid: 0
       actionElementMaps:
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 16
         _elementType: 0
         _elementIdentifierId: 0
         _axisRange: 0
@@ -1506,7 +1506,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 17
         _elementType: 0
         _elementIdentifierId: 1
         _axisRange: 0
