@@ -1,22 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour, IUIAction
 {
-    [SerializeField] private List<Button> topBarButtonList;
+    [Header("Top bar info")]
+    [SerializeField] private Toggle gameSettingsToggle;
+    [SerializeField] private Toggle mouseSettingsToggle;
+    [SerializeField] private Toggle keyboardSettingsToggle;
+    [SerializeField] private Toggle controllerSettingsToggle;
+
 
     private void Start()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(topBarButtonList[0].gameObject);
-    }
+        gameSettingsToggle.onValueChanged.AddListener((isOn) => { if (isOn) Debug.Log("Game settings toggled"); });
 
-    private void Update()
-    {
-        Debug.Log("Current selected item: " + EventSystem.current.firstSelectedGameObject);
+       
     }
 
 

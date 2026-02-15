@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour, IUIAction
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button exitButton;
 
+
     private void OnEnable()
     {
         if (InputManager.instance != null)
