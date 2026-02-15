@@ -36,6 +36,9 @@ public class PauseMenu : MonoBehaviour, IUIAction
 
         retryButton.onClick.RemoveAllListeners();
         retryButton.onClick.AddListener(() => Debug.Log("Fuck you"));
+
+        settingsButton.onClick.RemoveAllListeners();
+        settingsButton.onClick.AddListener(() => UIManager.instance?.SwitchState(UIManager.MenuState.SettingsMenu));
     }
 
 

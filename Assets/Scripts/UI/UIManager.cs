@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     private MenuState currentState = MenuState.None;
 
     private PauseMenu pauseMenu;
+    private SettingsMenu settingsMenu;
+
     private IUIAction currentUIAction = null;
 
     private void Awake()
@@ -44,6 +46,7 @@ public class UIManager : MonoBehaviour
         //OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
         ShowPauseMenu(PauseManager.instance.gameIsPaused);
+        ShowSettingsMenu(false);
     }
 
     private void Update()
@@ -96,8 +99,16 @@ public class UIManager : MonoBehaviour
             case MenuState.PauseMenu:
                 PauseManager.instance?.PauseGame();
                 ShowPauseMenu(true);
+                ShowSettingsMenu(false);
                 InputManager.instance?.EnterUIMapMode(true);
                 currentUIAction = pauseMenu;
+                break;
+
+            case MenuState.SettingsMenu:
+                ShowSettingsMenu(true);
+                ShowPauseMenu(false);
+                InputManager.instance?.EnterUIMapMode(true);
+                currentUIAction = settingsMenu;
                 break;
         }
     }
@@ -127,7 +138,7 @@ public class UIManager : MonoBehaviour
 
     private void HandleUICancel()
     {
-        if(currentState == MenuState.None)
+        if (currentState == MenuState.None)
         {
             return;
         }
@@ -164,6 +175,13 @@ public class UIManager : MonoBehaviour
         {
             RegisterPauseMenu(pauseMenu);
         }
+
+        SettingsMenu settingsMenu = FindObjectOfType<SettingsMenu>(true);
+
+        if (settingsMenu != null)
+        {
+            RegisterSettingsMenu(settingsMenu);
+        }
     }
 
 
@@ -177,6 +195,19 @@ public class UIManager : MonoBehaviour
         if (pauseMenu != null)
         {
             pauseMenu.gameObject.SetActive(_value);
+        }
+    }
+
+    public void RegisterSettingsMenu(SettingsMenu _settingsMenu)
+    {
+        settingsMenu = _settingsMenu;
+    }
+
+    public void ShowSettingsMenu(bool _value)
+    {
+        if (settingsMenu != null)
+        {
+            settingsMenu.gameObject.SetActive(_value);
         }
     }
 
