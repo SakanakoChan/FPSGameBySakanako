@@ -10,6 +10,13 @@ public class SettingsMenu : MonoBehaviour, IUIAction
     [SerializeField] private Toggle controllerSettingsToggle;
 
 
+    [Header("Settings panels")]
+    [SerializeField] private GameObject gameSettingsPanel;
+    [SerializeField] private GameObject mouseSettingsPanel;
+    [SerializeField] private GameObject keyboardSettingsPanel;
+    [SerializeField] private GameObject controllerSettingsPanel;
+
+
     private void Start()
     {
         gameSettingsToggle.onValueChanged.AddListener((isOn) => { if (isOn) Debug.Log("Game settings toggled"); });
