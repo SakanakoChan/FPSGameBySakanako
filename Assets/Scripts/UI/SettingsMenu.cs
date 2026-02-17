@@ -13,10 +13,11 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
 
     [Header("Settings panels")]
-    [SerializeField] private GameObject gameSettingsPanel;
-    [SerializeField] private GameObject mouseSettingsPanel;
-    [SerializeField] private GameObject keyboardSettingsPanel;
-    [SerializeField] private GameObject controllerSettingsPanel;
+    [SerializeField] private SettingsPanel gameSettingsPanel;
+    [SerializeField] private SettingsPanel mouseSettingsPanel;
+    [SerializeField] private SettingsPanel keyboardSettingsPanel;
+    [SerializeField] private SettingsPanel controllerSettingsPanel;
+    private SettingsPanel currentSettingsPanel;
 
     [Space]
     [SerializeField] private float switchPageCooldown = 0.1f;
@@ -36,6 +37,8 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         mouseSettingsToggle.onValueChanged.AddListener(ShowMouseSettingsPanle);
         keyboardSettingsToggle.onValueChanged.AddListener(ShowKeyboardSettingsPanel);
         controllerSettingsToggle.onValueChanged.AddListener(ShowControllerSettingsPanel);
+
+        ShowGameSettingsPanel(true);
     }
 
 
@@ -48,7 +51,8 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
         HideAllPanels();
 
-        gameSettingsPanel?.SetActive(_value);
+        gameSettingsPanel?.gameObject.SetActive(_value);
+        currentSettingsPanel = gameSettingsPanel;
     }
 
     private void ShowMouseSettingsPanle(bool _value)
@@ -60,7 +64,8 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
         HideAllPanels();
 
-        mouseSettingsPanel?.SetActive(_value);
+        mouseSettingsPanel?.gameObject.SetActive(_value);
+        currentSettingsPanel = mouseSettingsPanel;
     }
 
     private void ShowKeyboardSettingsPanel(bool _value)
@@ -72,7 +77,8 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
         HideAllPanels();
 
-        keyboardSettingsPanel?.SetActive(_value);
+        keyboardSettingsPanel?.gameObject.SetActive(_value);
+        currentSettingsPanel = keyboardSettingsPanel;
     }
 
     private void ShowControllerSettingsPanel(bool _value)
@@ -84,15 +90,16 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
         HideAllPanels();
 
-        controllerSettingsPanel?.SetActive(_value);
+        controllerSettingsPanel?.gameObject.SetActive(_value);
+        currentSettingsPanel = controllerSettingsPanel;
     }
 
     private void HideAllPanels()
     {
-        gameSettingsPanel?.SetActive(false);
-        mouseSettingsPanel?.SetActive(false);
-        keyboardSettingsPanel?.SetActive(false);
-        controllerSettingsPanel?.SetActive(false);
+        gameSettingsPanel?.gameObject.SetActive(false);
+        mouseSettingsPanel?.gameObject.SetActive(false);
+        keyboardSettingsPanel?.gameObject.SetActive(false);
+        controllerSettingsPanel?.gameObject.SetActive(false);
     }
 
     private void SwitchPage(bool _switchToRightPage)
@@ -115,6 +122,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         if (nextToggle == null)
             return;
 
+        EventSystem.current.SetSelectedGameObject(null);
         nextToggle.isOn = true;
         lastSwitchPageTime = Time.unscaledTime;
     }
@@ -157,8 +165,6 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
     public void SelectFirstUIItem()
     {
-
+        currentSettingsPanel?.SelectFirstSettingsItem();
     }
-
-
 }

@@ -131,6 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3616510}
+  - component: {fileID: 3616511}
   m_Layer: 5
   m_Name: ControllerSettings
   m_TagString: Untagged
@@ -158,6 +159,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3616511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3616509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b58265d4ea9c140b09ea35112d5dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSettingsItem: {fileID: 29240808}
 --- !u!1 &7867225
 GameObject:
   m_ObjectHideFlags: 0
@@ -4705,6 +4719,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 611413478}
+  - component: {fileID: 611413479}
   m_Layer: 5
   m_Name: KeyboardSettings
   m_TagString: Untagged
@@ -4732,6 +4747,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &611413479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611413477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b58265d4ea9c140b09ea35112d5dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSettingsItem: {fileID: 0}
 --- !u!1 &629698495
 GameObject:
   m_ObjectHideFlags: 0
@@ -7126,10 +7154,10 @@ MonoBehaviour:
   mouseSettingsToggle: {fileID: 1635240830}
   keyboardSettingsToggle: {fileID: 1873238361}
   controllerSettingsToggle: {fileID: 977836295}
-  gameSettingsPanel: {fileID: 1682962753}
-  mouseSettingsPanel: {fileID: 1900781284}
-  keyboardSettingsPanel: {fileID: 611413477}
-  controllerSettingsPanel: {fileID: 3616509}
+  gameSettingsPanel: {fileID: 1682962755}
+  mouseSettingsPanel: {fileID: 1900781286}
+  keyboardSettingsPanel: {fileID: 611413479}
+  controllerSettingsPanel: {fileID: 3616511}
   switchPageCooldown: 0.1
 --- !u!1 &977836290
 GameObject:
@@ -11321,6 +11349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1682962754}
+  - component: {fileID: 1682962755}
   m_Layer: 5
   m_Name: GameSettings
   m_TagString: Untagged
@@ -11348,6 +11377,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1682962755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682962753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b58265d4ea9c140b09ea35112d5dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSettingsItem: {fileID: 0}
 --- !u!1 &1686107252
 GameObject:
   m_ObjectHideFlags: 0
@@ -12818,6 +12860,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1900781285}
+  - component: {fileID: 1900781286}
   m_Layer: 5
   m_Name: MouseSettings
   m_TagString: Untagged
@@ -12845,6 +12888,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1900781286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900781284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b58265d4ea9c140b09ea35112d5dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSettingsItem: {fileID: 0}
 --- !u!1 &1911431293
 GameObject:
   m_ObjectHideFlags: 0
