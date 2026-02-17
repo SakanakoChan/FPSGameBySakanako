@@ -2490,6 +2490,30 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 18
+      _name: UI Switch Page Right
+      _type: 1
+      _descriptiveName: UI Switch Page Right
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _key: 
+      _positiveKey: 
+      _negativeKey: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 19
+      _name: UI Switch Page Left
+      _type: 1
+      _descriptiveName: UI Switch Page Left
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _key: 
+      _positiveKey: 
+      _negativeKey: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -2500,7 +2524,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 0000000001000000020000000300000004000000050000000600000007000000090000000a0000000b0000000e0000000f0000001000000011000000
+        actionIds: 0000000001000000020000000300000004000000050000000600000007000000090000000a0000000b0000000e0000000f00000010000000110000001200000013000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -3047,7 +3071,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 19
         _elementType: 1
         _elementIdentifierId: 10
         _axisRange: 0
@@ -3069,7 +3093,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 18
         _elementType: 1
         _elementIdentifierId: 12
         _axisRange: 0
@@ -3285,7 +3309,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 19
         _elementType: 1
         _elementIdentifierId: 10
         _axisRange: 0
@@ -3307,7 +3331,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 18
         _elementType: 1
         _elementIdentifierId: 11
         _axisRange: 0
@@ -3649,7 +3673,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 2
-    actionIdCounter: 18
+    actionIdCounter: 20
     actionCategoryIdCounter: 2
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 3
@@ -6218,7 +6242,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff471b9b307d2547b07a8a3ec16af4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topBarButtonList: []
+  gameSettingsToggle: {fileID: 1019822643}
+  mouseSettingsToggle: {fileID: 1635240830}
+  keyboardSettingsToggle: {fileID: 1873238361}
+  controllerSettingsToggle: {fileID: 977836295}
+  gameSettingsPanel: {fileID: 1682962753}
+  mouseSettingsPanel: {fileID: 1900781284}
+  keyboardSettingsPanel: {fileID: 611413477}
+  controllerSettingsPanel: {fileID: 3616509}
+  switchPageCooldown: 0.1
 --- !u!1 &977836290
 GameObject:
   m_ObjectHideFlags: 0
@@ -6310,12 +6342,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1873238361}
+    m_SelectOnRight: {fileID: 1019822643}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6749,12 +6781,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 977836295}
+    m_SelectOnRight: {fileID: 1635240830}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10742,12 +10774,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1019822643}
+    m_SelectOnRight: {fileID: 1873238361}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -11725,12 +11757,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1635240830}
+    m_SelectOnRight: {fileID: 977836295}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}

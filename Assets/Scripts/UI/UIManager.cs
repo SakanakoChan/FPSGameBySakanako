@@ -60,6 +60,16 @@ public class UIManager : MonoBehaviour
         {
             HandleUICancel();
         }
+
+        if (InputManager.instance.UISwitchPageRightPressed)
+        {
+            HandleUISwitchPageRight();
+        }
+
+        if (InputManager.instance.UISwitchPageLeftPressed)
+        {
+            HandleUISwitchPageLeft();
+        }
     }
 
     private void OnDisable()
@@ -144,6 +154,26 @@ public class UIManager : MonoBehaviour
         }
 
         currentUIAction?.UICancel();
+    }
+
+    private void HandleUISwitchPageRight()
+    {
+        if (currentState == MenuState.None)
+        {
+            return;
+        }
+
+        currentUIAction?.UISwitchPageRight();
+    }
+
+    private void HandleUISwitchPageLeft()
+    {
+        if (currentState == MenuState.None)
+        {
+            return;
+        }
+
+        currentUIAction?.UISwitchPageLeft();
     }
 
     private void OnInputDeviceChanged(InputDevice _currentInputDevice)

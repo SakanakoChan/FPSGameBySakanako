@@ -53,10 +53,16 @@ public class PauseMenu : MonoBehaviour, IUIAction
         throw new System.NotImplementedException();
     }
 
-    public void UISwitchPage(bool _siwtchToRightPage)
+    public void UISwitchPageRight()
     {
         throw new System.NotImplementedException();
     }
+
+    public void UISwitchPageLeft()
+    {
+        throw new System.NotImplementedException();
+    }
+
 
     public void ClearSelectedUIItem()
     {

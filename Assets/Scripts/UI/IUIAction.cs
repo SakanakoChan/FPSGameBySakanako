@@ -6,7 +6,10 @@ public interface IUIAction
 {
     public void UIConfirm();
     public void UICancel();
-    public void UISwitchPage(bool _switchToRightPage);
+
+    public void UISwitchPageRight();
+    public void UISwitchPageLeft();
+
     public void ClearSelectedUIItem();
     public void SelectFirstUIItem();
 }
