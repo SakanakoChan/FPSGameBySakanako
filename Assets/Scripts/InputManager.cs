@@ -63,15 +63,18 @@ public class InputManager : MonoBehaviour
 
     private Joystick currentActiveJoystick = null;
 
-    #region Button Bools
+    #region Input action properties
     public bool JumpPressed => player.GetButtonDown("Jump");
     public bool CrouchPressed => player.GetButtonDown("Crouch");
     public bool ReloadPressed => player.GetButtonDown("Reload");
     public bool SwitchWeaponPressed => player.GetButtonDown("Switch Weapon");
     public bool OpenPauseMenuPressed => player.GetButtonDown("Open Pause Menu");
     public bool UICancelPressed => player.GetButtonDown("UI Cancel");
+    public bool UIConfirmPressed => player.GetButtonDown("UI Confirm");
     public bool UISwitchPageRightPressed => player.GetButtonDown("UI Switch Page Right");
     public bool UISwitchPageLeftPressed => player.GetButtonDown("UI Switch Page Left");
+    public float UIHorizontal => player.GetAxisRaw("UI Horizontal");
+    public float UIVertical => player.GetAxisRaw("UI Vertical");
     #endregion
 
 

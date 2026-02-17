@@ -134,18 +134,41 @@ public class SettingsMenu : MonoBehaviour, IUIAction
             return false;
         }
 
+        var currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+        var settingsItem = currentSelectedGameObject?.GetComponent<SettingsItem>();
+
+        if (settingsItem != null && settingsItem.isInEditMode == true)
+        {
+            return false;
+        }
+
         return true;
     }
 
 
     public void UICancel()
     {
-        UIManager.instance?.SwitchState(UIManager.MenuState.PauseMenu);
+        var currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+        var settingsItem = currentSelectedGameObject?.GetComponent<SettingsItem>();
+
+        if (settingsItem != null && settingsItem.isInEditMode == true)
+        {
+            settingsItem.Cancel();
+        }
+        else
+        {
+            UIManager.instance?.SwitchState(UIManager.MenuState.PauseMenu);
+        }
     }
 
     public void UIConfirm()
     {
-        throw new System.NotImplementedException();
+        var currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+        if (currentSelectedGameObject == null)
+            return;
+
+        var settingsItem = currentSelectedGameObject.GetComponent<SettingsItem>();
+        settingsItem?.Confirm();
     }
 
     public void UISwitchPageRight()

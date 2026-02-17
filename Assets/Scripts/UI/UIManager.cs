@@ -61,6 +61,11 @@ public class UIManager : MonoBehaviour
             HandleUICancel();
         }
 
+        if(InputManager.instance.UIConfirmPressed)
+        {
+            HandleUIConfirm();
+        }
+
         if (InputManager.instance.UISwitchPageRightPressed)
         {
             HandleUISwitchPageRight();
@@ -154,6 +159,16 @@ public class UIManager : MonoBehaviour
         }
 
         currentUIAction?.UICancel();
+    }
+
+    private void HandleUIConfirm()
+    {
+        if (currentState == MenuState.None)
+        {
+            return;
+        }
+
+        currentUIAction?.UIConfirm();
     }
 
     private void HandleUISwitchPageRight()

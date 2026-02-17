@@ -1,21 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class SliderSettingsItem : SettingsItem
 {
     [SerializeField] private SliderSettingsConfig config;
+    [SerializeField] protected Image editModeHintImage;
 
     private Slider slider;
     private TMP_InputField inputField;
 
     private bool canChangeSliderValue = false;
+    private float sliderValueChangeCooldownForUIHorizontalInput = 0.1f;
+    private float lastSliderValueChangeTime = float.MinValue;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         slider = GetComponentInChildren<Slider>();
         inputField = GetComponentInChildren<TMP_InputField>();
 
@@ -36,11 +38,25 @@ public class SliderSettingsItem : SettingsItem
                 SyncSliderValue(text);
             });
         }
+
+        ShowEditModeHintImage(false);
     }
 
     private void OnEnable()
     {
         InitializeSliderValue();
+    }
+
+    private void Update()
+    {
+        if (CheckIfCanChangeSliderValueForUIHorizontalInput())
+        {
+            var uiHorizontalInput = InputManager.instance.UIHorizontal;
+            if (Mathf.Abs(uiHorizontalInput) >= 0.5f)
+            {
+                ModifySliderValue(Mathf.Sign(uiHorizontalInput) * config.valueChangeStep);
+            }
+        }
     }
 
     private void InitializeSliderValue()
@@ -59,14 +75,28 @@ public class SliderSettingsItem : SettingsItem
 
     public override void Confirm()
     {
+        if (isInEditMode)
+        {
+            Cancel();
+            return;
+        }
+
+        isInEditMode = true;
         canChangeSliderValue = true;
+
+        LockNavigation();
+        ShowEditModeHintImage(true);
     }
 
     public override void Cancel()
     {
         base.Cancel();
 
+        isInEditMode = false;
         canChangeSliderValue = false;
+
+        UnlockNavigation();
+        ShowEditModeHintImage(false);
     }
 
     private void SyncInputFieldValue(float _sliderValue)
@@ -89,7 +119,7 @@ public class SliderSettingsItem : SettingsItem
         if (slider == null)
             return;
 
-        if(float.TryParse(_inputFieldText, out float inputValue))
+        if (float.TryParse(_inputFieldText, out float inputValue))
         {
             inputValue = Mathf.Clamp(inputValue, slider.minValue, slider.maxValue);
 
@@ -102,5 +132,30 @@ public class SliderSettingsItem : SettingsItem
         }
 
         SyncInputFieldValue(slider.value);
+    }
+
+    private bool CheckIfCanChangeSliderValueForUIHorizontalInput()
+    {
+        if (canChangeSliderValue == false || Time.unscaledTime - lastSliderValueChangeTime < sliderValueChangeCooldownForUIHorizontalInput)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ModifySliderValue(float _deltaValue)
+    {
+        slider.value += _deltaValue;
+
+        lastSliderValueChangeTime = Time.unscaledTime;
+    }
+
+    private void ShowEditModeHintImage(bool _value)
+    {
+        if(editModeHintImage != null)
+        {
+            editModeHintImage.gameObject.SetActive(_value);
+        }
     }
 }

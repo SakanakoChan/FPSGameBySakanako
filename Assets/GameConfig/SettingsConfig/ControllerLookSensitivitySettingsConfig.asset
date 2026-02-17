@@ -18,3 +18,4 @@ MonoBehaviour:
   maxValue: 600
   defaultValue: 320
   valueIsWholeNumbers: 1
+  valueChangeStep: 10

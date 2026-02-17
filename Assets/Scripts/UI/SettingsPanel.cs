@@ -1,26 +1,34 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsPanel : MonoBehaviour
 {
-    [SerializeField] private List<Selectable> settingsItemList;
+    private List<SettingsItem> settingsItemList;
 
     private ScrollRect scrollRect;
     private GameObject lastSelectedSettingsItem;
 
     private void Awake()
     {
+        settingsItemList = GetComponentsInChildren<SettingsItem>(true).ToList();
         scrollRect = GetComponentInChildren<ScrollRect>();
-
-        SetupSettingsItemNavigation();
     }
 
     private void OnEnable()
     {
         SelectFirstSettingsItem();
         lastSelectedSettingsItem = EventSystem.current.currentSelectedGameObject;
+    }
+
+    private void Start()
+    {
+        //put it here to avoid the problem that settingsItem.selectable in Awake
+        SetupSettingsItemNavigation();
     }
 
     private void LateUpdate()
@@ -36,6 +44,15 @@ public class SettingsPanel : MonoBehaviour
 
     public void SelectFirstSettingsItem()
     {
+        StartCoroutine(SelectFirstSettingsItem_Coroutine());
+    }
+
+    private IEnumerator SelectFirstSettingsItem_Coroutine()
+    {
+        //wait 1 frame to avoid some strange bugs
+        //like the first settings item will enter edit mode
+        yield return null;
+
         if (settingsItemList != null && settingsItemList.Count > 0)
         {
             EventSystem.current.SetSelectedGameObject(null);
@@ -47,11 +64,15 @@ public class SettingsPanel : MonoBehaviour
     {
         for (int i = 0; i < settingsItemList.Count; i++)
         {
-            settingsItemList[i].navigation = new Navigation
+            var selectable = settingsItemList[i].selectable;
+            if (selectable == null)
+                continue;
+
+            selectable.navigation = new Navigation
             {
                 mode = Navigation.Mode.Explicit,
-                selectOnUp = i > 0 ? settingsItemList[i - 1] : null,
-                selectOnDown = i < settingsItemList.Count - 1 ? settingsItemList[i + 1] : null,
+                selectOnUp = i > 0 ? settingsItemList[i - 1].selectable : null,
+                selectOnDown = i < settingsItemList.Count - 1 ? settingsItemList[i + 1].selectable : null,
                 selectOnLeft = null,
                 selectOnRight = null
             };
@@ -93,6 +114,4 @@ public class SettingsPanel : MonoBehaviour
             content.anchoredPosition = pos;
         }
     }
-
-
 }

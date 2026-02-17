@@ -12,4 +12,5 @@ public class SliderSettingsConfig : SettingsConfig
 
     [Space]
     public bool valueIsWholeNumbers;
+    public float valueChangeStep;
 }

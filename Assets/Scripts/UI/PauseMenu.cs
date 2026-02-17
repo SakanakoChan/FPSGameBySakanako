@@ -1,7 +1,3 @@
-using Rewired;
-using Rewired.Integration.UnityUI;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -50,17 +46,17 @@ public class PauseMenu : MonoBehaviour, IUIAction
 
     public void UIConfirm()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void UISwitchPageRight()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void UISwitchPageLeft()
     {
-        throw new System.NotImplementedException();
+
     }
 
 
