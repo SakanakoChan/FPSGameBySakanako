@@ -68,8 +68,9 @@ public class SliderSettingsItem : SettingsItem
             slider.minValue = config.minValue;
             slider.maxValue = config.maxValue;
 
-            slider.value = config.defaultValue;
-            SyncInputFieldValue(slider.value);
+            LoadData(SaveManager.instance.settingsData);
+            //slider.value = config.defaultValue;
+            //SyncInputFieldValue(slider.value);
         }
     }
 
@@ -153,9 +154,35 @@ public class SliderSettingsItem : SettingsItem
 
     private void ShowEditModeHintImage(bool _value)
     {
-        if(editModeHintImage != null)
+        if (editModeHintImage != null)
         {
             editModeHintImage.gameObject.SetActive(_value);
+        }
+    }
+
+    public override void LoadData(SettingsData _data)
+    {
+        if (_data.settingsDictionary.TryGetValue(config.key, out var value))
+        {
+            slider.value = value;
+            SyncInputFieldValue(slider.value);
+        }
+        else
+        {
+            slider.value = config.defaultValue;
+            SyncInputFieldValue(slider.value);
+        }
+    }
+
+    public override void SaveData(SettingsData _data)
+    {
+        if (_data.settingsDictionary.ContainsKey(config.key))
+        {
+            _data.settingsDictionary[config.key] = slider.value;
+        }
+        else
+        {
+            _data.settingsDictionary.Add(config.key, slider.value);
         }
     }
 }

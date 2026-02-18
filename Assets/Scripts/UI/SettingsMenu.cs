@@ -41,6 +41,11 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         ShowGameSettingsPanel(true);
     }
 
+    private void OnDisable()
+    {
+        SaveManager.instance?.SaveSettings();
+    }
+
 
     private void ShowGameSettingsPanel(bool _value)
     {

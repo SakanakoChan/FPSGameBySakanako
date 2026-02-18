@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class SettingsItem : MonoBehaviour
+public abstract class SettingsItem : MonoBehaviour, ISettingsDataAction
 {
     public bool isInEditMode { get; protected set; } = false;
 
@@ -13,7 +13,20 @@ public abstract class SettingsItem : MonoBehaviour
     protected virtual void Awake()
     {
         selectable = GetComponent<Selectable>();
+
+        if (selectable == null)
+        {
+            Debug.LogWarning($"{gameObject.name} has no Selectable component.");
+        }
+
+        SaveManager.instance?.RegisterSettingsDataAction(this);
     }
+
+    protected virtual void OnDestroy()
+    {
+        SaveManager.instance?.UnregisterSettingsDataAction(this);
+    }
+
 
     public abstract void Confirm();
 
@@ -30,7 +43,13 @@ public abstract class SettingsItem : MonoBehaviour
         cachedNavigation = selectable.navigation;
 
         var nav = selectable.navigation;
+
         nav.mode = Navigation.Mode.None;
+        nav.selectOnRight = null;
+        nav.selectOnLeft = null;
+        nav.selectOnUp = null;
+        nav.selectOnDown = null;
+
         selectable.navigation = nav;
     }
 
@@ -41,5 +60,9 @@ public abstract class SettingsItem : MonoBehaviour
 
         selectable.navigation = cachedNavigation;
     }
+
+    public abstract void LoadData(SettingsData _data);
+
+    public abstract void SaveData(SettingsData _data);
 
 }
