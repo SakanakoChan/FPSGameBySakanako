@@ -65,7 +65,7 @@ public class SaveManager : MonoBehaviour
     {
         foreach (var settingsConfig in settingsConfigDatabase.settingsConfigList)
         {
-            _settingsData.settingsDictionary.Add(settingsConfig.key, settingsConfig.defaultValue);
+            _settingsData.settingsDictionary[settingsConfig.key] = settingsConfig.defaultValue;
         }
     }
 
@@ -95,6 +95,27 @@ public class SaveManager : MonoBehaviour
             settingsDataActionList.Remove(_settingsDataAction);
         }
     }
+
+    public float GetSettingsFloat(string _key)
+    {
+        if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
+        {
+            return value;
+        }
+
+        Debug.LogWarning($"Settings key not found in save data: {_key}, now trying to get default value");
+        
+        if(settingsConfigDatabase.TryGetDefaultValue(_key, out float defaultValue))
+        {
+            return defaultValue;
+        }
+
+        Debug.Log("Default value for key: " + _key + " also not found in config database, returning 0");
+        return 0f;
+    }
+
+
+
 
 #if UNITY_EDITOR
     [ContextMenu("Show save file in file explorer")]

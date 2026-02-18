@@ -69,6 +69,7 @@ public class SliderSettingsItem : SettingsItem
             slider.maxValue = config.maxValue;
 
             LoadData(SaveManager.instance.settingsData);
+
             //slider.value = config.defaultValue;
             //SyncInputFieldValue(slider.value);
         }

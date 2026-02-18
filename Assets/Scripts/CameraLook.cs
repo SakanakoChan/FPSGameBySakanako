@@ -44,6 +44,11 @@ public class CameraLook : MonoBehaviour
         pov = vcam.GetCinemachineComponent<CinemachinePOV>();
     }
 
+    private void OnEnable()
+    {
+        lookSensitivity_Controller = GameSettings.controllerLookSensitivity;
+    }
+
     private void Start()
     {
         PauseManager.instance.OnPauseStateChanged += HandlePause;
