@@ -82,7 +82,7 @@ public class SettingsPanel : MonoBehaviour
     private void ScrollToSelected()
     {
         var selected = EventSystem.current.currentSelectedGameObject;
-        if (selected == null)
+        if (selected == null || selected.GetComponent<SettingsItem>() == null)
             return;
 
         RectTransform selectedRect = selected.GetComponent<RectTransform>();
