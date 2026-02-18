@@ -8,7 +8,6 @@ public class SliderSettingsConfig : SettingsConfig
     [Header("Slider Settings")]
     public float minValue;
     public float maxValue;
-    public float defaultValue;
 
     [Space]
     public bool valueIsWholeNumbers;

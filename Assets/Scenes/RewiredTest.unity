@@ -8044,6 +8044,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settingsDataFileName: SettingsData
+  settingsConfigDatabase: {fileID: 11400000, guid: ac22b5f4cfdaa9a4abc2ae091d9ea08a,
+    type: 2}
 --- !u!4 &1938836613
 Transform:
   m_ObjectHideFlags: 0

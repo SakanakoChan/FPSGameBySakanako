@@ -10,6 +10,7 @@ public class SaveManager : MonoBehaviour
 
     [Header("Settings data info")]
     public string settingsDataFileName = "SettingsData";
+    [SerializeField] private SettingsConfigDatabase settingsConfigDatabase;
     private string settingsDataFilePath;
     public SettingsData settingsData { get; private set; }
     private List<ISettingsDataAction> settingsDataActionList = new List<ISettingsDataAction>();
@@ -42,8 +43,14 @@ public class SaveManager : MonoBehaviour
 
             if (settingsData == null)
             {
+#if UNITY_EDITOR
+                AutoCollectAllSettingsConfigsForDatabase();
+#endif
                 settingsData = new SettingsData();
-                Debug.Log("No setting data found, creating new setting data..");
+                WriteDefaultSettings(settingsData);
+                SaveSettings();
+
+                Debug.Log("No settings data found, creating new settings data..");
             }
         }
 
@@ -51,6 +58,14 @@ public class SaveManager : MonoBehaviour
         foreach (var settingsDataAction in settingsDataActionList)
         {
             settingsDataAction?.LoadData(settingsData);
+        }
+    }
+
+    private void WriteDefaultSettings(SettingsData _settingsData)
+    {
+        foreach (var settingsConfig in settingsConfigDatabase.settingsConfigList)
+        {
+            _settingsData.settingsDictionary.Add(settingsConfig.key, settingsConfig.defaultValue);
         }
     }
 
@@ -81,6 +96,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     [ContextMenu("Show save file in file explorer")]
     private void ShowSaveFileInFileExplorer()
     {
@@ -98,4 +114,13 @@ public class SaveManager : MonoBehaviour
 #endif
     }
 
+    [ContextMenu("Auto collect all settings configs for database")]
+    private void AutoCollectAllSettingsConfigsForDatabase()
+    {
+        if (settingsConfigDatabase != null)
+        {
+            settingsConfigDatabase.AutoCollect();
+        }
+    }
+#endif
 }

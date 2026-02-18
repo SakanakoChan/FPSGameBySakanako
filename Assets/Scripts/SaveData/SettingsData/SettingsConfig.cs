@@ -7,4 +7,5 @@ public abstract class SettingsConfig : ScriptableObject
     [Header("Common")]
     public string key;
     public string displayName;
+    public float defaultValue;
 }
