@@ -61,6 +61,29 @@ public abstract class SettingsItem : MonoBehaviour, ISettingsDataAction
         selectable.navigation = cachedNavigation;
     }
 
+    protected void SetEditMode(bool _editMode)
+    {
+        if (isInEditMode == _editMode)
+        {
+            return;
+        }
+
+        isInEditMode = _editMode;
+        OnEditModeChanged(_editMode);
+    }
+
+    protected virtual void OnEditModeChanged(bool _editMode)
+    {
+        if (_editMode == true)
+        {
+            LockNavigation();
+        }
+        else
+        {
+            UnlockNavigation();
+        }
+    }
+
     public abstract void LoadData(SettingsData _data);
 
     public abstract void SaveData(SettingsData _data);

@@ -10,7 +10,6 @@ public class SliderSettingsItem : SettingsItem
     private Slider slider;
     private TMP_InputField inputField;
 
-    private bool canChangeSliderValue = false;
     private float sliderValueChangeCooldownForUIHorizontalInput = 0.1f;
     private float lastSliderValueChangeTime = float.MinValue;
 
@@ -83,22 +82,31 @@ public class SliderSettingsItem : SettingsItem
             return;
         }
 
-        isInEditMode = true;
-        canChangeSliderValue = true;
-
-        LockNavigation();
-        ShowEditModeHintImage(true);
+        SetEditMode(true);
     }
 
     public override void Cancel()
     {
-        base.Cancel();
+        if (isInEditMode == false)
+        {
+            return;
+        }
 
-        isInEditMode = false;
-        canChangeSliderValue = false;
+        SetEditMode(false);
+    }
 
-        UnlockNavigation();
-        ShowEditModeHintImage(false);
+    protected override void OnEditModeChanged(bool _editMode)
+    {
+        if (_editMode == true)
+        {
+            LockNavigation();
+            ShowEditModeHintImage(true);
+        }
+        else
+        {
+            UnlockNavigation();
+            ShowEditModeHintImage(false);
+        }
     }
 
     private void SyncInputFieldValue(float _sliderValue)
@@ -138,7 +146,7 @@ public class SliderSettingsItem : SettingsItem
 
     private bool CheckIfCanChangeSliderValueForUIHorizontalInput()
     {
-        if (canChangeSliderValue == false || Time.unscaledTime - lastSliderValueChangeTime < sliderValueChangeCooldownForUIHorizontalInput)
+        if (isInEditMode == false || Time.unscaledTime - lastSliderValueChangeTime < sliderValueChangeCooldownForUIHorizontalInput)
         {
             return false;
         }

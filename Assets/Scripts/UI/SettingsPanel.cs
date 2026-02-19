@@ -21,7 +21,11 @@ public class SettingsPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        SelectFirstSettingsItem();
+        if (InputManager.instance != null && InputManager.instance.currentInputDevice == InputDevice.Controller)
+        {
+            SelectFirstSettingsItem();
+        }
+
         lastSelectedSettingsItem = EventSystem.current.currentSelectedGameObject;
     }
 
