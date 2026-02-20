@@ -173,7 +173,7 @@ public class SliderSettingsItem : SettingsItem
     {
         if (_data.settingsDictionary.TryGetValue(config.key, out var value))
         {
-            slider.value = value;
+            slider.value = (float)config.DeserializeString(value)/*float.Parse(value)*/;
             SyncInputFieldValue(slider.value);
         }
         else
@@ -187,11 +187,11 @@ public class SliderSettingsItem : SettingsItem
     {
         if (_data.settingsDictionary.ContainsKey(config.key))
         {
-            _data.settingsDictionary[config.key] = slider.value;
+            _data.settingsDictionary[config.key] = config.SerializeValue(slider.value)/*slider.value.ToString()*/;
         }
         else
         {
-            _data.settingsDictionary.Add(config.key, slider.value);
+            _data.settingsDictionary.Add(config.key, config.SerializeValue(slider.value)/*slider.value.ToString()*/);
         }
     }
 }

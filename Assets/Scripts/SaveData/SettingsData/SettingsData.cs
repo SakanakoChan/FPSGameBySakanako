@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class SettingsData
 {
-    public SerializableDictionary<string, float> settingsDictionary;
+    public SerializableDictionary<string, string> settingsDictionary;
 
     public SettingsData()
     {
-        settingsDictionary = new SerializableDictionary<string, float>();
+        settingsDictionary = new SerializableDictionary<string, string>();
     }
 }

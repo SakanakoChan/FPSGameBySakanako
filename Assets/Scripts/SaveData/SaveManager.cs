@@ -70,7 +70,10 @@ public class SaveManager : MonoBehaviour
     {
         foreach (var settingsConfig in settingsConfigDatabase.settingsConfigList)
         {
-            _settingsData.settingsDictionary[settingsConfig.key] = settingsConfig.defaultValue;
+            var defaultValue = settingsConfig.GetDefaultValue();
+            var serializedString = settingsConfig.SerializeValue(defaultValue);
+
+            _settingsData.settingsDictionary[settingsConfig.key] = serializedString;
         }
     }
 
@@ -105,12 +108,30 @@ public class SaveManager : MonoBehaviour
     {
         if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
         {
-            return value;
+            return float.Parse(value);
         }
 
         Debug.LogWarning($"Settings key not found in save data: {_key}, now trying to get default value");
         
         if(settingsConfigDatabase.TryGetDefaultValue(_key, out float defaultValue))
+        {
+            return defaultValue;
+        }
+
+        Debug.Log("Default value for key: " + _key + " also not found in config database, returning 0");
+        return 0f;
+    }
+
+    public T GetSettings<T>(string _key)
+    {
+        if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
+        {
+            return float.Parse(value);
+        }
+
+        Debug.LogWarning($"Settings key not found in save data: {_key}, now trying to get default value");
+
+        if (settingsConfigDatabase.TryGetDefaultValue(_key, out float defaultValue))
         {
             return defaultValue;
         }

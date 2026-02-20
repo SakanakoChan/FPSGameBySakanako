@@ -14,14 +14,14 @@ public class SettingsConfigDatabase : ScriptableObject
         {
             if (config.key == _key)
             {
-                if (config.defaultValue is T value)
+                if (config.GetDefaultValue() is T value)
                 {
                     _defaultValue = value;
 
                     return true;
                 }
 
-                Debug.LogError("Type mismatch for key: " + _key + ". Expected type: " + typeof(T) + ", but got: " + config.defaultValue.GetType());
+                Debug.LogError("Type mismatch for key: " + _key + ". Expected type: " + typeof(T) + ", but got: " + config.GetDefaultValue().GetType());
                 break;
             }
         }
