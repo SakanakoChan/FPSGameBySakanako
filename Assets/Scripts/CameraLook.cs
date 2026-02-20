@@ -47,6 +47,7 @@ public class CameraLook : MonoBehaviour
     private void OnEnable()
     {
         lookSensitivity_Controller = GameSettings.controllerLookSensitivity;
+        invertYAxis = GameSettings.invertYAxis;
     }
 
     private void Start()

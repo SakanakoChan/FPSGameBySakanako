@@ -123,6 +123,24 @@ public class SaveManager : MonoBehaviour
         return 0f;
     }
 
+    public bool GetSettingsBool(string _key)
+    {
+        if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
+        {
+            return bool.Parse(value);
+        }
+
+        Debug.LogWarning($"Settings key not found in save data: {_key}, now trying to get default value");
+
+        if (settingsConfigDatabase.TryGetDefaultValue(_key, out bool defaultValue))
+        {
+            return defaultValue;
+        }
+
+        Debug.Log("Default value for key: " + _key + " also not found in config database, returning false");
+        return false;
+    }
+
 
 
 
