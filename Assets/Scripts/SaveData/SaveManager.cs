@@ -29,6 +29,11 @@ public class SaveManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (settingsConfigDatabase == null)
+        {
+            Debug.LogError("Warning: settings config database is actually missing!");
+        }
+
         settingsDataFilePath = Application.persistentDataPath;
         saveDataHandler = new DataFileHandler(settingsDataFilePath, settingsDataFileName);
         LoadSettings();
