@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1000)]
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance { get; private set; }
