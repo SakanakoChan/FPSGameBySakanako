@@ -154,7 +154,14 @@ public class SettingsMenu : MonoBehaviour, IUIAction
     public void UICancel()
     {
         var currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
-        var settingsItem = currentSelectedGameObject?.GetComponentInParent<SettingsItem>();
+        if (currentSelectedGameObject == null)
+        {
+            UIManager.instance?.SwitchState(UIManager.MenuState.PauseMenu);
+            return;
+        }
+
+
+        var settingsItem = currentSelectedGameObject.GetComponentInParent<SettingsItem>();
 
         if (settingsItem != null && settingsItem.isInEditMode == true)
         {
