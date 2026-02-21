@@ -9,6 +9,9 @@ public class DropDownSettingsItem : SettingsItem
 {
     [SerializeField] private DropdownSettingsConfig config;
 
+    [Header("For UGUI Dropdown bug fix")]
+    [SerializeField] private Image highlightImageWhenDropdownExpanded;
+
 
     private TMP_Dropdown dropdown;
     private SettingsPanel settingsPanel;
@@ -45,30 +48,21 @@ public class DropDownSettingsItem : SettingsItem
 
     private void Update()
     {
-        //if (previousExpanded != dropdown.IsExpanded)
-        //{
-        //    if (dropdown.IsExpanded == true)
-        //    {
-        //        forceHighlight = true;
-        //    }
-        //    else
-        //    {
-        //        forceHighlight = false;
+        if (previousExpanded != dropdown.IsExpanded)
+        {
+            if (dropdown.IsExpanded == true)
+            {
+                //forceHighlight = true;
+                highlightImageWhenDropdownExpanded.gameObject.SetActive(true);
+            }
+            else
+            {
+                //forceHighlight = false;
+                highlightImageWhenDropdownExpanded.gameObject.SetActive(false);
+            }
 
-        //        if (InputManager.instance.currentInputDevice == InputDevice.MouseAndKeyboard)
-        //        {
-        //            //selectable.GetComponent<DeviceAwareSelectable>()?.ForceEnterNormalState();
-        //            ForceHighlightSelectable(false);
-        //        }
-        //    }
-
-        //    previousExpanded = dropdown.IsExpanded;
-        //}
-
-        //if (forceHighlight)
-        //{
-        //    ForceHighlightSelectable(true);
-        //}
+            previousExpanded = dropdown.IsExpanded;
+        }
     }
 
     private void InitializeDropdownOptions()
@@ -77,20 +71,6 @@ public class DropDownSettingsItem : SettingsItem
         dropdown.AddOptions(config.options);
 
         dropdownOptionsHaveBeenInitialized = true;
-    }
-
-    private void ForceHighlightSelectable(bool _value)
-    {
-        var eventData = new PointerEventData(EventSystem.current);
-
-        if (_value == true)
-        {
-            selectable.OnPointerEnter(eventData);
-        }
-        else
-        {
-            selectable.OnPointerExit(eventData);
-        }
     }
 
 
