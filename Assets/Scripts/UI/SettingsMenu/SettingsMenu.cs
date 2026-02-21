@@ -189,7 +189,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
     public void ClearSelectedUIItem()
     {
         var selectedGameObject = EventSystem.current.currentSelectedGameObject;
-        selectedGameObject?.GetComponent<SettingsItem>()?.Cancel();
+        selectedGameObject?.GetComponentInParent<SettingsItem>()?.Cancel();
         EventSystem.current.SetSelectedGameObject(null);
     }
 
