@@ -8913,7 +8913,7 @@ MonoBehaviour:
   vcam: {fileID: 1892233978}
   lookSensitivity_Mouse: 0.2
   lookSensitivity_Controller: 320
-  verticalSensitivityMultiplier: 0.75
+  verticalSensitivityMultiplier_Controller: 0.75
   responsiveCurve: 0
   standardCurveExponent: 1.8
   dynamicCurveThreshold: 0.3

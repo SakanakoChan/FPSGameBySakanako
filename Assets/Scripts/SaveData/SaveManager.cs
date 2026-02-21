@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -139,6 +140,27 @@ public class SaveManager : MonoBehaviour
 
         Debug.Log("Default value for key: " + _key + " also not found in config database, returning false");
         return false;
+    }
+
+    public T GetSettingsEnum<T>(string _key) where T : struct, Enum
+    {
+        if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
+        {
+            if (Enum.TryParse<T>(value, out var result))
+            {
+                return result;
+            }
+        }
+
+        Debug.LogWarning($"Settings key not found in save data: {_key}, now trying to get default value");
+
+        if (settingsConfigDatabase.TryGetDefaultValue(_key, out T defaultValue))
+        {
+            return defaultValue;
+        }
+
+        Debug.Log("Default value for key: " + _key + " also not found in config database, returning false");
+        return default;
     }
 
 

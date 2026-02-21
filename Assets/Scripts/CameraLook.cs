@@ -21,7 +21,7 @@ public class CameraLook : MonoBehaviour
 
     [Header("Controller look control info")]
     public float lookSensitivity_Controller = 1f;
-    public float verticalSensitivityMultiplier = 0.75f;
+    public float verticalSensitivityMultiplier_Controller = 0.75f;
 
     [Space]
     public ResponsiveCurve responsiveCurve;
@@ -47,7 +47,9 @@ public class CameraLook : MonoBehaviour
     private void OnEnable()
     {
         lookSensitivity_Controller = GameSettings.controllerLookSensitivity;
+        verticalSensitivityMultiplier_Controller = GameSettings.controllerVerticalSensitivityMultiplier;
         invertYAxis = GameSettings.invertYAxis;
+        responsiveCurve = GameSettings.responsiveCurve;
     }
 
     private void Start()
@@ -63,6 +65,7 @@ public class CameraLook : MonoBehaviour
 
         float sensitivity = lookSensitivity_Mouse;
 
+        //Mouse
         if (InputManager.instance.currentInputDevice == InputDevice.MouseAndKeyboard)
         {
             sensitivity = lookSensitivity_Mouse;
@@ -73,7 +76,8 @@ public class CameraLook : MonoBehaviour
             lookDeltaX = InputManager.instance.mouseInput.x * sensitivity;
             lookDeltaY = InputManager.instance.mouseInput.y * sensitivity;
         }
-        else
+        //Controller
+        else 
         {
             sensitivity = lookSensitivity_Controller;
 
@@ -93,7 +97,7 @@ public class CameraLook : MonoBehaviour
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent
             //under different frame rates
             lookDeltaX = processedLookInputX * Time.deltaTime * sensitivity;
-            lookDeltaY = processedLookInputY * Time.deltaTime * verticalSensitivityMultiplier * sensitivity;
+            lookDeltaY = processedLookInputY * Time.deltaTime * verticalSensitivityMultiplier_Controller * sensitivity;
         }
 
         pov.m_HorizontalAxis.Value += lookDeltaX;
