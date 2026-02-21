@@ -14,6 +14,8 @@ public class DropDownSettingsItem : SettingsItem
     private SettingsPanel settingsPanel;
 
     private bool dropdownOptionsHaveBeenInitialized = false;
+    private bool forceHighlight = false;
+    private bool previousExpanded = false;
 
     protected override void Awake()
     {
@@ -41,12 +43,54 @@ public class DropDownSettingsItem : SettingsItem
         LoadData(SaveManager.instance.settingsData);
     }
 
+    private void Update()
+    {
+        //if (previousExpanded != dropdown.IsExpanded)
+        //{
+        //    if (dropdown.IsExpanded == true)
+        //    {
+        //        forceHighlight = true;
+        //    }
+        //    else
+        //    {
+        //        forceHighlight = false;
+
+        //        if (InputManager.instance.currentInputDevice == InputDevice.MouseAndKeyboard)
+        //        {
+        //            //selectable.GetComponent<DeviceAwareSelectable>()?.ForceEnterNormalState();
+        //            ForceHighlightSelectable(false);
+        //        }
+        //    }
+
+        //    previousExpanded = dropdown.IsExpanded;
+        //}
+
+        //if (forceHighlight)
+        //{
+        //    ForceHighlightSelectable(true);
+        //}
+    }
+
     private void InitializeDropdownOptions()
     {
         dropdown.ClearOptions();
         dropdown.AddOptions(config.options);
 
         dropdownOptionsHaveBeenInitialized = true;
+    }
+
+    private void ForceHighlightSelectable(bool _value)
+    {
+        var eventData = new PointerEventData(EventSystem.current);
+
+        if (_value == true)
+        {
+            selectable.OnPointerEnter(eventData);
+        }
+        else
+        {
+            selectable.OnPointerExit(eventData);
+        }
     }
 
 

@@ -28,4 +28,14 @@ public class DeviceAwareSelectable : Selectable
 
         base.OnPointerDown(eventData);
     }
+
+    public void ForceEnterHighlightState()
+    {
+        DoStateTransition(SelectionState.Highlighted, true);
+    }
+
+    public void ForceEnterNormalState()
+    {
+        DoStateTransition(SelectionState.Normal, false);
+    }
 }
