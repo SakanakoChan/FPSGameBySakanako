@@ -154,7 +154,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
     public void UICancel()
     {
         var currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
-        var settingsItem = currentSelectedGameObject?.GetComponent<SettingsItem>();
+        var settingsItem = currentSelectedGameObject?.GetComponentInParent<SettingsItem>();
 
         if (settingsItem != null && settingsItem.isInEditMode == true)
         {
@@ -172,7 +172,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         if (currentSelectedGameObject == null)
             return;
 
-        var settingsItem = currentSelectedGameObject.GetComponent<SettingsItem>();
+        var settingsItem = currentSelectedGameObject.GetComponentInParent<SettingsItem>();
         settingsItem?.Confirm();
     }
 

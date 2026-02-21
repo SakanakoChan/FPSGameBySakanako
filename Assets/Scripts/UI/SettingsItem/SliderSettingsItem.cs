@@ -17,6 +17,11 @@ public class SliderSettingsItem : SettingsItem
     {
         base.Awake();
 
+        if (config == null)
+        {
+            Debug.LogError("Didn't assign config for settings item: " + gameObject.name + "!");
+        }
+
         slider = GetComponentInChildren<Slider>();
         inputField = GetComponentInChildren<TMP_InputField>();
 

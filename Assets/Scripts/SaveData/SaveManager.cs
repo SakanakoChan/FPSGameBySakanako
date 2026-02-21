@@ -60,7 +60,7 @@ public class SaveManager : MonoBehaviour
             }
         }
 
-
+        Debug.Log("SettingsDataAction Count: " + settingsDataActionList.Count);
         foreach (var settingsDataAction in settingsDataActionList)
         {
             settingsDataAction?.LoadData(settingsData);

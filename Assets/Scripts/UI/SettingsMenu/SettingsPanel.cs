@@ -13,6 +13,8 @@ public class SettingsPanel : MonoBehaviour
     private ScrollRect scrollRect;
     private GameObject lastSelectedSettingsItem;
 
+    private bool scrollIsBlocked = false;
+
     private void Awake()
     {
         settingsItemList = GetComponentsInChildren<SettingsItem>(true).ToList();
@@ -83,11 +85,33 @@ public class SettingsPanel : MonoBehaviour
         }
     }
 
+    public void BlockScrollForOneFrame()
+    {
+        StartCoroutine(BlockScrollForOneFrame_Coroutine());
+    }
+
+    private IEnumerator BlockScrollForOneFrame_Coroutine()
+    {
+        scrollIsBlocked = true;
+        yield return null;
+        scrollIsBlocked = false;
+    }
+
     private void ScrollToSelected()
     {
-        var selected = EventSystem.current.currentSelectedGameObject;
-        if (selected == null || selected.GetComponent<SettingsItem>() == null)
+        if (scrollIsBlocked)
+        {
             return;
+        }
+
+        var selected = EventSystem.current.currentSelectedGameObject;
+        if (selected == null)
+            return;
+
+        var settingsItem = selected.GetComponent<SettingsItem>();
+        if (settingsItem == null || settingsItem.isInEditMode)
+            return;
+
 
         RectTransform selectedRect = selected.GetComponent<RectTransform>();
         RectTransform viewport = scrollRect.viewport;
