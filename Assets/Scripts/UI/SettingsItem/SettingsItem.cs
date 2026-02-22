@@ -19,12 +19,12 @@ public abstract class SettingsItem : MonoBehaviour, ISettingsDataAction
             Debug.LogWarning($"{gameObject.name} has no Selectable component.");
         }
 
-        SaveManager.instance?.RegisterSettingsDataAction(this);
+        //SaveManager.instance?.RegisterSettingsDataAction(this);
     }
 
     protected virtual void OnDestroy()
     {
-        SaveManager.instance?.UnregisterSettingsDataAction(this);
+        //SaveManager.instance?.UnregisterSettingsDataAction(this);
     }
 
 

@@ -15,7 +15,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private SettingsConfigDatabase settingsConfigDatabase;
     private string settingsDataFilePath;
     public SettingsData settingsData { get; private set; }
-    private List<ISettingsDataAction> settingsDataActionList = new List<ISettingsDataAction>();
+    //private List<ISettingsDataAction> settingsDataActionList = new List<ISettingsDataAction>();
     private DataFileHandler saveDataHandler;
 
 
@@ -92,21 +92,21 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public void RegisterSettingsDataAction(ISettingsDataAction _settingsDataAction)
-    {
-        if (settingsDataActionList.Contains(_settingsDataAction) == false)
-        {
-            settingsDataActionList.Add(_settingsDataAction);
-        }
-    }
+    //public void RegisterSettingsDataAction(ISettingsDataAction _settingsDataAction)
+    //{
+    //    if (settingsDataActionList.Contains(_settingsDataAction) == false)
+    //    {
+    //        settingsDataActionList.Add(_settingsDataAction);
+    //    }
+    //}
 
-    public void UnregisterSettingsDataAction(ISettingsDataAction _settingsDataAction)
-    {
-        if (settingsDataActionList.Contains(_settingsDataAction) == true)
-        {
-            settingsDataActionList.Remove(_settingsDataAction);
-        }
-    }
+    //public void UnregisterSettingsDataAction(ISettingsDataAction _settingsDataAction)
+    //{
+    //    if (settingsDataActionList.Contains(_settingsDataAction) == true)
+    //    {
+    //        settingsDataActionList.Remove(_settingsDataAction);
+    //    }
+    //}
 
     public int GetSettingsInt(string _key)
     {
@@ -192,7 +192,8 @@ public class SaveManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Set settings float error: Invalid key");
+            Debug.Log($"Didn't find the key in settingdata: {_key}. Now adding new setting item to settings data..");
+            settingsData.settingsDictionary[_key] = _serializedValue;
         }
     }
 
