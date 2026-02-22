@@ -31,7 +31,7 @@ public class CameraLook : MonoBehaviour
     public float dynamicCurveThreshold = 0.6f;
 
     [Space]
-    public bool enableTurnAcceleration = true;
+    public bool turnAcceleration = true;
     public AxisTurnAcceleration horizontalTurnAcceleration;
     public AxisTurnAcceleration verticalTurnAcceleration;
 
@@ -50,6 +50,16 @@ public class CameraLook : MonoBehaviour
         verticalSensitivityMultiplier_Controller = GameSettings.controllerVerticalSensitivityMultiplier;
         invertYAxis = GameSettings.invertYAxis;
         responsiveCurve = GameSettings.responsiveCurve;
+
+        horizontalTurnAcceleration.SetupTurnAcceleration(
+            GameSettings.horizontalTurnAccelerationStartDelay, 
+            GameSettings.horizontalTurnAccelerationRampUpTime, 
+            GameSettings.horizontalTurnAccelerationSensitivityMultiplier);
+
+        verticalTurnAcceleration.SetupTurnAcceleration(
+            GameSettings.verticalTurnAccelerationStartDelay,
+            GameSettings.verticalTurnAccelerationRampUpTime,
+            GameSettings.verticalTurnAccelerationSensitivityMultiplier);
     }
 
     private void Start()
@@ -87,7 +97,7 @@ public class CameraLook : MonoBehaviour
             float processedLookInputX = processedLookInput.x;
             float processedLookInputY = processedLookInput.y;
 
-            if (enableTurnAcceleration)
+            if (turnAcceleration)
             {
                 processedLookInputX = horizontalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.x, processedLookInputX);
                 processedLookInputY = verticalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.y, processedLookInputY);

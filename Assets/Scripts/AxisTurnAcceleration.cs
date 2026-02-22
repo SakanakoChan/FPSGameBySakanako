@@ -14,6 +14,13 @@ public class AxisTurnAcceleration
     private float turnAccelerationTimer = 0;
     private float currentTurnAccelerationSensitvityMultiplier = 1f;
 
+    public void SetupTurnAcceleration(float _startDelay, float _rampUpTime, float _maxTurnAccelerationSensitivityMultiplier)
+    {
+        turnAccelerationStartDelay = _startDelay;
+        turnAccelerationRampUpTime = _rampUpTime;
+        maxTurnAccelerationSensitivityMultiplier = _maxTurnAccelerationSensitivityMultiplier;
+    }
+
     public float ApplyTurnAcceleration(float _rawAxisInputValue, float _axisInputToAddTurnAcceleration)
     {
         float magnitude = Mathf.Abs(_rawAxisInputValue);

@@ -41,7 +41,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         controllerSettingsToggle.onValueChanged.RemoveAllListeners();
 
         gameSettingsToggle.onValueChanged.AddListener(ShowGameSettingsPanel);
-        mouseSettingsToggle.onValueChanged.AddListener(ShowMouseSettingsPanle);
+        mouseSettingsToggle.onValueChanged.AddListener(ShowMouseSettingsPanel);
         keyboardSettingsToggle.onValueChanged.AddListener(ShowKeyboardSettingsPanel);
         controllerSettingsToggle.onValueChanged.AddListener(ShowControllerSettingsPanel);
 
@@ -69,7 +69,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         currentSettingsPanel = gameSettingsPanel;
     }
 
-    private void ShowMouseSettingsPanle(bool _value)
+    private void ShowMouseSettingsPanel(bool _value)
     {
         if (_value == false)
         {

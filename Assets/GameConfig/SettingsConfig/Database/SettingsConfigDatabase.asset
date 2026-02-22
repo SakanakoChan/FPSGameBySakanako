@@ -15,8 +15,14 @@ MonoBehaviour:
   settingsConfigList:
   - {fileID: 11400000, guid: e1930692f93d31346864abcb06a4dfe9, type: 2}
   - {fileID: 11400000, guid: cbf7b11b7c9dfb545b689895c15b419c, type: 2}
+  - {fileID: 11400000, guid: 8374c08da13c47948829d9f89e6809e5, type: 2}
+  - {fileID: 11400000, guid: 8847fb75c88c3064e8e4db0e2c491e80, type: 2}
+  - {fileID: 11400000, guid: 8438fcecf71c78142ab1169e370caf80, type: 2}
   - {fileID: 11400000, guid: 854f173bd7a4801429083246590d29cb, type: 2}
   - {fileID: 11400000, guid: 19aa10b8d5231ce44b8dfa4dc38f5d8e, type: 2}
   - {fileID: 11400000, guid: a8188028cf997b3459da55c3dd5dabda, type: 2}
   - {fileID: 11400000, guid: 25b70d66274621b4db3b3531767f2c55, type: 2}
   - {fileID: 11400000, guid: 58b741a93c8b3fb4b8a0706dce1b5eb0, type: 2}
+  - {fileID: 11400000, guid: 9894fc6e93165c34289a93da67acecf1, type: 2}
+  - {fileID: 11400000, guid: d5427c47f8d849345bb211be7255d552, type: 2}
+  - {fileID: 11400000, guid: 5338cb74e3e9e3a46a8cbc69d171d905, type: 2}

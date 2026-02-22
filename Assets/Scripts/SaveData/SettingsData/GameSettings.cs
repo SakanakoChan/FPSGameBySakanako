@@ -10,4 +10,11 @@ public static class GameSettings
     public static float innerDeadzone => SaveManager.instance.GetSettingsFloat("InnerDeadzone");
     public static float outerDeadzone => SaveManager.instance.GetSettingsFloat("OuterDeadzone");
     public static ResponsiveCurve responsiveCurve => SaveManager.instance.GetSettingsEnum<ResponsiveCurve>("ResponsiveCurve");
+    public static bool turnAcceleration => SaveManager.instance.GetSettingsBool("TurnAcceleration");
+    public static float horizontalTurnAccelerationStartDelay => SaveManager.instance.GetSettingsFloat("HorizontalTurnAccelerationStartDelay");
+    public static float horizontalTurnAccelerationRampUpTime => SaveManager.instance.GetSettingsFloat("HorizontalTurnAccelerationRampUpTime");
+    public static float horizontalTurnAccelerationSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("HorizontalTurnAccelerationSensitivityMultiplier");
+    public static float verticalTurnAccelerationStartDelay => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationStartDelay");
+    public static float verticalTurnAccelerationRampUpTime => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationRampUpTime");
+    public static float verticalTurnAccelerationSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationSensitivityMultiplier");
 }

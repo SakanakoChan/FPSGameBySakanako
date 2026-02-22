@@ -44,6 +44,10 @@ public class SaveManager : MonoBehaviour
 
     public void LoadSettings()
     {
+#if UNITY_EDITOR
+        AutoCollectAllSettingsConfigsForDatabase();
+#endif
+
         if (settingsData == null)
         {
             settingsData = saveDataHandler.LoadData<SettingsData>();
@@ -51,9 +55,6 @@ public class SaveManager : MonoBehaviour
 
             if (settingsData == null)
             {
-#if UNITY_EDITOR
-                AutoCollectAllSettingsConfigsForDatabase();
-#endif
                 settingsData = new SettingsData();
                 WriteDefaultSettings(settingsData);
                 SaveSettings();
