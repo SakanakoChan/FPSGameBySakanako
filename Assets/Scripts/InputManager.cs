@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
         "Inner dead zone. Stick input below this value is ignored.\n" +
         "Used to prevent stick drift."
     )]
-    [SerializeField] private float innerDeadZone = 0f;
+    [SerializeField] private float innerDeadZone = 0.04f;
 
     [Tooltip(
         "Outer dead zone. Defines how far the stick must be pushed to reach maximum input.\n" +
@@ -97,10 +97,8 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        innerDeadZone = GameSettings.innerDeadzone;
-        outerDeadZone = GameSettings.outerDeadzone;
+        SyncDeadzoneFromSettings();
     }
-
 
     private void Start()
     {
@@ -111,6 +109,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        SyncDeadzoneFromSettings();
+
         moveInputRaw = new Vector2(player.GetAxisRaw("Move Horizontal"), player.GetAxisRaw("Move Vertical"));
         lookInputRaw = new Vector2(player.GetAxisRaw("Look Horizontal"), player.GetAxisRaw("Look Vertical"));
 
@@ -139,6 +139,13 @@ public class InputManager : MonoBehaviour
         //    }
         //}
     }
+
+    private void SyncDeadzoneFromSettings()
+    {
+        innerDeadZone = GameSettings.innerDeadzone;
+        outerDeadZone = GameSettings.outerDeadzone;
+    }
+
 
     public void EnterUIMapMode(bool _value)
     {

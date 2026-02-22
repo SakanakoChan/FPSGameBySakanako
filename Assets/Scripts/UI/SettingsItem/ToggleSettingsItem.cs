@@ -47,6 +47,8 @@ public class ToggleSettingsItem : SettingsItem
     {
         toggle.isOn = SaveManager.instance.GetSettingsBool(config.key);
         SyncToggleModeHintText(toggle.isOn);
+
+        //Deprecated
         //if (_data.settingsDictionary.TryGetValue(config.key, out var value))
         //{
         //    toggle.isOn = (bool)config.DeserializeString(value);
@@ -62,6 +64,8 @@ public class ToggleSettingsItem : SettingsItem
     public override void SaveData()
     {
         SaveManager.instance.SetSettings(config.key, config.SerializeValue(toggle.isOn));
+
+        //Deprecated
         //if (_data.settingsDictionary.ContainsKey(config.key))
         //{
         //    _data.settingsDictionary[config.key] = config.SerializeValue(toggle.isOn);

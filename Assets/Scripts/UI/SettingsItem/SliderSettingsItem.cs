@@ -178,6 +178,8 @@ public class SliderSettingsItem : SettingsItem
     {
         slider.value = SaveManager.instance.GetSettingsFloat(config.key);
         SyncInputFieldValue(slider.value);
+
+        //Deprecated
         //if (_data.settingsDictionary.TryGetValue(config.key, out var value))
         //{
         //    slider.value = (float)config.DeserializeString(value)/*float.Parse(value)*/;
@@ -193,6 +195,8 @@ public class SliderSettingsItem : SettingsItem
     public override void SaveData()
     {
         SaveManager.instance.SetSettings(config.key, config.SerializeValue(slider.value));
+
+        //Deprecated
         //if (_data.settingsDictionary.ContainsKey(config.key))
         //{
         //    _data.settingsDictionary[config.key] = config.SerializeValue(slider.value)/*slider.value.ToString()*/;

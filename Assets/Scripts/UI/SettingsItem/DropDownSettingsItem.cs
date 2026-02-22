@@ -124,6 +124,8 @@ public class DropDownSettingsItem : SettingsItem
     public override void LoadData()
     {
         dropdown.value = SaveManager.instance.GetSettingsInt(config.key);
+
+        //Deprecated
         //if (_data.settingsDictionary.TryGetValue(config.key, out var value))
         //{
         //    dropdown.value = (int)config.DeserializeString(value);
@@ -137,6 +139,8 @@ public class DropDownSettingsItem : SettingsItem
     public override void SaveData()
     {
         SaveManager.instance.SetSettings(config.key, config.SerializeValue(dropdown.value));
+
+        //Deprecated
         //if (_data.settingsDictionary.ContainsKey(config.key))
         //{
         //    _data.settingsDictionary[config.key] = config.SerializeValue(dropdown.value);
