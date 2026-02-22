@@ -84,8 +84,8 @@ public abstract class SettingsItem : MonoBehaviour, ISettingsDataAction
         }
     }
 
-    public abstract void LoadData(SettingsData _data);
+    public abstract void LoadData();
 
-    public abstract void SaveData(SettingsData _data);
+    public abstract void SaveData();
 
 }

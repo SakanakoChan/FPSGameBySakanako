@@ -23,6 +23,13 @@ public class SettingsMenu : MonoBehaviour, IUIAction
     [SerializeField] private float switchPageCooldown = 0.1f;
     private float lastSwitchPageTime = float.MinValue;
 
+    private SettingsItem[] settingsItemList;
+
+
+    private void Awake()
+    {
+        settingsItemList = GetComponentsInChildren<SettingsItem>();
+    }
 
     private void Start()
     {
@@ -43,8 +50,10 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
     private void OnDisable()
     {
+        CommitSettingsItemValueChangesToSettingsData();
         SaveManager.instance?.SaveSettings();
     }
+
 
 
     private void ShowGameSettingsPanel(bool _value)
@@ -203,5 +212,13 @@ public class SettingsMenu : MonoBehaviour, IUIAction
     public void SelectFirstUIItem()
     {
         currentSettingsPanel?.SelectFirstSettingsItem();
+    }
+
+    private void CommitSettingsItemValueChangesToSettingsData()
+    {
+        foreach (var settingsItem in settingsItemList)
+        {
+            settingsItem?.SaveData();
+        }
     }
 }

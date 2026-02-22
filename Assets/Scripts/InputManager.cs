@@ -95,6 +95,12 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        innerDeadZone = GameSettings.innerDeadzone;
+        outerDeadZone = GameSettings.outerDeadzone;
+    }
+
 
     private void Start()
     {

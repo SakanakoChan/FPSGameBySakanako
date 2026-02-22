@@ -41,6 +41,7 @@ public class SaveManager : MonoBehaviour
         LoadSettings();
     }
 
+
     public void LoadSettings()
     {
         if (settingsData == null)
@@ -61,12 +62,24 @@ public class SaveManager : MonoBehaviour
             }
         }
 
-        Debug.Log("SettingsDataAction Count: " + settingsDataActionList.Count);
-        foreach (var settingsDataAction in settingsDataActionList)
-        {
-            settingsDataAction?.LoadData(settingsData);
-        }
+        //Debug.Log("SettingsDataAction Count: " + settingsDataActionList.Count);
+        //foreach (var settingsDataAction in settingsDataActionList)
+        //{
+        //    settingsDataAction?.LoadData(settingsData);
+        //}
     }
+
+    public void SaveSettings()
+    {
+        //foreach (var settingsDataAction in settingsDataActionList)
+        //{
+        //    settingsDataAction?.SaveData(settingsData);
+        //}
+
+        saveDataHandler?.SaveData(settingsData);
+    }
+
+
 
     private void WriteDefaultSettings(SettingsData _settingsData)
     {
@@ -78,17 +91,6 @@ public class SaveManager : MonoBehaviour
             _settingsData.settingsDictionary[settingsConfig.key] = serializedString;
         }
     }
-
-    public void SaveSettings()
-    {
-        foreach (var settingsDataAction in settingsDataActionList)
-        {
-            settingsDataAction?.SaveData(settingsData);
-        }
-
-        saveDataHandler?.SaveData(settingsData);
-    }
-
 
     public void RegisterSettingsDataAction(ISettingsDataAction _settingsDataAction)
     {
@@ -104,6 +106,24 @@ public class SaveManager : MonoBehaviour
         {
             settingsDataActionList.Remove(_settingsDataAction);
         }
+    }
+
+    public int GetSettingsInt(string _key)
+    {
+        if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
+        {
+            return int.Parse(value);
+        }
+
+        Debug.LogWarning($"Settings key not found in save data: {_key}, now trying to get default value");
+
+        if (settingsConfigDatabase.TryGetDefaultValue(_key, out int defaultValue))
+        {
+            return defaultValue;
+        }
+
+        Debug.Log("Default value for key: " + _key + " also not found in config database, returning 0");
+        return 0;
     }
 
     public float GetSettingsFloat(string _key)
@@ -123,6 +143,7 @@ public class SaveManager : MonoBehaviour
         Debug.Log("Default value for key: " + _key + " also not found in config database, returning 0");
         return 0f;
     }
+
 
     public bool GetSettingsBool(string _key)
     {
@@ -163,7 +184,17 @@ public class SaveManager : MonoBehaviour
         return default;
     }
 
-
+    public void SetSettings(string _key, string _serializedValue)
+    {
+        if (settingsData.settingsDictionary.ContainsKey(_key))
+        {
+            settingsData.settingsDictionary[_key] = _serializedValue;
+        }
+        else
+        {
+            Debug.LogError("Set settings float error: Invalid key");
+        }
+    }
 
 
 #if UNITY_EDITOR

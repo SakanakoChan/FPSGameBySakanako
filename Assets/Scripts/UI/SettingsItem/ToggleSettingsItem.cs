@@ -28,7 +28,7 @@ public class ToggleSettingsItem : SettingsItem
 
     private void OnEnable()
     {
-        LoadData(SaveManager.instance.settingsData);
+        LoadData();
     }
 
 
@@ -43,29 +43,32 @@ public class ToggleSettingsItem : SettingsItem
         toggle.isOn = !toggle.isOn;
     }
 
-    public override void LoadData(SettingsData _data)
+    public override void LoadData()
     {
-        if (_data.settingsDictionary.TryGetValue(config.key, out var value))
-        {
-            toggle.isOn = (bool)config.DeserializeString(value);
-            SyncToggleModeHintText(toggle.isOn);
-        }
-        else
-        {
-            toggle.isOn = config.defaultValue;
-            SyncToggleModeHintText(toggle.isOn);
-        }
+        toggle.isOn = SaveManager.instance.GetSettingsBool(config.key);
+        SyncToggleModeHintText(toggle.isOn);
+        //if (_data.settingsDictionary.TryGetValue(config.key, out var value))
+        //{
+        //    toggle.isOn = (bool)config.DeserializeString(value);
+        //    SyncToggleModeHintText(toggle.isOn);
+        //}
+        //else
+        //{
+        //    toggle.isOn = config.defaultValue;
+        //    SyncToggleModeHintText(toggle.isOn);
+        //}
     }
 
-    public override void SaveData(SettingsData _data)
+    public override void SaveData()
     {
-        if (_data.settingsDictionary.ContainsKey(config.key))
-        {
-            _data.settingsDictionary[config.key] = config.SerializeValue(toggle.isOn);
-        }
-        else
-        {
-            _data.settingsDictionary.Add(config.key, config.SerializeValue(toggle.isOn));
-        }
+        SaveManager.instance.SetSettings(config.key, config.SerializeValue(toggle.isOn));
+        //if (_data.settingsDictionary.ContainsKey(config.key))
+        //{
+        //    _data.settingsDictionary[config.key] = config.SerializeValue(toggle.isOn);
+        //}
+        //else
+        //{
+        //    _data.settingsDictionary.Add(config.key, config.SerializeValue(toggle.isOn));
+        //}
     }
 }

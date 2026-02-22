@@ -72,7 +72,7 @@ public class SliderSettingsItem : SettingsItem
             slider.minValue = config.minValue;
             slider.maxValue = config.maxValue;
 
-            LoadData(SaveManager.instance.settingsData);
+            LoadData();
 
             //slider.value = config.defaultValue;
             //SyncInputFieldValue(slider.value);
@@ -174,29 +174,32 @@ public class SliderSettingsItem : SettingsItem
         }
     }
 
-    public override void LoadData(SettingsData _data)
+    public override void LoadData()
     {
-        if (_data.settingsDictionary.TryGetValue(config.key, out var value))
-        {
-            slider.value = (float)config.DeserializeString(value)/*float.Parse(value)*/;
-            SyncInputFieldValue(slider.value);
-        }
-        else
-        {
-            slider.value = config.defaultValue;
-            SyncInputFieldValue(slider.value);
-        }
+        slider.value = SaveManager.instance.GetSettingsFloat(config.key);
+        SyncInputFieldValue(slider.value);
+        //if (_data.settingsDictionary.TryGetValue(config.key, out var value))
+        //{
+        //    slider.value = (float)config.DeserializeString(value)/*float.Parse(value)*/;
+        //    SyncInputFieldValue(slider.value);
+        //}
+        //else
+        //{
+        //    slider.value = config.defaultValue;
+        //    SyncInputFieldValue(slider.value);
+        //}
     }
 
-    public override void SaveData(SettingsData _data)
+    public override void SaveData()
     {
-        if (_data.settingsDictionary.ContainsKey(config.key))
-        {
-            _data.settingsDictionary[config.key] = config.SerializeValue(slider.value)/*slider.value.ToString()*/;
-        }
-        else
-        {
-            _data.settingsDictionary.Add(config.key, config.SerializeValue(slider.value)/*slider.value.ToString()*/);
-        }
+        SaveManager.instance.SetSettings(config.key, config.SerializeValue(slider.value));
+        //if (_data.settingsDictionary.ContainsKey(config.key))
+        //{
+        //    _data.settingsDictionary[config.key] = config.SerializeValue(slider.value)/*slider.value.ToString()*/;
+        //}
+        //else
+        //{
+        //    _data.settingsDictionary.Add(config.key, config.SerializeValue(slider.value)/*slider.value.ToString()*/);
+        //}
     }
 }

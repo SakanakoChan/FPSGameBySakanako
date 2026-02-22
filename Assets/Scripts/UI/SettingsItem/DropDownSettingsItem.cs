@@ -36,14 +36,14 @@ public class DropDownSettingsItem : SettingsItem
     private void OnEnable()
     {
         if (dropdownOptionsHaveBeenInitialized)
-            LoadData(SaveManager.instance.settingsData);
+            LoadData();
     }
 
     private void Start()
     {
         InitializeDropdownOptions();
 
-        LoadData(SaveManager.instance.settingsData);
+        LoadData();
     }
 
     private void Update()
@@ -121,27 +121,29 @@ public class DropDownSettingsItem : SettingsItem
     }
 
 
-    public override void LoadData(SettingsData _data)
+    public override void LoadData()
     {
-        if (_data.settingsDictionary.TryGetValue(config.key, out var value))
-        {
-            dropdown.value = (int)config.DeserializeString(value);
-        }
-        else
-        {
-            dropdown.value = config.defaultValue;
-        }
+        dropdown.value = SaveManager.instance.GetSettingsInt(config.key);
+        //if (_data.settingsDictionary.TryGetValue(config.key, out var value))
+        //{
+        //    dropdown.value = (int)config.DeserializeString(value);
+        //}
+        //else
+        //{
+        //    dropdown.value = config.defaultValue;
+        //}
     }
 
-    public override void SaveData(SettingsData _data)
+    public override void SaveData()
     {
-        if (_data.settingsDictionary.ContainsKey(config.key))
-        {
-            _data.settingsDictionary[config.key] = config.SerializeValue(dropdown.value);
-        }
-        else
-        {
-            _data.settingsDictionary.Add(config.key, config.SerializeValue(dropdown.value));
-        }
+        SaveManager.instance.SetSettings(config.key, config.SerializeValue(dropdown.value));
+        //if (_data.settingsDictionary.ContainsKey(config.key))
+        //{
+        //    _data.settingsDictionary[config.key] = config.SerializeValue(dropdown.value);
+        //}
+        //else
+        //{
+        //    _data.settingsDictionary.Add(config.key, config.SerializeValue(dropdown.value));
+        //}
     }
 }
