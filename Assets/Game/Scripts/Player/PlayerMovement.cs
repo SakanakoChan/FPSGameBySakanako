@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private Animator anim;
+
     private CharacterController cc;
+    
 
     [Header("Acceleration info")]
     [SerializeField] private float acceleration;
@@ -37,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
         {
             currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, deceleration * Time.deltaTime);
         }
+
+        var moveSpeedRatio = currentVelocity.magnitude / walkSpeed;
+        anim.SetFloat("Movement", moveSpeedRatio);
 
         cc.Move(currentVelocity * Time.deltaTime);
     }
