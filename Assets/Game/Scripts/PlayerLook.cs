@@ -22,11 +22,11 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private Transform cameraPivot;
 
     [Header("Vertical angle limit")]
-    [SerializeField] private float verticalUpperLimit = 70;
-    [SerializeField] private float verticalLowerLimit = -70;
+    [SerializeField] private float pitchUpperLimit = 70;
+    [SerializeField] private float pitchLowerLimit = -70;
 
-    private float yaw;
-    private float pitch;
+    public float yaw { get; private set; }
+    public float pitch { get; private set; }
 
 
     [Space]
@@ -153,7 +153,7 @@ public class PlayerLook : MonoBehaviour
     private void ModifyPitch(float _deltaValue)
     {
         pitch += _deltaValue;
-        pitch = Mathf.Clamp(pitch, verticalLowerLimit, verticalUpperLimit);
+        pitch = Mathf.Clamp(pitch, pitchLowerLimit, pitchUpperLimit);
     }
 
 

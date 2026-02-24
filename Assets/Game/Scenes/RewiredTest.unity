@@ -8389,7 +8389,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1005843012}
+  - {fileID: 853553557}
   m_Father: {fileID: 1809304533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &629698499
@@ -11438,6 +11438,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828693037}
   m_CullTransparentMesh: 1
+--- !u!1 &853553556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 853553557}
+  m_Layer: 0
+  m_Name: WeaponRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &853553557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853553556}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.115, y: -0.068, z: 0.204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1005843012}
+  m_Father: {fileID: 629698498}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &855054443
 GameObject:
   m_ObjectHideFlags: 0
@@ -12203,7 +12235,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 629698498}
+    m_TransformParent: {fileID: 853553557}
     m_Modifications:
     - target: {fileID: 634105038903191, guid: 2b72b3ca3149a994c95a391a88dc5d95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13210,17 +13242,17 @@ PrefabInstance:
     - target: {fileID: 5491169515376625166, guid: 2b72b3ca3149a994c95a391a88dc5d95,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.115
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5491169515376625166, guid: 2b72b3ca3149a994c95a391a88dc5d95,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5491169515376625166, guid: 2b72b3ca3149a994c95a391a88dc5d95,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.204
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5491169515376625166, guid: 2b72b3ca3149a994c95a391a88dc5d95,
         type: 3}
@@ -18350,8 +18382,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1436997267}
   cameraPivot: {fileID: 1809304533}
-  verticalUpperLimit: 70
-  verticalLowerLimit: -70
+  pitchUpperLimit: 70
+  pitchLowerLimit: -70
   lookSensitivity_Mouse: 0.2
   lookSensitivity_Controller: 320
   verticalSensitivityMultiplier_Controller: 0.75
