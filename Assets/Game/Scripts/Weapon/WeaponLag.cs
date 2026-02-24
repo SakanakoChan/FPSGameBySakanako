@@ -35,7 +35,7 @@ public class WeaponLag : MonoBehaviour
         Debug.Log("Delta yaw2: " + deltaYaw2);
         float deltaPitch = Mathf.DeltaAngle(lastPitch, pitch);
 
-        float targetYawOffset = -deltaYaw * lagAmount;
+        float targetYawOffset = -deltaYaw2 * lagAmount;
         float targetPitchOffset = -deltaPitch * lagAmount;
 
         currentYawOffset = Mathf.Lerp(currentYawOffset, targetYawOffset, smoothSpeed * Time.deltaTime);

@@ -11447,6 +11447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853553557}
+  - component: {fileID: 853553558}
   m_Layer: 0
   m_Name: WeaponRoot
   m_TagString: Untagged
@@ -11470,6 +11471,20 @@ Transform:
   - {fileID: 1005843012}
   m_Father: {fileID: 629698498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &853553558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853553556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcd42613233c794898aac0b4c64f2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lagAmount: 2
+  smoothSpeed: 10
 --- !u!1 &855054443
 GameObject:
   m_ObjectHideFlags: 0
@@ -13892,11 +13907,7 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 1454342368}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8090856456977398860, guid: 2b72b3ca3149a994c95a391a88dc5d95,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1056722126}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b72b3ca3149a994c95a391a88dc5d95, type: 3}
 --- !u!1 &977309980
 GameObject:
@@ -15163,26 +15174,6 @@ RectTransform:
   m_AnchoredPosition: {x: -4.999878, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1056722124 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8090856456977398860, guid: 2b72b3ca3149a994c95a391a88dc5d95,
-    type: 3}
-  m_PrefabInstance: {fileID: 974403191}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1056722126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056722124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dcd42613233c794898aac0b4c64f2fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lagAmount: 3
-  smoothSpeed: 10
 --- !u!1 &1066322722
 GameObject:
   m_ObjectHideFlags: 0
