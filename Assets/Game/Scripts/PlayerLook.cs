@@ -10,10 +10,24 @@ public enum ResponsiveCurve
     Dynamic
 }
 
-public class CameraLook : MonoBehaviour
+public class PlayerLook : MonoBehaviour
 {
-    public CinemachineVirtualCamera vcam;
-    private CinemachinePOV pov;
+    //public CinemachineVirtualCamera vcam;
+    //private CinemachinePOV pov;
+
+    [Header("Transform to apply rotation")]
+    [Tooltip("Transform to apply horizontal rotation")]
+    [SerializeField] private Transform player;
+    [Tooltip("Transform to apply the vertical rotation")]
+    [SerializeField] private Transform cameraPivot;
+
+    [Header("Vertical angle limit")]
+    [SerializeField] private float verticalUpperLimit = 70;
+    [SerializeField] private float verticalLowerLimit = -70;
+
+    private float yaw;
+    private float pitch;
+
 
     [Space]
     [Header("Mouse look control info")]
@@ -41,7 +55,7 @@ public class CameraLook : MonoBehaviour
 
     private void Awake()
     {
-        pov = vcam.GetCinemachineComponent<CinemachinePOV>();
+        //pov = vcam.GetCinemachineComponent<CinemachinePOV>();
     }
 
     private void OnEnable()
@@ -52,8 +66,8 @@ public class CameraLook : MonoBehaviour
         responsiveCurve = GameSettings.responsiveCurve;
 
         horizontalTurnAcceleration.SetupTurnAcceleration(
-            GameSettings.horizontalTurnAccelerationStartDelay, 
-            GameSettings.horizontalTurnAccelerationRampUpTime, 
+            GameSettings.horizontalTurnAccelerationStartDelay,
+            GameSettings.horizontalTurnAccelerationRampUpTime,
             GameSettings.horizontalTurnAccelerationSensitivityMultiplier);
 
         verticalTurnAcceleration.SetupTurnAcceleration(
@@ -87,7 +101,7 @@ public class CameraLook : MonoBehaviour
             lookDeltaY = InputManager.instance.mouseInput.y * sensitivity;
         }
         //Controller
-        else 
+        else
         {
             sensitivity = lookSensitivity_Controller;
 
@@ -110,21 +124,36 @@ public class CameraLook : MonoBehaviour
             lookDeltaY = processedLookInputY * Time.deltaTime * verticalSensitivityMultiplier_Controller * sensitivity;
         }
 
-        pov.m_HorizontalAxis.Value += lookDeltaX;
+        //pov.m_HorizontalAxis.Value += lookDeltaX;
+        yaw += lookDeltaX;
 
         if (invertYAxis)
         {
-            pov.m_VerticalAxis.Value += lookDeltaY;
+            //pov.m_VerticalAxis.Value += lookDeltaY;
+            ModifyPitch(lookDeltaY);
         }
         else
         {
-            pov.m_VerticalAxis.Value -= lookDeltaY;
+            //pov.m_VerticalAxis.Value -= lookDeltaY;
+            ModifyPitch(-lookDeltaY);
         }
+
+        //player.rotation = Quaternion.Euler(0, pov.m_HorizontalAxis.Value, 0);
+        //cameraPivot.localRotation = Quaternion.Euler(pov.m_VerticalAxis.Value, 0, 0);
+        player.rotation = Quaternion.Euler(0, yaw, 0);
+        cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
+
     }
 
     private void OnDestroy()
     {
         PauseManager.instance.OnPauseStateChanged -= HandlePause;
+    }
+
+    private void ModifyPitch(float _deltaValue)
+    {
+        pitch += _deltaValue;
+        pitch = Mathf.Clamp(pitch, verticalLowerLimit, verticalUpperLimit);
     }
 
 
