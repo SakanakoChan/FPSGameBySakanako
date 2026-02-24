@@ -5,6 +5,12 @@ using UnityEngine;
 public class WeaponLag : MonoBehaviour
 {
     [SerializeField] private float lagAmount = 0.05f;
+
+    [Space]
+    [SerializeField] private float yawOffsetLimit = 5f;
+    [SerializeField] private float pitchOffsetLimit = 5f;
+
+    [Space]
     [SerializeField] private float smoothSpeed = 10f;
 
     private PlayerLook playerLook;
@@ -28,15 +34,14 @@ public class WeaponLag : MonoBehaviour
         yaw = playerLook.yaw;
         pitch = playerLook.pitch;
 
-        float deltaYaw = Mathf.DeltaAngle(lastYaw, yaw);
-        Debug.Log("Delta yaw: " + deltaYaw);
-
-        float deltaYaw2 = Mathf.DeltaAngle(yaw, lastYaw);
-        Debug.Log("Delta yaw2: " + deltaYaw2);
+        float deltaYaw = Mathf.DeltaAngle(yaw, lastYaw);
         float deltaPitch = Mathf.DeltaAngle(lastPitch, pitch);
 
-        float targetYawOffset = -deltaYaw2 * lagAmount;
+        float targetYawOffset = -deltaYaw * lagAmount;
         float targetPitchOffset = -deltaPitch * lagAmount;
+
+        targetYawOffset = Mathf.Clamp(targetYawOffset, -yawOffsetLimit, yawOffsetLimit);
+        targetPitchOffset = Mathf.Clamp(targetPitchOffset, -pitchOffsetLimit, pitchOffsetLimit);
 
         currentYawOffset = Mathf.Lerp(currentYawOffset, targetYawOffset, smoothSpeed * Time.deltaTime);
         currentPitchOffset = Mathf.Lerp(currentPitchOffset, targetPitchOffset, smoothSpeed * Time.deltaTime);
