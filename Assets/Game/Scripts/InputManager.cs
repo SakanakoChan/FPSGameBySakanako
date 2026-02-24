@@ -24,17 +24,13 @@ public class InputManager : MonoBehaviour
     [SerializeField] private int playerIDForRewired = 0;
     private Player player;
 
-    [Space]
-    [SerializeField] private Vector2 moveInputRaw;
+    private Vector2 moveInputRaw;
+    public Vector2 moveInput { get; private set; }
 
-    [Space]
-    [SerializeField] private Vector2 lookInputRaw;
+    private Vector2 lookInputRaw;
+    public Vector2 lookInput { get; private set; }
 
-    [Space]
-    public Vector2 lookInputReal;
-
-    [Space]
-    public Vector2 mouseInput;
+    public Vector2 mouseInput { get; private set;  }
 
 
     [Header("Dead zone info")]
@@ -114,7 +110,8 @@ public class InputManager : MonoBehaviour
         moveInputRaw = new Vector2(player.GetAxisRaw("Move Horizontal"), player.GetAxisRaw("Move Vertical"));
         lookInputRaw = new Vector2(player.GetAxisRaw("Look Horizontal"), player.GetAxisRaw("Look Vertical"));
 
-        lookInputReal = ProcessStickInput(lookInputRaw, innerDeadZone, outerDeadZone);
+        moveInput = ProcessStickInput(moveInputRaw, innerDeadZone, outerDeadZone);
+        lookInput = ProcessStickInput(lookInputRaw, innerDeadZone, outerDeadZone);
 
         mouseInput = new Vector2(player.GetAxisRaw("MouseX"), player.GetAxisRaw("MouseY"));
 

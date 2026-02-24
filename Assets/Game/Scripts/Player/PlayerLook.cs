@@ -105,7 +105,7 @@ public class PlayerLook : MonoBehaviour
         {
             sensitivity = lookSensitivity_Controller;
 
-            Vector2 rawLookInput = InputManager.instance.lookInputReal;
+            Vector2 rawLookInput = InputManager.instance.lookInput;
             Vector2 processedLookInput = ApplyResponsiveCurve(rawLookInput);
 
             float processedLookInputX = processedLookInput.x;
