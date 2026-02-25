@@ -176,9 +176,20 @@ public class InputManager : MonoBehaviour
                 hasControllerButtonInput = true;
                 break;
             }
+
+            //only detect left stick, right stick and left trigger, right trigger input
+            for (int i = 0; i < joystick.axisCount && i < 6; i++)
+            {
+                var axisMagnitude = Mathf.Abs(joystick.GetAxis(i));
+                if (axisMagnitude > deadZoneToTriggerControllerInput)
+                {
+                    hasControllerButtonInput = true;
+                    break;
+                }
+            }
         }
 
-        if (moveInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || hasControllerButtonInput)
+        if (/*moveInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput ||*/ hasControllerButtonInput)
         {
             currentInputDevice = InputDevice.Controller;
 
@@ -190,6 +201,30 @@ public class InputManager : MonoBehaviour
 
             previousInputDevice = currentInputDevice;
         }
+
+
+        //***Old but convenient way***
+        //var lastController = ReInput.controllers.GetLastActiveController();
+        //if (lastController != null)
+        //{
+        //    if (lastController.type == ControllerType.Joystick)
+        //    {
+        //        currentInputDevice = InputDevice.Controller;
+        //    }
+        //    else if (lastController.type == ControllerType.Mouse || lastController.type == ControllerType.Keyboard)
+        //    {
+        //        currentInputDevice = InputDevice.MouseAndKeyboard;
+        //    }
+
+        //    if (previousInputDevice != currentInputDevice)
+        //    {
+        //        Debug.Log("Current input device: " + currentInputDevice);
+        //        OnInputDeviceChanged?.Invoke(currentInputDevice);
+        //    }
+
+        //    previousInputDevice = currentInputDevice;
+        //}
+
     }
 
     private void DetectCurrentControllerLayout()
