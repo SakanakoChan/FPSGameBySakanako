@@ -168,12 +168,12 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        bool hasControllerButtonInput = false;
+        bool hasControllerInput = false;
         foreach (var joystick in ReInput.controllers.Joysticks)
         {
             if (joystick.GetAnyButtonDown())
             {
-                hasControllerButtonInput = true;
+                hasControllerInput = true;
                 break;
             }
 
@@ -183,13 +183,13 @@ public class InputManager : MonoBehaviour
                 var axisMagnitude = Mathf.Abs(joystick.GetAxis(i));
                 if (axisMagnitude > deadZoneToTriggerControllerInput)
                 {
-                    hasControllerButtonInput = true;
+                    hasControllerInput = true;
                     break;
                 }
             }
         }
 
-        if (/*moveInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput || lookInputRaw.sqrMagnitude > deadZoneToTriggerControllerInput ||*/ hasControllerButtonInput)
+        if (hasControllerInput)
         {
             currentInputDevice = InputDevice.Controller;
 
