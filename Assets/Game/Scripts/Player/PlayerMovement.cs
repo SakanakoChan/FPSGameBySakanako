@@ -7,14 +7,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator anim;
 
     private CharacterController cc;
-    
+
 
     [Header("Acceleration info")]
-    [SerializeField] private float acceleration;
-    [SerializeField] private float deceleration;
+    [SerializeField] private float acceleration = 8;
+    //[SerializeField] private float deceleration;
+    [SerializeField] private float friction_WithoutMoveInput = 12;
+    [SerializeField] private float friction_WithMoveInput = 6;
 
-    [Header("Walk info")]
+    [Header("Move Speed info")]
     [SerializeField] private float walkSpeed;
+    [SerializeField] private float sprintSpeed;
 
     private Vector3 currentVelocity;
 
@@ -30,21 +33,58 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = InputManager.instance.moveInput;
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
 
-        Vector3 targetVelocity = moveDirection * walkSpeed;
-        
-        if (moveInput.sqrMagnitude > 0.01f)
-        {
-            currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
-        }
-        else
-        {
-            currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, deceleration * Time.deltaTime);
-        }
+        ApplyFriction(moveInput);
+
+        ApplyAcceleration(moveInput, moveDirection);
 
         var moveSpeedRatio = currentVelocity.magnitude / walkSpeed;
-        anim.SetFloat("Movement", moveSpeedRatio);
+        anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
 
         cc.Move(currentVelocity * Time.deltaTime);
+
+        Debug.Log("CurrentVelocity magnitude: " + currentVelocity.magnitude);
+    }
+
+    private void ApplyFriction(Vector2 _moveInput)
+    {
+        float speed = currentVelocity.magnitude;
+
+        if (speed < 0.01f)
+        {
+            currentVelocity = Vector3.zero;
+            return;
+        }
+
+        float friction = _moveInput.sqrMagnitude > 0.01f ? friction_WithMoveInput : friction_WithoutMoveInput;
+
+        float speedReduceAmount = speed * friction * Time.deltaTime;
+        float reducedSpeed = speed - speedReduceAmount;
+        float speedReduceRate = reducedSpeed / speed;
+
+        currentVelocity *= speedReduceRate;
+    }
+
+    private void ApplyAcceleration(Vector2 moveInput, Vector3 moveDirection)
+    {
+        Vector3 wishDirection = moveDirection.normalized;
+        float wishSpeed = walkSpeed * moveInput.magnitude;
+        float currentSpeedOnWishDirection = Vector3.Dot(currentVelocity, wishDirection);
+        float maxSpeedToAdd = wishSpeed - currentSpeedOnWishDirection;
+
+        if (maxSpeedToAdd <= 0)
+        {
+            return;
+        }
+
+        float actualSpeedToAdd = acceleration * Time.deltaTime * wishSpeed;
+        if (actualSpeedToAdd > maxSpeedToAdd)
+        {
+            actualSpeedToAdd = maxSpeedToAdd;
+        }
+
+        Vector3 actualVelocityToAdd = wishDirection * actualSpeedToAdd;
+        currentVelocity += actualVelocityToAdd;
+        currentVelocity = Vector3.ClampMagnitude(currentVelocity, walkSpeed);
     }
 
     private void HandlePause(bool _gameIsPaused)

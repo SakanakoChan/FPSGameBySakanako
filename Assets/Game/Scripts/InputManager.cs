@@ -64,6 +64,7 @@ public class InputManager : MonoBehaviour
     public bool CrouchPressed => player.GetButtonDown("Crouch");
     public bool ReloadPressed => player.GetButtonDown("Reload");
     public bool SwitchWeaponPressed => player.GetButtonDown("Switch Weapon");
+    public bool SprintPressed => player.GetButtonDown("Sprint");
     public bool OpenPauseMenuPressed => player.GetButtonDown("Open Pause Menu");
     public bool UICancelPressed => player.GetButtonDown("UI Cancel");
     public bool UIConfirmPressed => player.GetButtonDown("UI Confirm");
