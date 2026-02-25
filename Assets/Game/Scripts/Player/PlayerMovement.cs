@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateSprintState(Vector2 moveInput)
     {
         float moveInputMagnitude = moveInput.magnitude;
-        
+
         if (moveInputMagnitude < 0.01f)
         {
             isSprinting = false;
@@ -81,20 +81,33 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
         moveDirection = moveDirection.normalized;
-        
+
+        //does current movement condition support sprint?
         float forwardDot = Vector3.Dot(moveDirection, transform.forward);
         bool isMovingForwardEnough = forwardDot > forwardDotThresholdToTriggerSprint;
 
-        if (isMovingForwardEnough && moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint && InputManager.instance.SprintPressed)
+        bool curremtMovementConditionSupportsSprint = isMovingForwardEnough && moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint;
+
+
+
+        //if player wishes to sprint?
+        bool wantsToSprint = false;
+
+        //manual sprint
+        if (InputManager.instance.SprintPressed)
         {
-            isSprinting = true;
+            wantsToSprint = true;
         }
 
-        if (!isMovingForwardEnough || moveInputMagnitude < moveInputMagnitudeThresholdToTriggerSprint)
+        //auto sprint settings
+        if (InputManager.instance.currentInputDevice == InputDevice.Controller && GameSettings.controllerAutoSprint == true)
         {
-            isSprinting = false;
+            wantsToSprint = true;
         }
 
+
+        
+        isSprinting = wantsToSprint && curremtMovementConditionSupportsSprint;
         anim.SetBool("Running", isSprinting);
     }
 

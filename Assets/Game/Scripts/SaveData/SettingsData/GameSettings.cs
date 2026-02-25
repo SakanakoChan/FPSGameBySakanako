@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class GameSettings
 {
+    public static bool controllerAutoSprint => SaveManager.instance.GetSettingsBool("ControllerAutoSprint");
     public static float controllerLookSensitivity => SaveManager.instance.GetSettingsFloat("ControllerLookSensitivity");
     public static float controllerVerticalSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("ControllerVerticalSensitivityMultiplier");
     public static bool invertYAxis => SaveManager.instance.GetSettingsBool("InvertYAxis");
