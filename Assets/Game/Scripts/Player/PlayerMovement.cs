@@ -18,8 +18,28 @@ public class PlayerMovement : MonoBehaviour
     [Header("Move Speed info")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float sprintSpeed;
+    private float maxSpeed
+    {
+        get
+        {
+            if (isSprinting)
+            {
+                return sprintSpeed;
+            }
+
+            return walkSpeed;
+        }
+    }
+
+
+    [Space]
+    [SerializeField] private float moveInputMagnitudeThresholdToTriggerSprint = 0.7f;
+    [SerializeField] private float forwardDotThresholdToTriggerSprint = 0.5f;
+
 
     private Vector3 currentVelocity;
+
+    private bool isSprinting = false;
 
     private void Start()
     {
@@ -33,16 +53,49 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = InputManager.instance.moveInput;
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
 
+        UpdateSprintState(moveInput);
+
         ApplyFriction(moveInput);
 
         ApplyAcceleration(moveInput, moveDirection);
 
-        var moveSpeedRatio = currentVelocity.magnitude / walkSpeed;
+        var moveSpeedRatio = currentVelocity.magnitude / maxSpeed;
+        moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
         anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
 
         cc.Move(currentVelocity * Time.deltaTime);
 
-        Debug.Log("CurrentVelocity magnitude: " + currentVelocity.magnitude);
+        //Debug.Log(currentVelocity.magnitude);
+    }
+
+    private void UpdateSprintState(Vector2 moveInput)
+    {
+        float moveInputMagnitude = moveInput.magnitude;
+        
+        if (moveInputMagnitude < 0.01f)
+        {
+            isSprinting = false;
+            anim.SetBool("Running", isSprinting);
+            return;
+        }
+
+        Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
+        moveDirection = moveDirection.normalized;
+        
+        float forwardDot = Vector3.Dot(moveDirection, transform.forward);
+        bool isMovingForwardEnough = forwardDot > forwardDotThresholdToTriggerSprint;
+
+        if (isMovingForwardEnough && moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint && InputManager.instance.SprintPressed)
+        {
+            isSprinting = true;
+        }
+
+        if (!isMovingForwardEnough || moveInputMagnitude < moveInputMagnitudeThresholdToTriggerSprint)
+        {
+            isSprinting = false;
+        }
+
+        anim.SetBool("Running", isSprinting);
     }
 
     private void ApplyFriction(Vector2 _moveInput)
@@ -67,7 +120,16 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyAcceleration(Vector2 moveInput, Vector3 moveDirection)
     {
         Vector3 wishDirection = moveDirection.normalized;
-        float wishSpeed = walkSpeed * moveInput.magnitude;
+        float wishSpeed = maxSpeed * moveInput.magnitude;
+        if (isSprinting)
+        {
+            wishSpeed = maxSpeed;
+        }
+        else
+        {
+            wishSpeed = maxSpeed * moveInput.magnitude;
+        }
+
         float currentSpeedOnWishDirection = Vector3.Dot(currentVelocity, wishDirection);
         float maxSpeedToAdd = wishSpeed - currentSpeedOnWishDirection;
 
@@ -84,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 actualVelocityToAdd = wishDirection * actualSpeedToAdd;
         currentVelocity += actualVelocityToAdd;
-        currentVelocity = Vector3.ClampMagnitude(currentVelocity, walkSpeed);
+        currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
     }
 
     private void HandlePause(bool _gameIsPaused)
