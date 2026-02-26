@@ -105,6 +105,10 @@ public class PlayerMovement : MonoBehaviour
 
         var moveSpeedRatio = horizontalVelocity.magnitude / maxSpeed;
         moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
+        if (movementState == MovementState.Air)
+        {
+            moveSpeedRatio = 0;
+        }
         anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
 
         currentVelocity = horizontalVelocity + Vector3.up * verticalVelocity;
@@ -153,7 +157,10 @@ public class PlayerMovement : MonoBehaviour
         float forwardDot = Vector3.Dot(moveDirection, transform.forward);
         bool isMovingForwardEnough = forwardDot > forwardDotThresholdToTriggerSprint;
 
-        bool curremtMovementConditionSupportsSprint = isMovingForwardEnough && moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint;
+        bool curremtMovementConditionSupportsSprint = 
+            isMovingForwardEnough && 
+            moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint &&
+            movementState == MovementState.Grounded;
 
 
 
