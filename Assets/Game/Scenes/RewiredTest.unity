@@ -19122,7 +19122,7 @@ MonoBehaviour:
   sprintSpeed: 7
   moveInputMagnitudeThresholdToTriggerSprint: 0.7
   forwardDotThresholdToTriggerSprint: 0.5
-  jumpForce: 5
+  jumpForce: 6.5
   gravity: -20
   groundStickForce: -2
 --- !u!143 &1436997270

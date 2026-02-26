@@ -78,24 +78,24 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = InputManager.instance.moveInput;
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
 
-        //UpdateMovementState();
+        UpdateMovementState();
 
-        //if (movementState == MovementState.Grounded)
-        //{
-        //    //to make player stand on surface and avoid sudden floating
-        //    if (verticalVelocity < 0)
-        //    {
-        //        verticalVelocity = groundStickForce;
-        //    }
+        if (movementState == MovementState.Grounded)
+        {
+            //to make player stand on surface and avoid sudden floating
+            if (verticalVelocity < 0)
+            {
+                verticalVelocity = groundStickForce;
+            }
 
-        //    if (InputManager.instance.JumpPressed)
-        //    {
-        //        verticalVelocity = jumpForce;
-        //        movementState = MovementState.Air;
-        //    }
-        //}
+            if (InputManager.instance.JumpPressed)
+            {
+                verticalVelocity = jumpForce;
+                movementState = MovementState.Air;
+            }
+        }
 
-        //ApplyGravity();
+        ApplyGravity();
 
         UpdateSprintState(moveInput);
 
