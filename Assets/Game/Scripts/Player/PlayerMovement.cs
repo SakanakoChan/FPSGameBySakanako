@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Move Speed info")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float sprintSpeed;
-    private float maxSpeed
+    public float maxSpeed
     {
         get
         {
@@ -57,14 +57,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundStickForce = -2f;
 
 
-    private Vector3 horizontalVelocity;
+    public Vector3 horizontalVelocity { get; private set; }
     private float verticalVelocity;
-    private Vector3 currentVelocity;
+    public Vector3 currentVelocity { get; private set; }
 
-    private MovementState movementState;
+
+    public MovementState movementState { get; private set; }
     private Stance stance;
 
-    private bool isSprinting = false;
+    public bool isSprinting { get; private set; } = false;
     private bool wantsToSprint = false;
 
 
