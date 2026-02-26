@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
+    public enum MovementState
+    {
+        Grounded,
+        Air
+    }
 
+    public enum Stance
+    {
+        Stand,
+        Crouch
+    }
+
+
+    [SerializeField] private Animator anim;
     private CharacterController cc;
 
 
@@ -37,9 +49,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float forwardDotThresholdToTriggerSprint = 0.5f;
 
 
+    [Header("Jump info")]
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float gravity = -20f;
+    [SerializeField] private float groundStickForce = -2f;
+
+
+    private Vector3 horizontalVelocity;
+    private float verticalVelocity;
     private Vector3 currentVelocity;
 
+    private MovementState movementState;
+    private Stance stance;
+
     private bool isSprinting = false;
+    private bool wantsToSprint = false;
+
 
     private void Start()
     {
@@ -53,20 +78,61 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = InputManager.instance.moveInput;
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
 
+        //UpdateMovementState();
+
+        //if (movementState == MovementState.Grounded)
+        //{
+        //    //to make player stand on surface and avoid sudden floating
+        //    if (verticalVelocity < 0)
+        //    {
+        //        verticalVelocity = groundStickForce;
+        //    }
+
+        //    if (InputManager.instance.JumpPressed)
+        //    {
+        //        verticalVelocity = jumpForce;
+        //        movementState = MovementState.Air;
+        //    }
+        //}
+
+        //ApplyGravity();
+
         UpdateSprintState(moveInput);
 
         ApplyFriction(moveInput);
 
         ApplyAcceleration(moveInput, moveDirection);
 
-        var moveSpeedRatio = currentVelocity.magnitude / maxSpeed;
+        var moveSpeedRatio = horizontalVelocity.magnitude / maxSpeed;
         moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
         anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
+
+        currentVelocity = horizontalVelocity + Vector3.up * verticalVelocity;
 
         cc.Move(currentVelocity * Time.deltaTime);
 
         //Debug.Log(currentVelocity.magnitude);
     }
+
+
+    private void UpdateMovementState()
+    {
+        if (cc.isGrounded)
+        {
+            movementState = MovementState.Grounded;
+        }
+        else
+        {
+            movementState = MovementState.Air;
+        }
+    }
+
+
+    private void ApplyGravity()
+    {
+        verticalVelocity += gravity * Time.deltaTime;
+    }
+
 
     private void UpdateSprintState(Vector2 moveInput)
     {
@@ -75,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
         if (moveInputMagnitude < 0.01f)
         {
             isSprinting = false;
+            wantsToSprint = false;
             anim.SetBool("Running", isSprinting);
             return;
         }
@@ -91,8 +158,6 @@ public class PlayerMovement : MonoBehaviour
 
 
         //if player wishes to sprint?
-        bool wantsToSprint = false;
-
         //manual sprint
         if (InputManager.instance.SprintPressed)
         {
@@ -106,18 +171,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        
         isSprinting = wantsToSprint && curremtMovementConditionSupportsSprint;
         anim.SetBool("Running", isSprinting);
     }
 
     private void ApplyFriction(Vector2 _moveInput)
     {
-        float speed = currentVelocity.magnitude;
+        float speed = horizontalVelocity.magnitude;
 
         if (speed < 0.01f)
         {
-            currentVelocity = Vector3.zero;
+            horizontalVelocity = Vector3.zero;
             return;
         }
 
@@ -127,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
         float reducedSpeed = speed - speedReduceAmount;
         float speedReduceRate = reducedSpeed / speed;
 
-        currentVelocity *= speedReduceRate;
+        horizontalVelocity *= speedReduceRate;
     }
 
     private void ApplyAcceleration(Vector2 moveInput, Vector3 moveDirection)
@@ -143,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
             wishSpeed = maxSpeed * moveInput.magnitude;
         }
 
-        float currentSpeedOnWishDirection = Vector3.Dot(currentVelocity, wishDirection);
+        float currentSpeedOnWishDirection = Vector3.Dot(horizontalVelocity, wishDirection);
         float maxSpeedToAdd = wishSpeed - currentSpeedOnWishDirection;
 
         if (maxSpeedToAdd <= 0)
@@ -158,8 +222,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 actualVelocityToAdd = wishDirection * actualSpeedToAdd;
-        currentVelocity += actualVelocityToAdd;
-        currentVelocity = Vector3.ClampMagnitude(currentVelocity, maxSpeed);
+        horizontalVelocity += actualVelocityToAdd;
+        horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeed);
     }
 
     private void HandlePause(bool _gameIsPaused)
