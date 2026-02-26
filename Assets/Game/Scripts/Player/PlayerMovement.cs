@@ -22,8 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Acceleration info")]
-    [SerializeField] private float acceleration = 8;
-    //[SerializeField] private float deceleration;
+    [SerializeField] private float acceleration_Grounded = 8;
+    [SerializeField] private float acceleration_Air = 2;
+
+    //friction works only if player is grounded
     [SerializeField] private float friction_WithoutMoveInput = 12;
     [SerializeField] private float friction_WithMoveInput = 6;
 
@@ -103,13 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
         ApplyAcceleration(moveInput, moveDirection);
 
-        var moveSpeedRatio = horizontalVelocity.magnitude / maxSpeed;
-        moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
-        if (movementState == MovementState.Air)
-        {
-            moveSpeedRatio = 0;
-        }
-        anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
+        UpdateMovementAnimation();
 
         currentVelocity = horizontalVelocity + Vector3.up * verticalVelocity;
 
@@ -117,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Debug.Log(currentVelocity.magnitude);
     }
+
 
 
     private void UpdateMovementState()
@@ -193,6 +190,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float friction = _moveInput.sqrMagnitude > 0.01f ? friction_WithMoveInput : friction_WithoutMoveInput;
+        if (movementState == MovementState.Air)
+        {
+            friction = 0;
+        }
 
         float speedReduceAmount = speed * friction * Time.deltaTime;
         float reducedSpeed = speed - speedReduceAmount;
@@ -222,7 +223,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        float actualSpeedToAdd = acceleration * Time.deltaTime * wishSpeed;
+        float actualAcceleration =
+            movementState == MovementState.Grounded ? acceleration_Grounded : acceleration_Air;
+
+        float actualSpeedToAdd = actualAcceleration * Time.deltaTime * wishSpeed;
         if (actualSpeedToAdd > maxSpeedToAdd)
         {
             actualSpeedToAdd = maxSpeedToAdd;
@@ -231,6 +235,17 @@ public class PlayerMovement : MonoBehaviour
         Vector3 actualVelocityToAdd = wishDirection * actualSpeedToAdd;
         horizontalVelocity += actualVelocityToAdd;
         horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeed);
+    }
+
+    private void UpdateMovementAnimation()
+    {
+        var moveSpeedRatio = horizontalVelocity.magnitude / maxSpeed;
+        moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
+        if (movementState == MovementState.Air)
+        {
+            moveSpeedRatio = 0;
+        }
+        anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
     }
 
     private void HandlePause(bool _gameIsPaused)

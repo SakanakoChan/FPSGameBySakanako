@@ -19115,7 +19115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1005843013}
-  acceleration: 8
+  acceleration_Grounded: 8
+  acceleration_Air: 1.5
   friction_WithoutMoveInput: 12
   friction_WithMoveInput: 6
   walkSpeed: 4.5
