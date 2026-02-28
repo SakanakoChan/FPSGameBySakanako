@@ -14924,6 +14924,8 @@ MonoBehaviour:
   bobAmplitude_Sprint: 0.0425
   horizontalAmplitudeMultiplier: 1.2
   sprintRollRate: 0.05
+  landingDuration: 0.2
+  landingAmount: 0.25
   smoothSpeed: 20
 --- !u!1 &1013201797
 GameObject:
