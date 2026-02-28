@@ -14919,13 +14919,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bobFrequency_Walk: 16
-  bobAmplitude_Walk: 0.02
+  bobAmplitude_Walk: 0.025
   bobFrequency_Sprint: 20
-  bobAmplitude_Sprint: 0.0425
-  horizontalAmplitudeMultiplier: 1.2
-  sprintRollRate: 0.05
-  landingDuration: 0.2
-  landingAmount: 0.25
+  bobAmplitude_Sprint: 0.053125
+  horizontalAmplitudeMultiplier: 0.8
+  sprintRollRate: 0.1
+  landingDuration: 0.25
+  landingAmount: 0.8
   smoothSpeed: 20
 --- !u!1 &1013201797
 GameObject:

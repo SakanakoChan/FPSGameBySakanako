@@ -37,6 +37,12 @@ public class CameraEffect : MonoBehaviour
     [SerializeField] private float landingDuration = 0.2f;
     [SerializeField] private float landingAmount = 0.15f;
     private float landingTimer;
+    //[SerializeField] private float landingImpactMultiplier = 0.02f;
+    //[SerializeField] private float landingImpactDamping = 12f;
+    //[SerializeField] private float maxLandingImpact = 0.3f;
+
+    //private float landingVelocity;
+    //private float landingOffset;
     private bool wasGrounded = true;
 
 
@@ -75,9 +81,6 @@ public class CameraEffect : MonoBehaviour
         if (!isMovingOnGround)
         {
             timer_HeadBobAndSprintRoll = 0;
-            //transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition, smoothSpeed * Time.deltaTime);
-            //transform.localRotation = Quaternion.Lerp(transform.localRotation, originalRotation, smoothSpeed * Time.deltaTime);
-            //return;
         }
 
         bool isSprinting = playerMovement.isSprinting;
@@ -90,8 +93,7 @@ public class CameraEffect : MonoBehaviour
         ApplySprintRoll(isSprinting, speedPercent);
 
         //Landing effect
-        //ApplyLandingEffect();
-        ApplyLandingEffect_New();
+        ApplyLandingEffect();
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, smoothSpeed * Time.deltaTime);
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, smoothSpeed * Time.deltaTime);
@@ -130,24 +132,8 @@ public class CameraEffect : MonoBehaviour
         Quaternion sprintRollRotation = Quaternion.Euler(0, 0, roll);
         targetRotation *= sprintRollRotation;
     }
-    //private void ApplyLandingEffect()
-    //{
-    //    bool isGrounded = playerMovement.movementState == PlayerMovement.MovementState.Grounded;
-    //    if (!wasGrounded && isGrounded)
-    //    {
-    //        landingVelocity = landingImpactForce;
-    //    }
 
-    //    wasGrounded = isGrounded;
-
-    //    landingVelocity += -cameraLandingOffset * springStrength * Time.deltaTime;
-    //    landingVelocity *= Mathf.Exp(-springDamping * Time.deltaTime);
-
-    //    cameraLandingOffset += landingVelocity * Time.deltaTime;
-    //    targetPosition += new Vector3(0, cameraLandingOffset, 0);
-    //}
-
-    private void ApplyLandingEffect_New()
+    private void ApplyLandingEffect()
     {
         bool isGrounded = playerMovement.movementState == PlayerMovement.MovementState.Grounded;
         if (!wasGrounded && isGrounded)
@@ -156,14 +142,21 @@ public class CameraEffect : MonoBehaviour
         }
         wasGrounded = isGrounded;
 
+
         if (landingTimer > 0)
         {
             landingTimer -= Time.deltaTime;
 
             float t = 1f - (landingTimer / landingDuration);
 
-            float offset = -Mathf.Sin(t * Mathf.PI) * landingAmount;
+            // 快速压下
+            float down = -landingAmount * t;
+
+            // 平滑回正
+            float offset = down * (1 - t);
+
             targetPosition += new Vector3(0, offset, 0);
+
         }
 
     }
