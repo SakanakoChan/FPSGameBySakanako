@@ -60,6 +60,7 @@ public class InputManager : MonoBehaviour
     private Joystick currentActiveJoystick = null;
 
     #region Input action properties
+    public bool FireHeld => player.GetButton("Fire");
     public bool JumpPressed => player.GetButtonDown("Jump");
     public bool CrouchPressed => player.GetButtonDown("Crouch");
     public bool ReloadPressed => player.GetButtonDown("Reload");
