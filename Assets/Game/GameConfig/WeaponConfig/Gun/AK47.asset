@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1483bf5aedd51a54f8eb3a4e2dfec9af, type: 3}
+  m_Name: AK47
+  m_EditorClassIdentifier: 
+  damage: 25
+  fireRate: 600
+  magSize: 30
+  reserveAmmo: 90
+  fireModeList: 00000000
+  bulletFlySpeed: 700
+  bulletGravity: -20
+  maxRange: 1000
+  bulletPrefab: {fileID: 1086664671600574, guid: 9d679713b917df94ba6ebf38bddf67a3,
+    type: 3}
+  muzzleFlash_Particle: {fileID: 4742348811577898604, guid: 083282f5767a98b44a834ccd97a63e38,
+    type: 3}
+  muzzleFlash_Light: {fileID: 8398006699242687195, guid: 70836a65199eb614fb6721b3708e0ac9,
+    type: 3}
+  muzzleFlashLightDuration: 0.05

@@ -2,51 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Gun : Weapon
 {
-    public enum FireMode
-    {
-        FullAuto,
-        SemiAuto,
-        Burst,
-        Single
-    }
+    [Header("Gun data")]
+    [SerializeField] private GunData gunData;
+    //[Header("Gun info")]
+    //public int damage;
+    //public float fireRate;
+    //public int magSize;
+    //public int reserveAmmo;
+    //public FireMode fireMode;
 
-    [Header("Gun info")]
-    public int damage;
-    public float fireRate;
-    public int magSize;
-    public int reserveAmmo;
-    public FireMode fireMode;
-
-    [Space]
-    public float maxRange = 1000;
+    //[Space]
+    //public float maxRange = 1000;
 
     private int currentAmmoInMagzine;
+    private int reserveAmmo;
     private float lastFireTime;
     private float shootInterval;
 
 
     [Header("Bullet info")]
-    public float bulletFlySpeed = 700;
-    public float bulletGravity = -5f;
     [SerializeField] private Transform bulletSpawnPosition;
-    [SerializeField] private GameObject bulletPrefab;
+    //public float bulletFlySpeed = 700;
+    //public float bulletGravity = -5f;
+    //[SerializeField] private GameObject bulletPrefab;
 
 
 
     [Header("FX info")]
-    [SerializeField] private ParticleSystem muzzleFlash_Particle;
-    [SerializeField] private GameObject muzzleFlash_Light;
-    [SerializeField] private float muzzleFlashLightDuration = 0.05f;
+    [SerializeField] private Transform muzzleFlashPosition;
+    private ParticleSystem muzzleFlash_Particle;
+    private GameObject muzzleFlash_Light;
+    //public ParticleSystem muzzleFlash_Particle;
+    //public GameObject muzzleFlash_Light;
+    //public float muzzleFlashLightDuration = 0.05f;
 
 
     private void Start()
     {
+        if (gunData == null)
+        {
+            Debug.LogError("Didn't assign gun data for this gun: " + gameObject.name);
+        }
+
         lastFireTime = float.NegativeInfinity;
-        currentAmmoInMagzine = magSize;
-        shootInterval = 60f / fireRate;
+        currentAmmoInMagzine = gunData.magSize;
+        reserveAmmo = gunData.reserveAmmo;
+        shootInterval = 60f / gunData.fireRate;
+
+        muzzleFlash_Particle = Instantiate(gunData.muzzleFlash_Particle, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
+        muzzleFlash_Light = Instantiate(gunData.muzzleFlash_Light, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
     }
+
 
     public override void TryFire()
     {
@@ -64,34 +73,15 @@ public class Gun : Weapon
 
         currentAmmoInMagzine--;
         lastFireTime = Time.time;
+
         ShowMuzzleFlashFx();
 
-        //raycast detection
-        Camera mainCam = Camera.main;
-        Ray ray = new Ray(mainCam.transform.position, mainCam.transform.forward);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, maxRange))
-        {
-            Debug.Log("Bullet hit target: " + hit.collider.name);
-        }
-        else
-        {
-            hit.point = ray.origin + ray.direction * maxRange;
-            Debug.LogFormat("Bullet didnt hit any target, stopped at its max range: " + maxRange);
-        }
-
-        //spawn projectile
-        GameObject bullet = Instantiate(bulletPrefab);
-        var projectile = bullet.GetComponent<Projectile>();
-
-        Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition.position).normalized;
-        Vector3 initialVelocity = bulletFlyDirection * bulletFlySpeed;
-        projectile?.SetupProjectile(initialVelocity, bulletGravity, bulletSpawnPosition);
+        SpawnBullet();
     }
 
     public override void Reload()
     {
-        if (currentAmmoInMagzine >= magSize)
+        if (currentAmmoInMagzine >= gunData.magSize)
         {
             Debug.Log("Mag is full, cannot reload");
             return;
@@ -103,7 +93,7 @@ public class Gun : Weapon
             return;
         }
 
-        int ammoToTakeFromReserveAmmo = magSize - currentAmmoInMagzine;
+        int ammoToTakeFromReserveAmmo = gunData.magSize - currentAmmoInMagzine;
         ammoToTakeFromReserveAmmo = Mathf.Min(ammoToTakeFromReserveAmmo, reserveAmmo);
 
         currentAmmoInMagzine += ammoToTakeFromReserveAmmo;
@@ -119,7 +109,7 @@ public class Gun : Weapon
 
         if (muzzleFlash_Light != null)
         {
-            StartCoroutine(ShowMuzzleFlashLightWithDuration(muzzleFlashLightDuration));
+            StartCoroutine(ShowMuzzleFlashLightWithDuration(gunData.muzzleFlashLightDuration));
         }
     }
 
@@ -130,5 +120,30 @@ public class Gun : Weapon
         yield return new WaitForSeconds(_duration);
 
         muzzleFlash_Light.SetActive(false);
+    }
+
+    private void SpawnBullet()
+    {
+        //raycast detection
+        Camera mainCam = Camera.main;
+        Ray ray = new Ray(mainCam.transform.position, mainCam.transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, gunData.maxRange))
+        {
+            Debug.Log("Bullet hit target: " + hit.collider.name);
+        }
+        else
+        {
+            hit.point = ray.origin + ray.direction * gunData.maxRange;
+            Debug.LogFormat("Bullet didnt hit any target, stopped at its max range: " + gunData.maxRange);
+        }
+
+        //spawn projectile
+        GameObject bullet = Instantiate(gunData.bulletPrefab);
+        var projectile = bullet.GetComponent<Projectile>();
+
+        Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition.position).normalized;
+        Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
+        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition);
     }
 }

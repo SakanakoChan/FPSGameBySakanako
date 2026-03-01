@@ -3369,12 +3369,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 225866129}
   m_CullTransparentMesh: 1
---- !u!1 &230495592 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8398006699242687195, guid: 70836a65199eb614fb6721b3708e0ac9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1799793817}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &241016782
 GameObject:
   m_ObjectHideFlags: 0
@@ -4707,6 +4701,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 653.26, y: 100}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!1 &411883783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 411883784}
+  m_Layer: 0
+  m_Name: MuzzleFlashPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &411883784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411883783}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.024, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1518750545}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &425983612
 GameObject:
   m_ObjectHideFlags: 0
@@ -18323,12 +18348,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331173621}
   m_CullTransparentMesh: 1
---- !u!198 &1338541256 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4742348811577898604, guid: 083282f5767a98b44a834ccd97a63e38,
-    type: 3}
-  m_PrefabInstance: {fileID: 703738249}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1358422597
 GameObject:
   m_ObjectHideFlags: 0
@@ -18860,6 +18879,10 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4099188412197882921, guid: 1d917315d84837e4daadded5757bb55b, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8445401694593213606, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 411883784}
     - targetCorrespondingSourceObject: {fileID: 8445401694593213606, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       insertIndex: -1
@@ -19749,20 +19772,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f25898993f26445bea7ae460088ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 25
-  fireRate: 600
-  magSize: 30
-  reserveAmmo: 90
-  fireMode: 0
-  maxRange: 1000
-  bulletFlySpeed: 700
-  bulletGravity: -20
-  bulletSpawnPosition: {fileID: 703738250}
-  bulletPrefab: {fileID: 1086664671600574, guid: 9d679713b917df94ba6ebf38bddf67a3,
-    type: 3}
-  muzzleFlash_Particle: {fileID: 1338541256}
-  muzzleFlash_Light: {fileID: 230495592}
-  muzzleFlashLightDuration: 0.05
+  gunData: {fileID: 11400000, guid: 58a24f27db47e15419ad189f4d47c70f, type: 2}
+  bulletSpawnPosition: {fileID: 411883784}
+  muzzleFlashPosition: {fileID: 411883784}
 --- !u!1 &1465097402
 GameObject:
   m_ObjectHideFlags: 0
