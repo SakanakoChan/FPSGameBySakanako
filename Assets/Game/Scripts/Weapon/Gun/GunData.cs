@@ -30,4 +30,8 @@ public class GunData : ScriptableObject
     public ParticleSystem muzzleFlash_Particle;
     public GameObject muzzleFlash_Light;
     public float muzzleFlashLightDuration = 0.05f;
+
+    [Header("Audio info")]
+    public AudioClip fireSound;
+    public AudioClip fireSound_Empty;
 }

@@ -27,3 +27,5 @@ MonoBehaviour:
   muzzleFlash_Light: {fileID: 8398006699242687195, guid: 70836a65199eb614fb6721b3708e0ac9,
     type: 3}
   muzzleFlashLightDuration: 0.05
+  fireSound: {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
+  fireSound_Empty: {fileID: 0}

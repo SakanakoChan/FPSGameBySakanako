@@ -23,6 +23,8 @@ public class Gun : Weapon
     private ParticleSystem muzzleFlash_Particle;
     private GameObject muzzleFlash_Light;
 
+    private AudioSource audioSource;
+
 
     private void Start()
     {
@@ -39,6 +41,9 @@ public class Gun : Weapon
         muzzleFlash_Particle = Instantiate(gunData.muzzleFlash_Particle, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light = Instantiate(gunData.muzzleFlash_Light, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light?.SetActive(false);
+
+        audioSource = GetComponent<AudioSource>();
+        //audioSource.clip = gunData.fireSound;
     }
 
 
@@ -62,6 +67,8 @@ public class Gun : Weapon
         ShowMuzzleFlashFx();
 
         SpawnBullet();
+
+        PlayFireSound();
     }
 
     public override void Reload()
@@ -130,5 +137,12 @@ public class Gun : Weapon
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition.position).normalized;
         Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
         projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition);
+    }
+
+    private void PlayFireSound()
+    {
+        float remainingAmmoPercentInCurrentMag = (float)currentAmmoInMagzine / (float)gunData.magSize;
+        audioSource.pitch = 1 + Mathf.Pow((1 - remainingAmmoPercentInCurrentMag) * 0.25f, 1.5f);
+        audioSource.PlayOneShot(gunData.fireSound);
     }
 }
