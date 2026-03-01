@@ -7,15 +7,6 @@ public class Gun : Weapon
 {
     [Header("Gun data")]
     [SerializeField] private GunData gunData;
-    //[Header("Gun info")]
-    //public int damage;
-    //public float fireRate;
-    //public int magSize;
-    //public int reserveAmmo;
-    //public FireMode fireMode;
-
-    //[Space]
-    //public float maxRange = 1000;
 
     private int currentAmmoInMagzine;
     private int reserveAmmo;
@@ -25,19 +16,12 @@ public class Gun : Weapon
 
     [Header("Bullet info")]
     [SerializeField] private Transform bulletSpawnPosition;
-    //public float bulletFlySpeed = 700;
-    //public float bulletGravity = -5f;
-    //[SerializeField] private GameObject bulletPrefab;
-
 
 
     [Header("FX info")]
     [SerializeField] private Transform muzzleFlashPosition;
     private ParticleSystem muzzleFlash_Particle;
     private GameObject muzzleFlash_Light;
-    //public ParticleSystem muzzleFlash_Particle;
-    //public GameObject muzzleFlash_Light;
-    //public float muzzleFlashLightDuration = 0.05f;
 
 
     private void Start()
@@ -54,6 +38,7 @@ public class Gun : Weapon
 
         muzzleFlash_Particle = Instantiate(gunData.muzzleFlash_Particle, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light = Instantiate(gunData.muzzleFlash_Light, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
+        muzzleFlash_Light?.SetActive(false);
     }
 
 
