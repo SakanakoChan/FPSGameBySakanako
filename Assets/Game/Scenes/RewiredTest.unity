@@ -19754,6 +19754,12 @@ MonoBehaviour:
   magSize: 30
   reserveAmmo: 90
   fireMode: 0
+  maxRange: 1000
+  bulletFlySpeed: 700
+  bulletGravity: -20
+  bulletSpawnPosition: {fileID: 703738250}
+  bulletPrefab: {fileID: 1086664671600574, guid: 9d679713b917df94ba6ebf38bddf67a3,
+    type: 3}
   muzzleFlash_Particle: {fileID: 1338541256}
   muzzleFlash_Light: {fileID: 230495592}
   muzzleFlashLightDuration: 0.05

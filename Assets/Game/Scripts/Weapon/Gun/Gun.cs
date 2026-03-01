@@ -19,9 +19,21 @@ public class Gun : Weapon
     public int reserveAmmo;
     public FireMode fireMode;
 
+    [Space]
+    public float maxRange = 1000;
+
     private int currentAmmoInMagzine;
     private float lastFireTime;
     private float shootInterval;
+
+
+    [Header("Bullet info")]
+    public float bulletFlySpeed = 700;
+    public float bulletGravity = -5f;
+    [SerializeField] private Transform bulletSpawnPosition;
+    [SerializeField] private GameObject bulletPrefab;
+
+
 
     [Header("FX info")]
     [SerializeField] private ParticleSystem muzzleFlash_Particle;
@@ -40,19 +52,41 @@ public class Gun : Weapon
     {
         if (Time.time - lastFireTime < shootInterval)
         {
-            Debug.Log("Due to fire rate limit this gun cannot fire now");
+            //Debug.Log("Due to fire rate limit this gun cannot fire now");
             return;
         }
 
         if (currentAmmoInMagzine <= 0)
         {
-            Debug.Log("No ammo in magzine, gun cannot fire");
+            //Debug.Log("No ammo in magzine, gun cannot fire");
             return;
         }
 
         currentAmmoInMagzine--;
         lastFireTime = Time.time;
         ShowMuzzleFlashFx();
+
+        //raycast detection
+        Camera mainCam = Camera.main;
+        Ray ray = new Ray(mainCam.transform.position, mainCam.transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, maxRange))
+        {
+            Debug.Log("Bullet hit target: " + hit.collider.name);
+        }
+        else
+        {
+            hit.point = ray.origin + ray.direction * maxRange;
+            Debug.LogFormat("Bullet didnt hit any target, stopped at its max range: " + maxRange);
+        }
+
+        //spawn projectile
+        GameObject bullet = Instantiate(bulletPrefab);
+        var projectile = bullet.GetComponent<Projectile>();
+
+        Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition.position).normalized;
+        Vector3 initialVelocity = bulletFlyDirection * bulletFlySpeed;
+        projectile?.SetupProjectile(initialVelocity, bulletGravity, bulletSpawnPosition);
     }
 
     public override void Reload()
