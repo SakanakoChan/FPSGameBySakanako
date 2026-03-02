@@ -26,15 +26,7 @@ public class Projectile : MonoBehaviour
         if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude))
         {
             Debug.Log("Bullet has hit target: " + hit.collider.name);
-
-            if (impactPrefab != null)
-            {
-                Quaternion impactDirection = Quaternion.LookRotation(hit.normal);
-                //impactDirection = Quaternion.LookRotation(Vector3.up);
-                Vector3 impactPosition = hit.point + 0.05f * hit.normal;
-                Instantiate(impactPrefab, impactPosition, impactDirection);
-            }
-
+            SpawnBulletImpact(hit);
             Destroy(gameObject);
             return;
         }
@@ -43,6 +35,7 @@ public class Projectile : MonoBehaviour
         transform.position = currentPosition;
         transform.forward = velocity.normalized;
     }
+
 
     public void SetupProjectile(Vector3 _velocity, float _gravity, Transform _spawnPosition)
     {
@@ -58,6 +51,15 @@ public class Projectile : MonoBehaviour
         StartCoroutine(SelfDestroyWithDelay_Coroutine(10));
     }
 
+    private void SpawnBulletImpact(RaycastHit _hit)
+    {
+        if (impactPrefab != null)
+        {
+            Quaternion impactDirection = Quaternion.LookRotation(_hit.normal);
+            Vector3 impactPosition = _hit.point + 0.05f * _hit.normal;
+            Instantiate(impactPrefab, impactPosition, impactDirection);
+        }
+    }
 
 
     private IEnumerator SelfDestroyWithDelay_Coroutine(float _delay)
