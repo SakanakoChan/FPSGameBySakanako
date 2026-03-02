@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [Header("Bullet Impact info")]
+    [SerializeField] private GameObject impactPrefab;
+
     private Vector3 velocity;
     private float gravity;
     private Vector3 currentPosition;
@@ -23,6 +26,15 @@ public class Projectile : MonoBehaviour
         if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude))
         {
             Debug.Log("Bullet has hit target: " + hit.collider.name);
+
+            if (impactPrefab != null)
+            {
+                Quaternion impactDirection = Quaternion.LookRotation(hit.normal);
+                //impactDirection = Quaternion.LookRotation(Vector3.up);
+                Vector3 impactPosition = hit.point + 0.05f * hit.normal;
+                Instantiate(impactPrefab, impactPosition, impactDirection);
+            }
+
             Destroy(gameObject);
             return;
         }
