@@ -24,6 +24,7 @@ public class Gun : Weapon
     private GameObject muzzleFlash_Light;
 
     private AudioSource audioSource;
+    private CameraRecoil cameraRecoil;
 
 
     private void Start()
@@ -43,6 +44,7 @@ public class Gun : Weapon
         muzzleFlash_Light?.SetActive(false);
 
         audioSource = GetComponent<AudioSource>();
+        cameraRecoil = GetComponentInParent<CameraRecoil>();
         //audioSource.clip = gunData.fireSound;
     }
 
@@ -69,6 +71,9 @@ public class Gun : Weapon
         SpawnBullet();
 
         PlayFireSound();
+
+        Vector2 recoilVelocity = new Vector2(0f, 50f);
+        cameraRecoil?.AddRecoilVelocity(recoilVelocity);
     }
 
     public override void Reload()

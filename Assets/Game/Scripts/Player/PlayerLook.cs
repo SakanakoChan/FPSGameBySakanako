@@ -28,6 +28,8 @@ public class PlayerLook : MonoBehaviour
     public float yaw { get; private set; }
     public float pitch { get; private set; }
 
+    public Vector2 currentLookDelta { get; private set; }
+
 
     [Space]
     [Header("Mouse look control info")]
@@ -53,9 +55,13 @@ public class PlayerLook : MonoBehaviour
     [Header("Common settings")]
     public bool invertYAxis = false;
 
+
+    private CameraRecoil cameraRecoil;
+
     private void Awake()
     {
         //pov = vcam.GetCinemachineComponent<CinemachinePOV>();
+        cameraRecoil = GetComponentInChildren<CameraRecoil>();
     }
 
     private void OnEnable()
@@ -138,10 +144,21 @@ public class PlayerLook : MonoBehaviour
             ModifyPitch(-lookDeltaY);
         }
 
+        //apply recoil
+        float finalYaw = yaw + cameraRecoil.recoilOffset.x;
+        float finalPitch = pitch - cameraRecoil.recoilOffset.y;
+        //yaw += cameraRecoil.recoilOffset.x;
+        //pitch -= cameraRecoil.recoilOffset.y;
+
         //player.rotation = Quaternion.Euler(0, pov.m_HorizontalAxis.Value, 0);
         //cameraPivot.localRotation = Quaternion.Euler(pov.m_VerticalAxis.Value, 0, 0);
+
         player.rotation = Quaternion.Euler(0, yaw, 0);
         cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
+        //player.rotation = Quaternion.Euler(0, finalYaw, 0);
+        //cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
+
+        currentLookDelta = new Vector2(lookDeltaX, lookDeltaY);
 
     }
 

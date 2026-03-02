@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
 
         if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude))
         {
-            Debug.Log("Bullet has hit target: " + hit.collider.name);
+            //Debug.Log("Bullet has hit target: " + hit.collider.name);
             SpawnBulletImpact(hit);
             Destroy(gameObject);
             return;
