@@ -26,6 +26,9 @@ public class Gun : Weapon
     private AudioSource audioSource;
     private CameraRecoil cameraRecoil;
 
+    private int currentRecoilIndex = 0;
+    
+
 
     private void Start()
     {
@@ -48,7 +51,6 @@ public class Gun : Weapon
         //audioSource.clip = gunData.fireSound;
     }
 
-
     public override void TryFire()
     {
         if (Time.time - lastFireTime < shootInterval)
@@ -63,6 +65,9 @@ public class Gun : Weapon
             return;
         }
 
+
+        ApplyRecoilRecovery();
+
         currentAmmoInMagzine--;
         lastFireTime = Time.time;
 
@@ -72,8 +77,7 @@ public class Gun : Weapon
 
         PlayFireSound();
 
-        Vector2 recoilVelocity = new Vector2(5f, 25f);
-        cameraRecoil?.AddRecoilVelocity(recoilVelocity);
+        AddRecoil();
     }
 
     public override void Reload()
@@ -95,6 +99,29 @@ public class Gun : Weapon
 
         currentAmmoInMagzine += ammoToTakeFromReserveAmmo;
         reserveAmmo -= ammoToTakeFromReserveAmmo;
+
+        currentRecoilIndex = 0;
+    }
+
+    private void AddRecoil()
+    {
+        Vector2 recoilImpulse = gunData.recoilPatternList[currentRecoilIndex].recoilImpulse;
+        cameraRecoil?.AddRecoilImpulse(recoilImpulse);
+
+        currentRecoilIndex++;
+        currentRecoilIndex = Mathf.Clamp(currentRecoilIndex, 0, gunData.recoilPatternList.Count - 1);
+    }
+
+    private void ApplyRecoilRecovery()
+    {
+        if (Time.time - lastFireTime > gunData.recoilRecoveryDelay)
+        {
+            float recoveryTime = Time.time - lastFireTime - gunData.recoilRecoveryDelay;
+            int recoveryShots = Mathf.FloorToInt(recoveryTime / gunData.recoilRecoveryInterval);
+
+            currentRecoilIndex -= recoveryShots;
+            currentRecoilIndex = Mathf.Clamp(currentRecoilIndex, 0, gunData.recoilPatternList.Count - 1);
+        }
     }
 
     private void ShowMuzzleFlashFx()

@@ -29,3 +29,36 @@ MonoBehaviour:
   muzzleFlashLightDuration: 0.05
   fireSound: {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
   fireSound_Empty: {fileID: 0}
+  recoilResetDelay: 0.3
+  recoilPatternList:
+  - recoilImpulse: {x: 2.8125, y: 14.0625}
+  - recoilImpulse: {x: -2.8125, y: 11.25}
+  - recoilImpulse: {x: 5.625, y: 11.25}
+  - recoilImpulse: {x: -2.8125, y: 11.25}
+  - recoilImpulse: {x: 0, y: 8.4375}
+  - recoilImpulse: {x: 0, y: 8.4375}
+  - recoilImpulse: {x: -2.8125, y: 8.4375}
+  - recoilImpulse: {x: -5.625, y: 2.8125}
+  - recoilImpulse: {x: -2.8125, y: 2.8125}
+  - recoilImpulse: {x: 0, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 5.625, y: 2.8125}
+  - recoilImpulse: {x: 5.625, y: 2.8125}
+  - recoilImpulse: {x: 0, y: 8.4375}
+  - recoilImpulse: {x: 0, y: 2.8125}
+  - recoilImpulse: {x: 5.625, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 5.625, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  - recoilImpulse: {x: 2.8125, y: 2.8125}
+  multiplyAllRecoilsBy: 0.75

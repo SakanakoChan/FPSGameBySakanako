@@ -28,8 +28,6 @@ public class PlayerLook : MonoBehaviour
     public float yaw { get; private set; }
     public float pitch { get; private set; }
 
-    public Vector2 currentLookDelta { get; private set; }
-
 
     [Space]
     [Header("Mouse look control info")]
@@ -158,9 +156,6 @@ public class PlayerLook : MonoBehaviour
         //cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
         player.rotation = Quaternion.Euler(0, finalYaw, 0);
         cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
-
-        currentLookDelta = new Vector2(lookDeltaX, lookDeltaY);
-
     }
 
     private void OnDestroy()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum FireMode
@@ -34,4 +35,28 @@ public class GunData : ScriptableObject
     [Header("Audio info")]
     public AudioClip fireSound;
     public AudioClip fireSound_Empty;
+
+
+    [Header("Recoil pattern")]
+    public float recoilRecoveryDelay = 0.3f;
+    public float recoilRecoveryInterval = 0.025f;
+    public List<RecoilPattern> recoilPatternList;
+
+
+    [Header("Tools")]
+    [SerializeField] private float multiplyAllRecoilsBy = 3f;
+
+
+    [ContextMenu("Multiply all recoils")]
+    private void MultiplyAllRecoils()
+    {
+        foreach (var recoilPattern in recoilPatternList)
+        {
+            recoilPattern.recoilImpulse *= multiplyAllRecoilsBy;
+        }
+
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
 }

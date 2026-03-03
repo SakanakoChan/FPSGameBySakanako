@@ -18,8 +18,6 @@ public class CameraRecoil : MonoBehaviour
 
     private void Update()
     {
-        //recoilRecoveryTarget += playerLook.currentLookDelta;
-
         float dt = Time.deltaTime;
 
         Vector2 targetRecoil = Vector2.zero;
@@ -28,7 +26,7 @@ public class CameraRecoil : MonoBehaviour
         Vector2 springForce = (targetRecoil - recoilOffset) * springStrength;
         if (recoilRecoveryTimer > 0)
         {
-            springForce *= 0.15f;
+            springForce *= 0f;
         }
 
         // 计算阻尼（减速）
@@ -47,9 +45,9 @@ public class CameraRecoil : MonoBehaviour
         recoilRecoveryTimer -= Time.deltaTime;
     }
 
-    public void AddRecoilVelocity(Vector2 _recoilVelocity)
+    public void AddRecoilImpulse(Vector2 _recoilImpulse)
     {
-        recoilVelocity += _recoilVelocity;
+        recoilVelocity += _recoilImpulse;
         recoilRecoveryTimer = recoilRecoveryDelay;
     }
 
