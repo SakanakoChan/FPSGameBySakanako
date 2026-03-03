@@ -72,7 +72,7 @@ public class Gun : Weapon
 
         PlayFireSound();
 
-        Vector2 recoilVelocity = new Vector2(0f, 50f);
+        Vector2 recoilVelocity = new Vector2(5f, 25f);
         cameraRecoil?.AddRecoilVelocity(recoilVelocity);
     }
 

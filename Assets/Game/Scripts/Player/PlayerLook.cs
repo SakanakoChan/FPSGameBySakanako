@@ -130,33 +130,34 @@ public class PlayerLook : MonoBehaviour
             lookDeltaY = processedLookInputY * Time.deltaTime * verticalSensitivityMultiplier_Controller * sensitivity;
         }
 
-        //pov.m_HorizontalAxis.Value += lookDeltaX;
+
+        //Try to resist recoil
+        if (cameraRecoil != null && cameraRecoil.recoilOffset.magnitude > 0)
+        {
+            lookDeltaX = ResistRecoil(lookDeltaX, ref cameraRecoil.recoilOffset.x);
+            lookDeltaY = ResistRecoil(lookDeltaY, ref cameraRecoil.recoilOffset.y);
+        }
+
+
         yaw += lookDeltaX;
 
         if (invertYAxis)
         {
-            //pov.m_VerticalAxis.Value += lookDeltaY;
             ModifyPitch(lookDeltaY);
         }
         else
         {
-            //pov.m_VerticalAxis.Value -= lookDeltaY;
             ModifyPitch(-lookDeltaY);
         }
 
-        //apply recoil
         float finalYaw = yaw + cameraRecoil.recoilOffset.x;
         float finalPitch = pitch - cameraRecoil.recoilOffset.y;
-        //yaw += cameraRecoil.recoilOffset.x;
-        //pitch -= cameraRecoil.recoilOffset.y;
 
-        //player.rotation = Quaternion.Euler(0, pov.m_HorizontalAxis.Value, 0);
-        //cameraPivot.localRotation = Quaternion.Euler(pov.m_VerticalAxis.Value, 0, 0);
 
-        player.rotation = Quaternion.Euler(0, yaw, 0);
-        cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
-        //player.rotation = Quaternion.Euler(0, finalYaw, 0);
-        //cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
+        //player.rotation = Quaternion.Euler(0, yaw, 0);
+        //cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
+        player.rotation = Quaternion.Euler(0, finalYaw, 0);
+        cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
 
         currentLookDelta = new Vector2(lookDeltaX, lookDeltaY);
 
@@ -211,6 +212,18 @@ public class PlayerLook : MonoBehaviour
         }
 
         return direction * curvedMagnitude;
+    }
+
+    private float ResistRecoil(float _lookDelta, ref float _recoilOffset)
+    {
+        if (Mathf.Sign(_lookDelta) == -Mathf.Sign(_recoilOffset))
+        {
+            float delta = Mathf.Sign(_lookDelta) * Mathf.Min(Mathf.Abs(_lookDelta), Mathf.Abs(_recoilOffset));
+            _recoilOffset += delta;
+            _lookDelta -= delta;
+        }
+
+        return _lookDelta;
     }
 
     private void HandlePause(bool _gameIsPaused)

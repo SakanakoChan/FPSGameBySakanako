@@ -20108,6 +20108,7 @@ MonoBehaviour:
   recoilRecoveryDelay: 0.1
   springStrength: 120
   damping: 15
+  recoilOffset: {x: 0, y: 0}
 --- !u!1 &1503240320
 GameObject:
   m_ObjectHideFlags: 0
