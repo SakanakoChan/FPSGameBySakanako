@@ -136,7 +136,7 @@ public class Gun : Weapon
 
         //******CameraKick
         Vector3 rotationCameraKickImpulse =
-            sign * Random.Range(gunData.cameraKickMultiplierRange_Min, gunData.cameraKickMultiplier_Max) * gunData.basicCameraKick;
+            -sign * Random.Range(gunData.cameraKickMultiplierRange_Min, gunData.cameraKickMultiplier_Max) * gunData.basicCameraKick;
         cameraKick?.AddCameraKick(rotationCameraKickImpulse);
     }
 
