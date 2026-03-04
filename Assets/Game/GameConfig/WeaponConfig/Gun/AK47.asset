@@ -29,7 +29,8 @@ MonoBehaviour:
   muzzleFlashLightDuration: 0.05
   fireSound: {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
   fireSound_Empty: {fileID: 0}
-  recoilResetDelay: 0.3
+  recoilRecoveryDelay: 0.3
+  recoilRecoveryInterval: 0.025
   recoilPatternList:
   - recoilImpulse: {x: 2.8125, y: 14.0625}
   - recoilImpulse: {x: -2.8125, y: 11.25}
@@ -61,4 +62,13 @@ MonoBehaviour:
   - recoilImpulse: {x: 2.8125, y: 2.8125}
   - recoilImpulse: {x: 2.8125, y: 2.8125}
   - recoilImpulse: {x: 2.8125, y: 2.8125}
+  basicPositionGunKick: {x: 0.1, y: 0, z: -0.5}
+  positionGunKickMultiplier_Min: 0.8
+  positionGunKickMultiplier_Max: 1.3
+  basicRotationGunKick: {x: 0, y: 5, z: 20}
+  rotationGunKickMultiplier_Min: 0.8
+  rotationGunKickMultiplier_Max: 1.3
+  basicCameraKick: {x: 0, y: 0, z: 10}
+  cameraKickMultiplierRange_Min: 0.8
+  cameraKickMultiplier_Max: 1.3
   multiplyAllRecoilsBy: 0.75

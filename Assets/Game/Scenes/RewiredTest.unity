@@ -3850,7 +3850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd5fb876226cd8347b9e63bd10f721b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springStrength: 120
+  springStrength: 200
   damping: 9
 --- !u!1 &290776919
 GameObject:
@@ -18841,7 +18841,7 @@ PrefabInstance:
     - target: {fileID: 8445401694592989334, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       propertyPath: m_Name
-      value: P_LPSP_WEP_AR_01
+      value: AK47
       objectReference: {fileID: 0}
     - target: {fileID: 8445401694593213622, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
@@ -19806,6 +19806,7 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 58a24f27db47e15419ad189f4d47c70f, type: 2}
   bulletSpawnPosition: {fileID: 411883784}
   muzzleFlashPosition: {fileID: 411883784}
+  cameraKickImpulse: {x: 0, y: 0, z: 20}
 --- !u!82 &1454342371
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20245,7 +20246,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   springStrength: 3500
-  damping: 40
+  damping: 20
+  recoveryDelay: 0.02
+  springStrengthMultiplierBeforeRecovery: 0
 --- !u!1 &1503240320
 GameObject:
   m_ObjectHideFlags: 0

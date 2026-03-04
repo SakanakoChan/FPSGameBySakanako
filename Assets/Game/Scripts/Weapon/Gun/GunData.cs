@@ -43,6 +43,23 @@ public class GunData : ScriptableObject
     public List<RecoilPattern> recoilPatternList;
 
 
+    [Header("GunKick info")]
+    public Vector3 basicPositionGunKick = new Vector3(0.5f, 0, -0.5f);
+    public float positionGunKickMultiplier_Min = 0.8f;
+    public float positionGunKickMultiplier_Max = 1.3f;
+
+    [Space]
+    public Vector3 basicRotationGunKick = new Vector3(0, 10, 25f);
+    public float rotationGunKickMultiplier_Min = 0.8f;
+    public float rotationGunKickMultiplier_Max = 1.3f;
+
+
+    [Header("Camera kick info")]
+    public Vector3 basicCameraKick = new Vector3(0, 0, 20);
+    public float cameraKickMultiplierRange_Min = 0.8f;
+    public float cameraKickMultiplier_Max = 1.3f;
+
+
     [Header("Tools")]
     [SerializeField] private float multiplyAllRecoilsBy = 3f;
 
