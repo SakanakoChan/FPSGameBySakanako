@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public abstract void TryFire();
+    public abstract bool TryFire();
     public abstract void Reload();
 }

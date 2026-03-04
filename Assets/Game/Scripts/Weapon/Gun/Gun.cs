@@ -58,18 +58,18 @@ public class Gun : Weapon
         //audioSource.clip = gunData.fireSound;
     }
 
-    public override void TryFire()
+    public override bool TryFire()
     {
         if (Time.time - lastFireTime < shootInterval)
         {
             //Debug.Log("Due to fire rate limit this gun cannot fire now");
-            return;
+            return false;
         }
 
         if (currentAmmoInMagzine <= 0)
         {
             //Debug.Log("No ammo in magzine, gun cannot fire");
-            return;
+            return false;
         }
 
 
@@ -85,6 +85,8 @@ public class Gun : Weapon
         PlayFireSound();
 
         AddRecoil();
+
+        return true;
     }
 
     public override void Reload()
