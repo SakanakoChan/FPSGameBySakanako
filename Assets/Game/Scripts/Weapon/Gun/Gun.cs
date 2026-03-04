@@ -26,6 +26,7 @@ public class Gun : Weapon
     private AudioSource audioSource;
     private CameraRecoil cameraRecoil;
     private GunKick gunKick;
+    private CameraKick cameraKick;
 
     private int currentRecoilIndex = 0;
 
@@ -50,6 +51,7 @@ public class Gun : Weapon
         audioSource = GetComponent<AudioSource>();
         cameraRecoil = GetComponentInParent<CameraRecoil>();
         gunKick = GetComponentInParent<GunKick>();
+        cameraKick = GetComponentInParent<CameraKick>();
         //audioSource.clip = gunData.fireSound;
     }
 
@@ -113,9 +115,12 @@ public class Gun : Weapon
         currentRecoilIndex++;
         currentRecoilIndex = Mathf.Clamp(currentRecoilIndex, 0, gunData.recoilPatternList.Count - 1);
 
-        Vector3 positionGunKickImpulse = 0.1f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f));
-        Vector3 rotationGunKickImpulse = 20 * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f));
+        Vector3 positionGunKickImpulse = 0.1f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-3f, -5f));
+        Vector3 rotationGunKickImpulse = 15f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-2f, 2f));
         gunKick?.AddGunKick(positionGunKickImpulse, rotationGunKickImpulse);
+
+        Vector3 rotationCameraKickImpulse = new Vector3(0, 0, Random.Range(-10f, 10f));
+        cameraKick?.AddCameraKick(rotationCameraKickImpulse);
     }
 
     private void ApplyRecoilRecovery()

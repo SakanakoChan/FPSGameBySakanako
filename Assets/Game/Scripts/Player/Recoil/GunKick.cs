@@ -48,7 +48,14 @@ public class GunKick : MonoBehaviour
         rotationVelocityEuler += force * deltaTime;
         rotationOffsetEuler += rotationVelocityEuler * deltaTime;
 
-        transform.localRotation = Quaternion.Euler(rotationOffsetEuler);
+        //transform.localRotation = Quaternion.Euler(rotationOffsetEuler);
+
+        transform.localRotation =
+            Quaternion.AngleAxis(rotationOffsetEuler.x, Vector3.right) *
+            Quaternion.AngleAxis(rotationOffsetEuler.y, Vector3.up) *
+            Quaternion.AngleAxis(rotationOffsetEuler.z, Vector3.forward);
+
+        Debug.Log($"Angle axis: {transform.localRotation.eulerAngles}, original: {rotationOffsetEuler}" );
     }
 
     public void AddGunKick(Vector3 _positionImpulse, Vector3 _rotationImpulseEuler)
