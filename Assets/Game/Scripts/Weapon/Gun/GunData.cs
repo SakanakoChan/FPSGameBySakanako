@@ -19,7 +19,22 @@ public class GunData : ScriptableObject
     public float fireRate;
     public int magSize;
     public int reserveAmmo;
+    public float adsTime = 0.25f;
     public List<FireMode> fireModeList;
+
+    [Header("Hip fire and ADS position")]
+    public Vector3 hipFireGunPosition = new Vector3(0.1773f, -0.2071f, 0.984f);
+    public Vector3 hipFireGunRotationEuler = Vector3.zero;
+
+    [Space]
+    public Vector3 ADSGunPosition;
+    public Vector3 ADSGunRotationEuler;
+    public AnimationCurve adsCurve = new AnimationCurve(
+        new Keyframe(0f, 0f),
+        new Keyframe(0.2f, 0.05f),
+        new Keyframe(0.5f, 0.6f),
+        new Keyframe(1f, 1f)
+        );
 
     [Header("Bullet info")]
     public float bulletFlySpeed;

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Gun : Weapon
 {
+    [SerializeField] private Transform weaponRoot;
+
     [Header("Gun data")]
     [SerializeField] private GunData gunData;
 
@@ -35,6 +37,11 @@ public class Gun : Weapon
     [SerializeField] private Vector3 cameraKickImpulse = new Vector3(0, 0, 20);
 
 
+    private bool isInADS = false;
+    private float adsAlpha = 0;
+    private float adsAlphaTargetValue = 0;
+
+
     private void Start()
     {
         if (gunData == null)
@@ -56,6 +63,35 @@ public class Gun : Weapon
         gunKick = GetComponentInParent<GunKick>();
         cameraKick = GetComponentInParent<CameraKick>();
         //audioSource.clip = gunData.fireSound;
+    }
+
+    private void Update()
+    {
+        adsAlphaTargetValue = isInADS ? 1 : 0;
+        adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / gunData.adsTime);
+
+        AnimationCurve adsCurve = gunData.adsCurve;
+        for (int i = 0; i < adsCurve.length; i++)
+        {
+            adsCurve.SmoothTangents(i, 0f);
+        }
+
+        float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
+
+        //Vector3 gunTargetPosition = isInADS ? gunData.ADSGunPosition : gunData.hipFireGunPosition;
+        //Vector3 gunTargetRotationEuler = isInADS ? gunData.ADSGunRotationEuler : gunData.hipFireGunRotationEuler;
+
+        if (weaponRoot != null)
+        {
+            weaponRoot.localPosition = Vector3.Lerp(gunData.hipFireGunPosition, gunData.ADSGunPosition, easedAlphaValue);
+            weaponRoot.localRotation =
+                Quaternion.Lerp
+                (
+                    Quaternion.Euler(gunData.hipFireGunRotationEuler),
+                    Quaternion.Euler(gunData.ADSGunRotationEuler),
+                    easedAlphaValue
+                );
+        }
     }
 
     public override bool TryFire()
@@ -235,5 +271,20 @@ public class Gun : Weapon
         float remainingAmmoPercentInCurrentMag = (float)currentAmmoInMagzine / (float)gunData.magSize;
         audioSource.pitch = 1 + Mathf.Pow((1 - remainingAmmoPercentInCurrentMag) * 0.25f, 1.5f);
         audioSource.PlayOneShot(gunData.fireSound);
+    }
+
+    public override void EnterADS()
+    {
+        isInADS = true;
+    }
+
+    public override void ExitADS()
+    {
+        isInADS = false;
+    }
+
+    public override float GetADSAlpha()
+    {
+        return adsAlpha;
     }
 }

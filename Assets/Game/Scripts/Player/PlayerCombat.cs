@@ -34,5 +34,20 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon?.Reload();
         }
+
+
+        if (InputManager.instance.AimDownSightHeld)
+        {
+            currentWeapon?.EnterADS();
+            anim.SetBool("Aim", true);
+        }
+        else
+        {
+            currentWeapon?.ExitADS();
+            anim.SetBool("Aim", false);
+        }
+
+        anim.SetFloat("Aiming", currentWeapon.GetADSAlpha());
+
     }
 }

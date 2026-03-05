@@ -61,6 +61,7 @@ public class InputManager : MonoBehaviour
 
     #region Input action properties
     public bool FireHeld => player.GetButton("Fire");
+    public bool AimDownSightHeld => player.GetButton("Aim Down Sight");
     public bool JumpPressed => player.GetButtonDown("Jump");
     public bool CrouchPressed => player.GetButtonDown("Crouch");
     public bool ReloadPressed => player.GetButtonDown("Reload");

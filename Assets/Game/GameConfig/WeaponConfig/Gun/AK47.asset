@@ -16,7 +16,12 @@ MonoBehaviour:
   fireRate: 600
   magSize: 30
   reserveAmmo: 90
+  adsTime: 0.25
   fireModeList: 00000000
+  hipFireGunPosition: {x: 0.1773, y: -0.2071, z: 0.984}
+  hipFireGunRotationEuler: {x: 0, y: 0, z: 0}
+  ADSGunPosition: {x: 0.097, y: -0.212, z: 0.749}
+  ADSGunRotationEuler: {x: 3.22, y: 3.36, z: -1.033}
   bulletFlySpeed: 700
   bulletGravity: -20
   maxRange: 1000

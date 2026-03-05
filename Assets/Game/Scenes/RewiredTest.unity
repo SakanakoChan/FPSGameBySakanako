@@ -3830,13 +3830,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290209434}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1005843012}
-  m_Father: {fileID: 853553557}
+  m_Father: {fileID: 685695944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &290209436
 MonoBehaviour:
@@ -6026,6 +6026,18 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 22
+      _name: Aim Down Sight
+      _type: 1
+      _descriptiveName: Aim Down Sight
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _key: 
+      _positiveKey: 
+      _negativeKey: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -6036,7 +6048,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 00000000010000001500000002000000030000000400000005000000140000000600000007000000090000000a0000000b0000000e0000000f00000010000000110000001200000013000000
+        actionIds: 0000000001000000150000001600000002000000030000000400000005000000140000000600000007000000090000000a0000000b0000000e0000000f00000010000000110000001200000013000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -6227,6 +6239,17 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 22
+        _elementType: 1
+        _elementIdentifierId: 10
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     - id: 2
       categoryId: 0
       layoutId: 0
@@ -6323,7 +6346,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 22
         _elementType: 1
         _elementIdentifierId: 10
         _axisRange: 0
@@ -7206,6 +7229,17 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 22
+        _elementType: 1
+        _elementIdentifierId: 4
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     - id: 2
       categoryId: 2
       layoutId: 0
@@ -7240,7 +7274,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 2
-    actionIdCounter: 22
+    actionIdCounter: 23
     actionCategoryIdCounter: 2
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 3
@@ -8769,7 +8803,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 0
@@ -9934,6 +9968,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681528961}
   m_CullTransparentMesh: 1
+--- !u!1 &685695943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 685695944}
+  - component: {fileID: 685695945}
+  m_Layer: 0
+  m_Name: WeaponLag
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &685695944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685695943}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 290209435}
+  m_Father: {fileID: 853553557}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &685695945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685695943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcd42613233c794898aac0b4c64f2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lagAmount: 3
+  yawOffsetLimit: 3.5
+  pitchOffsetLimit: 2
+  smoothSpeed: 7.5
 --- !u!1 &685951975
 GameObject:
   m_ObjectHideFlags: 0
@@ -10293,7 +10376,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &714962000
 MonoBehaviour:
@@ -10308,7 +10391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.64705884}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12169,7 +12252,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853553557}
-  - component: {fileID: 853553558}
   m_Layer: 0
   m_Name: WeaponRoot
   m_TagString: Untagged
@@ -12190,25 +12272,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 290209435}
+  - {fileID: 685695944}
   m_Father: {fileID: 629698498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &853553558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853553556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dcd42613233c794898aac0b4c64f2fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lagAmount: 3
-  yawOffsetLimit: 3.5
-  pitchOffsetLimit: 2
-  smoothSpeed: 7.5
 --- !u!1 &855054443
 GameObject:
   m_ObjectHideFlags: 0
@@ -16867,8 +16933,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 497081095}
   m_HandleRect: {fileID: 497081094}
   m_Direction: 2
-  m_Value: 1.0000001
-  m_Size: 0.30643135
+  m_Value: 1
+  m_Size: 0.30643132
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19804,6 +19870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f25898993f26445bea7ae460088ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponRoot: {fileID: 853553557}
   gunData: {fileID: 11400000, guid: 58a24f27db47e15419ad189f4d47c70f, type: 2}
   bulletSpawnPosition: {fileID: 411883784}
   muzzleFlashPosition: {fileID: 411883784}
