@@ -40,6 +40,10 @@ public class Gun : Weapon
     private bool isInADS = false;
     private float adsAlpha = 0;
     private float adsAlphaTargetValue = 0;
+    private float adsFOV;
+    private float hipFireFOV;
+    private float adsFOVAlpha = 0;
+    private Camera mainCam;
 
 
     private void Start()
@@ -53,6 +57,11 @@ public class Gun : Weapon
         currentAmmoInMagzine = gunData.magSize;
         reserveAmmo = gunData.reserveAmmo;
         shootInterval = 60f / gunData.fireRate;
+
+        mainCam = Camera.main;
+
+        hipFireFOV = mainCam.fieldOfView;
+        adsFOV = CalculateADSVerticalFOV(hipFireFOV, gunData.adsZoomRatio);
 
         muzzleFlash_Particle = Instantiate(gunData.muzzleFlash_Particle, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light = Instantiate(gunData.muzzleFlash_Light, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
@@ -68,13 +77,16 @@ public class Gun : Weapon
     private void Update()
     {
         adsAlphaTargetValue = isInADS ? 1 : 0;
-        adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / gunData.adsTime);
+        float currentADSTime = isInADS ? gunData.adsTime : gunData.adsTime * gunData.adsExitTimeMultiplier;
+
+        adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / currentADSTime);
+        //adsFOVAlpha = Mathf.SmoothStep(0, 1, adsAlpha);
 
         AnimationCurve adsCurve = gunData.adsCurve;
-        for (int i = 0; i < adsCurve.length; i++)
-        {
-            adsCurve.SmoothTangents(i, 0f);
-        }
+        //for (int i = 0; i < adsCurve.length; i++)
+        //{
+        //    adsCurve.SmoothTangents(i, 0f);
+        //}
 
         float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
 
@@ -91,7 +103,11 @@ public class Gun : Weapon
                     Quaternion.Euler(gunData.ADSGunRotationEuler),
                     easedAlphaValue
                 );
+
+            mainCam.fieldOfView = Mathf.Lerp(hipFireFOV, adsFOV, adsAlpha);
         }
+
+
     }
 
     public override bool TryFire()
@@ -286,5 +302,14 @@ public class Gun : Weapon
     public override float GetADSAlpha()
     {
         return adsAlpha;
+    }
+
+    private float CalculateADSVerticalFOV(float hipFOV, float zoomMultiplier)
+    {
+        float hipFOVRad = hipFOV * Mathf.Deg2Rad;
+
+        float adsFOVRad = 2f * Mathf.Atan(Mathf.Tan(hipFOVRad * 0.5f) / zoomMultiplier);
+
+        return adsFOVRad * Mathf.Rad2Deg;
     }
 }
