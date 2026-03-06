@@ -15,13 +15,57 @@ MonoBehaviour:
   damage: 25
   fireRate: 600
   magSize: 30
-  reserveAmmo: 90
-  adsTime: 0.25
+  reserveAmmo: 999999
   fireModeList: 00000000
   hipFireGunPosition: {x: 0.1773, y: -0.2071, z: 0.984}
   hipFireGunRotationEuler: {x: 0, y: 0, z: 0}
+  adsTime: 0.25
+  adsExitTimeMultiplier: 0.6
+  adsZoomRatio: 1.25
   ADSGunPosition: {x: 0.097, y: -0.212, z: 0.749}
   ADSGunRotationEuler: {x: 3.22, y: 3.36, z: -1.033}
+  adsCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: 0.05
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   bulletFlySpeed: 700
   bulletGravity: -20
   maxRange: 1000

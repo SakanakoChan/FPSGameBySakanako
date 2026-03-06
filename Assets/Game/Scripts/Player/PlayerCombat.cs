@@ -26,7 +26,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     //play arm fire animation to add animated gunkick
                     //(to combine with code driven gunkick)
-                    //anim.Play("Fire", 2, 0);
+                    if(isInADS == false) anim.Play("Fire", 2, 0);
                 }
             }
 

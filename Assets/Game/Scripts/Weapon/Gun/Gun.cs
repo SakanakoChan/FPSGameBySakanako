@@ -230,25 +230,30 @@ public class Gun : Weapon
             -sign *
             Random.Range(gunData.positionGunKickMultiplier_Min, gunData.positionGunKickMultiplier_Max) *
             Random.Range(0, gunData.basicPositionGunKick.x);
-        Vector3 x = positionGunKickX * mainCam.transform.right;
+
+        if (isInADS)
+        {
+            positionGunKickX *= 0.4f;
+        }
+        //Vector3 x = positionGunKickX * mainCam.transform.right;
 
         float positionGunKickY = 0 * Random.Range(0f, 0.5f);
-        Vector3 y = positionGunKickY * mainCam.transform.up;
+        //Vector3 y = positionGunKickY * mainCam.transform.up;
 
 
         float positionGunKickZ =
             Random.Range(gunData.positionGunKickMultiplier_Min, gunData.positionGunKickMultiplier_Max) *
             gunData.basicPositionGunKick.z;
-        Vector3 z = positionGunKickZ * mainCam.transform.forward;
+        //Vector3 z = positionGunKickZ * mainCam.transform.forward;
 
-        Vector3 temp = x + y + z;
+        //Vector3 temp = x + y + z;
 
         Vector3 positionGunKickImpulse = new Vector3(positionGunKickX, positionGunKickY, positionGunKickZ);
         //Vector3 positionGunKickImpulse = gunKick.transform.parent.InverseTransformVector(temp);
-        if (isInADS)
-        {
-            positionGunKickImpulse *= 0.4f;
-        }
+        //if (isInADS)
+        //{
+        //    positionGunKickImpulse *= 1f;
+        //}
 
         return positionGunKickImpulse;
     }
