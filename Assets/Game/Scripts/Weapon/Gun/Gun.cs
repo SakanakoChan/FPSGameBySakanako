@@ -195,7 +195,7 @@ public class Gun : Weapon
 
     private Vector3 CalculateRotationGunKickImpulse(float sign)
     {
-        float rotationGunKickX = Random.Range(0f, 0.5f);
+        float rotationGunKickX = 0 * Random.Range(0f, 0.5f);
         float rotationGunKickY =
             sign *
             Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
