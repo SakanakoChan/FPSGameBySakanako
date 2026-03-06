@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class WeaponLag : MonoBehaviour
 {
-    [SerializeField] private float lagAmount = 0.05f;
+    [SerializeField] private float lagAmount = 3f;
+    [SerializeField] private float adsLagAmount = 1.5f;
 
     [Space]
-    [SerializeField] private float yawOffsetLimit = 5f;
-    [SerializeField] private float pitchOffsetLimit = 5f;
+    [SerializeField] private float yawOffsetLimit = 3.5f;
+    [SerializeField] private float pitchOffsetLimit = 2f;
+
+    [Space]
+    [SerializeField] private float adsYawOffsetLimit = 0.1f;
+    [SerializeField] private float adsPitchOffsetLimit = 0.05f;
 
     [Space]
     [SerializeField] private float smoothSpeed = 10f;
@@ -23,10 +28,13 @@ public class WeaponLag : MonoBehaviour
     private float currentYawOffset;
     private float currentPitchOffset;
 
+    private Weapon currentWeapon;
+
 
     private void Start()
     {
         playerLook = GetComponentInParent<PlayerLook>();
+        currentWeapon = GetComponentInChildren<Weapon>();
     }
 
     private void LateUpdate()
@@ -37,11 +45,16 @@ public class WeaponLag : MonoBehaviour
         float deltaYaw = Mathf.DeltaAngle(yaw, lastYaw);
         float deltaPitch = Mathf.DeltaAngle(lastPitch, pitch);
 
-        float targetYawOffset = -deltaYaw * lagAmount;
-        float targetPitchOffset = -deltaPitch * lagAmount;
+        float currentLagAmount = currentWeapon.isInADS ? adsLagAmount : lagAmount;
 
-        targetYawOffset = Mathf.Clamp(targetYawOffset, -yawOffsetLimit, yawOffsetLimit);
-        targetPitchOffset = Mathf.Clamp(targetPitchOffset, -pitchOffsetLimit, pitchOffsetLimit);
+        float targetYawOffset = -deltaYaw * currentLagAmount;
+        float targetPitchOffset = -deltaPitch * currentLagAmount;
+
+        float currentYawOffsetLimit = currentWeapon.isInADS ? adsYawOffsetLimit : yawOffsetLimit;
+        float currentPitchOffsetLimit = currentWeapon.isInADS ? adsPitchOffsetLimit : pitchOffsetLimit;
+
+        targetYawOffset = Mathf.Clamp(targetYawOffset, -currentYawOffsetLimit, currentYawOffsetLimit);
+        targetPitchOffset = Mathf.Clamp(targetPitchOffset, -currentPitchOffsetLimit, currentPitchOffsetLimit);
 
         currentYawOffset = Mathf.Lerp(currentYawOffset, targetYawOffset, smoothSpeed * Time.deltaTime);
         currentPitchOffset = Mathf.Lerp(currentPitchOffset, targetPitchOffset, smoothSpeed * Time.deltaTime);

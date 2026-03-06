@@ -7,6 +7,8 @@ public class PlayerCombat : MonoBehaviour
     private Weapon currentWeapon;
     public Animator anim;
 
+    public bool isInADS { get; private set; }
+
     private void Start()
     {
         currentWeapon = GetComponentInChildren<Weapon>();
@@ -40,11 +42,13 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon?.EnterADS();
             anim.SetBool("Aim", true);
+            isInADS = true;
         }
         else
         {
             currentWeapon?.ExitADS();
             anim.SetBool("Aim", false);
+            isInADS = false;
         }
 
         anim.SetFloat("Aiming", currentWeapon.GetADSAlpha());

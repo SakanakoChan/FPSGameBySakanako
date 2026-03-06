@@ -10014,8 +10014,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lagAmount: 3
+  adsLagAmount: 1.5
   yawOffsetLimit: 3.5
   pitchOffsetLimit: 2
+  adsYawOffsetLimit: 0.1
+  adsPitchOffsetLimit: 0.05
   smoothSpeed: 7.5
 --- !u!1 &685951975
 GameObject:

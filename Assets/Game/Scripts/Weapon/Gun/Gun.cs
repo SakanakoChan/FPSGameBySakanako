@@ -37,12 +37,13 @@ public class Gun : Weapon
     [SerializeField] private Vector3 cameraKickImpulse = new Vector3(0, 0, 20);
 
 
-    private bool isInADS = false;
+    //public bool isInADS { get; private set; } = false;
     private float adsAlpha = 0;
     private float adsAlphaTargetValue = 0;
     private float adsFOV;
     private float hipFireFOV;
     private float adsFOVAlpha = 0;
+
     private Camera mainCam;
 
 

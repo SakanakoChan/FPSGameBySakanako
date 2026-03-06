@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    public bool isInADS { get; protected set; } = false;
+
     public abstract bool TryFire();
     public abstract void Reload();
 
