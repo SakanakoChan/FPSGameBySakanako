@@ -178,7 +178,7 @@ public class Gun : Weapon
 
         //******Position GunKick
         Vector3 positionGunKickImpulse = CalculatePositionGunKickImpulse(sign);
-        //positionGunKickImpulse *= 0f;
+        positionGunKickImpulse *= 0f;
         //Vector3 positionGunKickImpulse = 0.1f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-3f, -5f));
 
         //******Rotation GunKick

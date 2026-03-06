@@ -3948,38 +3948,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275290603}
   m_CullTransparentMesh: 1
---- !u!1 &290209434
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 290209435}
-  m_Layer: 0
-  m_Name: GunKick_Recoil
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &290209435
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290209434}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1005843012}
-  m_Father: {fileID: 685695944}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &290776919
 GameObject:
   m_ObjectHideFlags: 0
@@ -10126,7 +10094,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 290209435}
+  - {fileID: 1005843012}
   m_Father: {fileID: 853553557}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &685695945
@@ -13171,7 +13139,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 290209435}
+    m_TransformParent: {fileID: 685695944}
     m_Modifications:
     - target: {fileID: 634105038903191, guid: 2b72b3ca3149a994c95a391a88dc5d95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14828,6 +14796,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1594871047}
+    - targetCorrespondingSourceObject: {fileID: 5491169515376625166, guid: 2b72b3ca3149a994c95a391a88dc5d95,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1200964492}
+    - targetCorrespondingSourceObject: {fileID: 5491169515376625166, guid: 2b72b3ca3149a994c95a391a88dc5d95,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1602176171}
     - targetCorrespondingSourceObject: {fileID: 8923392988868635881, guid: 2b72b3ca3149a994c95a391a88dc5d95,
         type: 3}
       insertIndex: 0
@@ -18109,12 +18085,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1200964491}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.053653277, y: -0.93073034, z: -0.0008930861, w: -0.361748}
-  m_LocalPosition: {x: -0.046700634, y: 0.009485573, z: 0.18923427}
+  m_LocalRotation: {x: -0.33771697, y: -0.48389658, z: -0.54038495, w: -0.5998129}
+  m_LocalPosition: {x: 0.41016185, y: -0.59346616, z: 0.0014234781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1495203931}
+  m_Father: {fileID: 1005843012}
   m_LocalEulerAnglesHint: {x: -47.585, y: 93.158, z: 93.441}
 --- !u!114 &1200964493
 MonoBehaviour:
@@ -20787,7 +20763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd5fb876226cd8347b9e63bd10f721b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunkickPivot: {fileID: 0}
   springStrength: 200
   damping: 12
 --- !u!1 &1465097402
@@ -21160,13 +21135,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495203930}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.68523, y: -0.026806742, z: -0.014592573, w: 0.72768706}
-  m_LocalPosition: {x: 0.019, y: 0.009, z: 0.035}
+  m_LocalRotation: {x: 0.68522996, y: -0.026806738, z: -0.014592588, w: 0.72768706}
+  m_LocalPosition: {x: 0.018999955, y: 0.009000119, z: 0.035000034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1602176171}
-  - {fileID: 1200964492}
   - {fileID: 1454342368}
   m_Father: {fileID: 2085447388}
   m_LocalEulerAnglesHint: {x: 85.194, y: -44.773, z: -43.782}
@@ -22266,12 +22239,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602176170}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6064264, y: -0.50161374, z: -0.406596, w: 0.4640156}
-  m_LocalPosition: {x: 0.02819957, y: -0.055814624, z: -0.14206578}
+  m_LocalRotation: {x: -0.020429626, y: -0.23765936, z: -0.8692551, w: 0.43300846}
+  m_LocalPosition: {x: 0.70573676, y: -0.41412687, z: -0.00891}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1495203931}
+  m_Father: {fileID: 1005843012}
   m_LocalEulerAnglesHint: {x: -13.812, y: 1.63, z: -80.823}
 --- !u!114 &1602176172
 MonoBehaviour:

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GunKick : MonoBehaviour
 {
-    [Header("Basic info")]
-    [SerializeField] private Transform gunkickPivot;
-
     [Header("Spring info")]
     [SerializeField] private float springStrength = 120;
     [SerializeField] private float damping = 15;
