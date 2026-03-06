@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GunKick : MonoBehaviour
 {
+    [Header("Basic info")]
+    [SerializeField] private Transform gunkickPivot;
+
     [Header("Spring info")]
     [SerializeField] private float springStrength = 120;
     [SerializeField] private float damping = 15;
@@ -13,6 +16,19 @@ public class GunKick : MonoBehaviour
 
     private Vector3 rotationOffsetEuler;
     private Vector3 rotationVelocityEuler;
+
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+
+    private Camera mainCam;
+
+    private void Start()
+    {
+        mainCam = Camera.main;
+
+        originalPosition = transform.localPosition;
+        originalRotation = transform.localRotation;
+    }
 
     private void Update()
     {
@@ -34,7 +50,7 @@ public class GunKick : MonoBehaviour
         positionVelocity += force * deltaTime;
         positionOffset += positionVelocity * deltaTime;
 
-        transform.localPosition = positionOffset;
+        transform.localPosition = originalPosition + positionOffset;
     }
 
     private void RotationGunKickLogic(float deltaTime)
@@ -48,14 +64,15 @@ public class GunKick : MonoBehaviour
         rotationVelocityEuler += force * deltaTime;
         rotationOffsetEuler += rotationVelocityEuler * deltaTime;
 
-        //transform.localRotation = Quaternion.Euler(rotationOffsetEuler);
+        transform.localRotation = originalRotation * Quaternion.Euler(rotationOffsetEuler);
 
-        transform.localRotation =
-            Quaternion.AngleAxis(rotationOffsetEuler.x, Vector3.right) *
-            Quaternion.AngleAxis(rotationOffsetEuler.y, Vector3.up) *
-            Quaternion.AngleAxis(rotationOffsetEuler.z, Vector3.forward);
+        //Quaternion worldRotation =
+        //    Quaternion.AngleAxis(rotationOffsetEuler.x, mainCam.transform.right) *
+        //    Quaternion.AngleAxis(rotationOffsetEuler.y, mainCam.transform.up) *
+        //    Quaternion.AngleAxis(rotationOffsetEuler.z, mainCam.transform.forward);
 
-        //Debug.Log($"Angle axis: {transform.localRotation.eulerAngles}, original: {rotationOffsetEuler}" );
+
+        //transform.localRotation = Quaternion.Inverse(transform.parent.rotation) * worldRotation;
     }
 
     public void AddGunKick(Vector3 _positionImpulse, Vector3 _rotationImpulseEuler)

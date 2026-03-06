@@ -178,10 +178,12 @@ public class Gun : Weapon
 
         //******Position GunKick
         Vector3 positionGunKickImpulse = CalculatePositionGunKickImpulse(sign);
+        //positionGunKickImpulse *= 0f;
         //Vector3 positionGunKickImpulse = 0.1f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-3f, -5f));
 
         //******Rotation GunKick
         Vector3 rotationGunKickImpulse = CalculateRotationGunKickImpulse(sign);
+        //rotationGunKickImpulse = Vector3.zero;
         //Vector3 rotationGunKickImpulse = 15f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-2f, 2f));
         gunKick?.AddGunKick(positionGunKickImpulse, rotationGunKickImpulse);
 
@@ -195,17 +197,30 @@ public class Gun : Weapon
 
     private Vector3 CalculateRotationGunKickImpulse(float sign)
     {
-        float rotationGunKickX = 0 * Random.Range(0f, 0.5f);
+        float rotationGunKickX = /*0 **/ Random.Range(-15f, -5f);
         float rotationGunKickY =
             sign *
             Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
-            gunData.basicRotationGunKick.y;
+            gunData.basicRotationGunKick.y * 0;
         float rotationGunKickZ =
             -sign *
             Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
-            gunData.basicRotationGunKick.z;
+            gunData.basicRotationGunKick.z * 0;
+
+        //Quaternion gunKickRotationInCamSpace =
+        //    Quaternion.AngleAxis(rotationGunKickX, mainCam.transform.right) *
+        //    Quaternion.AngleAxis(rotationGunKickY, mainCam.transform.up) *
+        //    Quaternion.AngleAxis(rotationGunKickZ, mainCam.transform.forward);
+
+        //Quaternion gunKickRotationInLocalSpace = Quaternion.Inverse(gunKick.transform.parent.rotation) * gunKickRotationInCamSpace;
 
         Vector3 rotationGunKickImpulse = new Vector3(rotationGunKickX, rotationGunKickY, rotationGunKickZ);
+        //Vector3 rotationGunKickImpulse = gunKickRotationInLocalSpace.eulerAngles;
+        if (isInADS)
+        {
+            rotationGunKickImpulse *= 2f;
+        }
+
         return rotationGunKickImpulse;
     }
 
@@ -215,12 +230,26 @@ public class Gun : Weapon
             -sign *
             Random.Range(gunData.positionGunKickMultiplier_Min, gunData.positionGunKickMultiplier_Max) *
             Random.Range(0, gunData.basicPositionGunKick.x);
+        Vector3 x = positionGunKickX * mainCam.transform.right;
+
         float positionGunKickY = 0 * Random.Range(0f, 0.5f);
+        Vector3 y = positionGunKickY * mainCam.transform.up;
+
+
         float positionGunKickZ =
             Random.Range(gunData.positionGunKickMultiplier_Min, gunData.positionGunKickMultiplier_Max) *
             gunData.basicPositionGunKick.z;
+        Vector3 z = positionGunKickZ * mainCam.transform.forward;
+
+        Vector3 temp = x + y + z;
 
         Vector3 positionGunKickImpulse = new Vector3(positionGunKickX, positionGunKickY, positionGunKickZ);
+        //Vector3 positionGunKickImpulse = gunKick.transform.parent.InverseTransformVector(temp);
+        if (isInADS)
+        {
+            positionGunKickImpulse *= 0.4f;
+        }
+
         return positionGunKickImpulse;
     }
 
