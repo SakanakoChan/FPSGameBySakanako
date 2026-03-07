@@ -18,6 +18,7 @@ public class Gun : Weapon
     [Header("ADS aimpoint info")]
     [SerializeField] private Transform aimPoint;
     [SerializeField] private HipFireCrosshair hipFireCrosshair;
+    private Canvas hudCanvas;
 
 
     [Header("Bullet info")]
@@ -45,11 +46,15 @@ public class Gun : Weapon
     //public bool isInADS { get; private set; } = false;
     public float adsAlpha { get; private set; } = 0;
     private float adsAlphaTargetValue = 0;
-    public float  adsFOV { get; private set;  }
+    public float adsFOV { get; private set; }
     public float hipFireFOV { get; private set; }
-    private float adsFOVAlpha = 0;
+    //private float adsFOVAlpha = 0;
+
+
+    private float currentSpreadAngle;
 
     private Camera mainCam;
+
 
 
     private void Start()
@@ -69,6 +74,8 @@ public class Gun : Weapon
         hipFireFOV = mainCam.fieldOfView;
         adsFOV = CalculateADSVerticalFOV(hipFireFOV, gunData.adsZoomRatio);
 
+        currentSpreadAngle = gunData.basicHipFireSpreadAngle;
+
         logicBulletStartPosition = mainCam.transform.position;
 
         muzzleFlash_Particle = Instantiate(gunData.muzzleFlash_Particle, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
@@ -79,27 +86,95 @@ public class Gun : Weapon
         cameraRecoil = GetComponentInParent<CameraRecoil>();
         gunKick = GetComponentInParent<GunKick>();
         cameraKick = GetComponentInParent<CameraKick>();
+        
+        hudCanvas = hipFireCrosshair.GetComponentInParent<Canvas>();
         //audioSource.clip = gunData.fireSound;
     }
 
     private void Update()
     {
+        ADSLogic();
+
+        SpreadRecovery();
+
+        SyncSpreadWithHipFireCrosshair();
+    }
+
+
+
+    public override bool TryFire()
+    {
+        if (Time.time - lastFireTime < shootInterval)
+        {
+            //Debug.Log("Due to fire rate limit this gun cannot fire now");
+            return false;
+        }
+
+        if (currentAmmoInMagzine <= 0)
+        {
+            //Debug.Log("No ammo in magzine, gun cannot fire");
+            return false;
+        }
+
+
+        ApplyRecoilRecovery();
+
+        currentAmmoInMagzine--;
+        lastFireTime = Time.time;
+
+        ShowMuzzleFlashFx();
+
+        SpawnBullet();
+
+        PlayFireSound();
+
+        AddRecoil();
+
+        AddSpread();
+
+        return true;
+    }
+
+
+
+    public override void Reload()
+    {
+        if (currentAmmoInMagzine >= gunData.magSize)
+        {
+            Debug.Log("Mag is full, cannot reload");
+            return;
+        }
+
+        if (reserveAmmo <= 0)
+        {
+            Debug.Log("No reserve ammo, cannot reload");
+            return;
+        }
+
+        int ammoToTakeFromReserveAmmo = gunData.magSize - currentAmmoInMagzine;
+        ammoToTakeFromReserveAmmo = Mathf.Min(ammoToTakeFromReserveAmmo, reserveAmmo);
+
+        currentAmmoInMagzine += ammoToTakeFromReserveAmmo;
+        reserveAmmo -= ammoToTakeFromReserveAmmo;
+
+        currentRecoilIndex = 0;
+    }
+
+
+    private void ADSLogic()
+    {
         float currentADSTime;
         if (isInADS)
         {
-            //hipFireCrosshair?.SetFollowTarget(aimPoint);
             adsAlphaTargetValue = 1;
             currentADSTime = gunData.adsTime;
         }
         else
         {
-            //hipFireCrosshair?.SetFollowTarget(null);
             adsAlphaTargetValue = 0;
             currentADSTime = gunData.adsTime * gunData.adsExitTimeMultiplier;
         }
 
-        //adsAlphaTargetValue = isInADS ? 1 : 0;
-        //float currentADSTime = isInADS ? gunData.adsTime : gunData.adsTime * gunData.adsExitTimeMultiplier;
 
         adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / currentADSTime);
 
@@ -132,59 +207,28 @@ public class Gun : Weapon
         }
     }
 
-    public override bool TryFire()
+    private void SpreadRecovery()
     {
-        if (Time.time - lastFireTime < shootInterval)
-        {
-            //Debug.Log("Due to fire rate limit this gun cannot fire now");
-            return false;
-        }
-
-        if (currentAmmoInMagzine <= 0)
-        {
-            //Debug.Log("No ammo in magzine, gun cannot fire");
-            return false;
-        }
-
-
-        ApplyRecoilRecovery();
-
-        currentAmmoInMagzine--;
-        lastFireTime = Time.time;
-
-        ShowMuzzleFlashFx();
-
-        SpawnBullet();
-
-        PlayFireSound();
-
-        AddRecoil();
-
-        return true;
+        currentSpreadAngle = Mathf.MoveTowards(currentSpreadAngle, gunData.basicHipFireSpreadAngle, gunData.hipFireSpreadRecoverySpeed * Time.deltaTime);
+        currentSpreadAngle = Mathf.Clamp(currentSpreadAngle, gunData.basicHipFireSpreadAngle, gunData.maxHipFireSpreadAngle);
     }
 
-    public override void Reload()
+    private void SyncSpreadWithHipFireCrosshair()
     {
-        if (currentAmmoInMagzine >= gunData.magSize)
-        {
-            Debug.Log("Mag is full, cannot reload");
-            return;
-        }
+        float spreadRad = currentSpreadAngle * Mathf.Deg2Rad;
+        float fovRad = hipFireFOV * Mathf.Deg2Rad;
 
-        if (reserveAmmo <= 0)
-        {
-            Debug.Log("No reserve ammo, cannot reload");
-            return;
-        }
+        float pixelOffset =
+            Mathf.Tan(spreadRad) /
+            Mathf.Tan(fovRad * 0.5f) *
+            (Screen.height * 0.5f);
 
-        int ammoToTakeFromReserveAmmo = gunData.magSize - currentAmmoInMagzine;
-        ammoToTakeFromReserveAmmo = Mathf.Min(ammoToTakeFromReserveAmmo, reserveAmmo);
+        float uiOffset = pixelOffset / hudCanvas.scaleFactor;
 
-        currentAmmoInMagzine += ammoToTakeFromReserveAmmo;
-        reserveAmmo -= ammoToTakeFromReserveAmmo;
-
-        currentRecoilIndex = 0;
+        hipFireCrosshair?.SetLineTargetOffset(uiOffset);
     }
+
+
 
     private void AddRecoil()
     {
@@ -218,7 +262,7 @@ public class Gun : Weapon
 
     private Vector3 CalculateRotationGunKickImpulse(float sign)
     {
-        float rotationGunKickX = 
+        float rotationGunKickX =
             Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
             gunData.basicRotationGunKick.x;
 
@@ -302,7 +346,12 @@ public class Gun : Weapon
     private void SpawnBullet()
     {
         //raycast detection
-        Ray ray = new Ray(logicBulletStartPosition/*mainCam.transform.position*/, mainCam.transform.forward);
+        Vector2 spreadOffset = Random.insideUnitCircle * currentSpreadAngle;
+        Quaternion spread = Quaternion.Euler(spreadOffset.y, spreadOffset.x, 0);
+
+        Vector3 rayDirection = spread * mainCam.transform.forward;
+
+        Ray ray = new Ray(logicBulletStartPosition/*mainCam.transform.position*/, rayDirection/*mainCam.transform.forward*/);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, gunData.maxRange))
         {
@@ -321,6 +370,12 @@ public class Gun : Weapon
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition.position).normalized;
         Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
         projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition);
+    }
+
+    private void AddSpread()
+    {
+        currentSpreadAngle += gunData.hipFireSpreadPunishmentPerShot;
+        currentSpreadAngle = Mathf.Clamp(currentSpreadAngle, gunData.basicHipFireSpreadAngle, gunData.maxHipFireSpreadAngle);
     }
 
     private void PlayFireSound()

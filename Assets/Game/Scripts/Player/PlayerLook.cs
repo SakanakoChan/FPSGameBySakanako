@@ -116,7 +116,7 @@ public class PlayerLook : MonoBehaviour
                 sensitivity = ApplyADSSensitivityTransition(lookSensitivity_Mouse, adsCompleteSensitivity);
             }
 
-            Debug.Log("Mouse Sensitivity: " + sensitivity);
+            //Debug.Log("Mouse Sensitivity: " + sensitivity);
 
 
             //in rewired, mouse related axis actions always return relative value

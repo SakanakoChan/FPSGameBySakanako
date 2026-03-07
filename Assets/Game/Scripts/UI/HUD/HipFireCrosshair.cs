@@ -9,6 +9,19 @@ public class HipFireCrosshair : MonoBehaviour
     private RectTransform rectTransform;
     private Camera mainCam;
 
+    [Header("Line offset info")]
+    [SerializeField] private RectTransform line_Left;
+    [SerializeField] private RectTransform line_Right;
+    [SerializeField] private RectTransform line_Up;
+    [SerializeField] private RectTransform line_Down;
+
+    [Space]
+    [SerializeField] private float smoothSpeed = 10f;
+
+    private float targetLineOffset;
+    private float currentLineOffset;
+
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -28,6 +41,16 @@ public class HipFireCrosshair : MonoBehaviour
         {
             rectTransform.localPosition = Vector2.zero;
         }
+
+
+        //Sync Spread
+        currentLineOffset = targetLineOffset;
+        //currentLineOffset = Mathf.Lerp(currentLineOffset, targetLineOffset, smoothSpeed * Time.deltaTime);
+
+        line_Left.localPosition = new Vector2(-currentLineOffset, 0);
+        line_Right.localPosition = new Vector2(currentLineOffset, 0);
+        line_Up.localPosition = new(0, currentLineOffset);
+        line_Down.localPosition = new(0, -currentLineOffset);
     }
 
 
@@ -39,5 +62,11 @@ public class HipFireCrosshair : MonoBehaviour
     public void SetFollowTarget(Transform _followTarget)
     {
         followTarget = _followTarget;
+    }
+
+
+    public void SetLineTargetOffset(float _targetOffset)
+    {
+        targetLineOffset = _targetOffset;
     }
 }

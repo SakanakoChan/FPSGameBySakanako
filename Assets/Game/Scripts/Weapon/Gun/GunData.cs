@@ -78,6 +78,12 @@ public class GunData : ScriptableObject
     public float cameraKickMultiplierRange_Min = 0.8f;
     public float cameraKickMultiplier_Max = 1.3f;
 
+    [Header("Spread info")]
+    [Tooltip("Angles in degree")]
+    public float basicHipFireSpreadAngle = 3f;
+    public float maxHipFireSpreadAngle = 45f;
+    public float hipFireSpreadPunishmentPerShot = 3f;
+    public float hipFireSpreadRecoverySpeed = 45f;
 
     [Header("Tools")]
     [SerializeField] private float multiplyAllRecoilsBy = 3f;

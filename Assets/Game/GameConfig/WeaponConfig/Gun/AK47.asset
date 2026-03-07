@@ -120,4 +120,8 @@ MonoBehaviour:
   basicCameraKick: {x: 0, y: 0, z: 10}
   cameraKickMultiplierRange_Min: 0.8
   cameraKickMultiplier_Max: 1.3
+  basicHipFireSpreadAngle: 3
+  maxHipFireSpreadAngle: 25
+  hipFireSpreadPunishmentPerShot: 14
+  hipFireSpreadRecoverySpeed: 90
   multiplyAllRecoilsBy: 0.75
