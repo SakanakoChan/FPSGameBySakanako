@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class GameSettings
 {
+    #region Controller Settings
     public static bool controllerAutoSprint => SaveManager.instance.GetSettingsBool("ControllerAutoSprint");
     public static float controllerLookSensitivity => SaveManager.instance.GetSettingsFloat("ControllerLookSensitivity");
     public static float controllerVerticalSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("ControllerVerticalSensitivityMultiplier");
@@ -18,4 +19,10 @@ public static class GameSettings
     public static float verticalTurnAccelerationStartDelay => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationStartDelay");
     public static float verticalTurnAccelerationRampUpTime => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationRampUpTime");
     public static float verticalTurnAccelerationSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationSensitivityMultiplier");
+    public static ADSSensitivityTransition controllerADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("ControllerADSSensitivityTransition");
+    #endregion
+
+    #region Mouse Settings
+    public static ADSSensitivityTransition mouseADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("MouseADSSensitivityTransition");
+    #endregion
 }

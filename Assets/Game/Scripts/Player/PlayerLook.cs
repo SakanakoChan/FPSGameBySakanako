@@ -108,13 +108,15 @@ public class PlayerLook : MonoBehaviour
         {
             sensitivity = lookSensitivity_Mouse;
 
+            //apply ads sensitivity transition
             if (currentGun != null)
             {
                 float adsCompleteSensitivity = lookSensitivity_Mouse * (currentGun.adsFOV / currentGun.hipFireFOV);
-                sensitivity = Mathf.Lerp(lookSensitivity_Mouse, adsCompleteSensitivity, currentGun.adsAlpha);
+
+                sensitivity = ApplyADSSensitivityTransition(lookSensitivity_Mouse, adsCompleteSensitivity);
             }
 
-            //Debug.Log("Mouse Sensitivity: " + sensitivity);
+            Debug.Log("Mouse Sensitivity: " + sensitivity);
 
 
             //in rewired, mouse related axis actions always return relative value
@@ -128,10 +130,12 @@ public class PlayerLook : MonoBehaviour
         {
             sensitivity = lookSensitivity_Controller;
 
+            //apply ads sensitivity transition
             if (currentGun != null)
             {
                 float adsCompleteSensitivity = lookSensitivity_Controller * (currentGun.adsFOV / currentGun.hipFireFOV);
-                sensitivity = Mathf.Lerp(lookSensitivity_Controller, adsCompleteSensitivity, currentGun.adsAlpha);
+
+                sensitivity = ApplyADSSensitivityTransition(lookSensitivity_Controller, adsCompleteSensitivity);
             }
 
             Vector2 rawLookInput = InputManager.instance.lookInput;
@@ -181,6 +185,31 @@ public class PlayerLook : MonoBehaviour
         //cameraPivot.localRotation = Quaternion.Euler(pitch, 0, 0);
         player.rotation = Quaternion.Euler(0, finalYaw, 0);
         cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
+    }
+
+    private float ApplyADSSensitivityTransition(float _hipFireSensitivity, float _adsCompleteSensitivity)
+    {
+        float sensitivity;
+        switch (GameSettings.mouseADSSensitivityTransition)
+        {
+            case ADSSensitivityTransition.Gradual:
+                sensitivity = Mathf.Lerp(_hipFireSensitivity, _adsCompleteSensitivity, currentGun.adsAlpha);
+                break;
+
+            case ADSSensitivityTransition.Instant:
+                sensitivity = currentGun.isInADS ? _adsCompleteSensitivity : _hipFireSensitivity;
+                break;
+
+            case ADSSensitivityTransition.AfterADS:
+                sensitivity = currentGun.adsAlpha >= 1 ? _adsCompleteSensitivity : _hipFireSensitivity;
+                break;
+
+            default:
+                sensitivity = Mathf.Lerp(_hipFireSensitivity, _adsCompleteSensitivity, currentGun.adsAlpha);
+                break;
+        }
+
+        return sensitivity;
     }
 
     private void OnDestroy()
