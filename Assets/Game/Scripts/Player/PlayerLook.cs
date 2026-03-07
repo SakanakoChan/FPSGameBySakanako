@@ -10,6 +10,13 @@ public enum ResponsiveCurve
     Dynamic
 }
 
+public enum ADSSensitivityTransition
+{
+    Instant,
+    Gradual,
+    AfterADS
+}
+
 public class PlayerLook : MonoBehaviour
 {
     //public CinemachineVirtualCamera vcam;
@@ -55,11 +62,14 @@ public class PlayerLook : MonoBehaviour
 
 
     private CameraRecoil cameraRecoil;
+    private Gun currentGun;
+
 
     private void Awake()
     {
         //pov = vcam.GetCinemachineComponent<CinemachinePOV>();
         cameraRecoil = GetComponentInChildren<CameraRecoil>();
+        currentGun = GetComponentInChildren<Gun>();
     }
 
     private void OnEnable()
@@ -98,6 +108,15 @@ public class PlayerLook : MonoBehaviour
         {
             sensitivity = lookSensitivity_Mouse;
 
+            if (currentGun != null)
+            {
+                float adsCompleteSensitivity = lookSensitivity_Mouse * (currentGun.adsFOV / currentGun.hipFireFOV);
+                sensitivity = Mathf.Lerp(lookSensitivity_Mouse, adsCompleteSensitivity, currentGun.adsAlpha);
+            }
+
+            //Debug.Log("Mouse Sensitivity: " + sensitivity);
+
+
             //in rewired, mouse related axis actions always return relative value
             //which already calculates the delta value between 2 frames
             //so it shouldn't be mutiplied by Time.deltaTime
@@ -108,6 +127,12 @@ public class PlayerLook : MonoBehaviour
         else
         {
             sensitivity = lookSensitivity_Controller;
+
+            if (currentGun != null)
+            {
+                float adsCompleteSensitivity = lookSensitivity_Controller * (currentGun.adsFOV / currentGun.hipFireFOV);
+                sensitivity = Mathf.Lerp(lookSensitivity_Controller, adsCompleteSensitivity, currentGun.adsAlpha);
+            }
 
             Vector2 rawLookInput = InputManager.instance.lookInput;
             Vector2 processedLookInput = ApplyResponsiveCurve(rawLookInput);
