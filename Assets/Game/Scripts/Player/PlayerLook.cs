@@ -187,6 +187,18 @@ public class PlayerLook : MonoBehaviour
         cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
     }
 
+    private void OnDestroy()
+    {
+        PauseManager.instance.OnPauseStateChanged -= HandlePause;
+    }
+
+
+    private void ModifyPitch(float _deltaValue)
+    {
+        pitch += _deltaValue;
+        pitch = Mathf.Clamp(pitch, pitchLowerLimit, pitchUpperLimit);
+    }
+
     private float ApplyADSSensitivityTransition(float _hipFireSensitivity, float _adsCompleteSensitivity)
     {
         float sensitivity;
@@ -210,17 +222,6 @@ public class PlayerLook : MonoBehaviour
         }
 
         return sensitivity;
-    }
-
-    private void OnDestroy()
-    {
-        PauseManager.instance.OnPauseStateChanged -= HandlePause;
-    }
-
-    private void ModifyPitch(float _deltaValue)
-    {
-        pitch += _deltaValue;
-        pitch = Mathf.Clamp(pitch, pitchLowerLimit, pitchUpperLimit);
     }
 
 
