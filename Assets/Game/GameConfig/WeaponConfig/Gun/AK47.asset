@@ -123,5 +123,5 @@ MonoBehaviour:
   basicHipFireSpreadAngle: 3
   maxHipFireSpreadAngle: 25
   hipFireSpreadPunishmentPerShot: 14
-  hipFireSpreadRecoverySpeed: 90
+  hipFireSpreadRecoverySpeed: 55
   multiplyAllRecoilsBy: 0.75
