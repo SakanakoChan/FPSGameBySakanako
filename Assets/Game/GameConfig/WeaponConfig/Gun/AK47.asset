@@ -114,7 +114,7 @@ MonoBehaviour:
   basicPositionGunKick: {x: 0.1, y: 0, z: -0.5}
   positionGunKickMultiplier_Min: 0.8
   positionGunKickMultiplier_Max: 1.3
-  basicRotationGunKick: {x: 0, y: 5, z: 20}
+  basicRotationGunKick: {x: -45, y: 5, z: 20}
   rotationGunKickMultiplier_Min: 0.8
   rotationGunKickMultiplier_Max: 1.3
   basicCameraKick: {x: 0, y: 0, z: 10}

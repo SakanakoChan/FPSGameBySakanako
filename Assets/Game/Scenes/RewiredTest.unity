@@ -7973,6 +7973,12 @@ RectTransform:
   m_AnchoredPosition: {x: -4.999878, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &518939209 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7914072488023287926, guid: 1d917315d84837e4daadded5757bb55b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1393130665}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &522121835
 GameObject:
   m_ObjectHideFlags: 0
@@ -19927,6 +19933,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1496497442}
+    - targetCorrespondingSourceObject: {fileID: 7914072488023287926, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1557870692}
     - targetCorrespondingSourceObject: {fileID: 8445401694593213606, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       insertIndex: -1
@@ -20900,6 +20910,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponRoot: {fileID: 853553557}
   gunData: {fileID: 11400000, guid: 58a24f27db47e15419ad189f4d47c70f, type: 2}
+  aimPoint: {fileID: 1557870692}
+  hipFireCrosshair: {fileID: 1636996038}
   bulletSpawnPosition: {fileID: 411883784}
   muzzleFlashPosition: {fileID: 411883784}
   cameraKickImpulse: {x: 0, y: 0, z: 20}
@@ -21011,7 +21023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd5fb876226cd8347b9e63bd10f721b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springStrength: 600
+  springStrength: 400
   damping: 12
 --- !u!1 &1465097402
 GameObject:
@@ -22075,6 +22087,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1557870691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557870692}
+  m_Layer: 0
+  m_Name: AimPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1557870692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557870691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.4666, z: 0.10758}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 518939209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1564304391
 GameObject:
   m_ObjectHideFlags: 0
@@ -22732,6 +22775,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1636996037}
+  - component: {fileID: 1636996038}
   m_Layer: 5
   m_Name: Crosshair_HipFire
   m_TagString: Untagged
@@ -22760,6 +22804,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1636996038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636996036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4d67189547a8a43a0ac9365379fb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1656468531
 GameObject:
   m_ObjectHideFlags: 0

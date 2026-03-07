@@ -15,9 +15,14 @@ public class Gun : Weapon
     private float lastFireTime;
     private float shootInterval;
 
+    [Header("ADS aimpoint info")]
+    [SerializeField] private Transform aimPoint;
+    [SerializeField] private HipFireCrosshair hipFireCrosshair;
+
 
     [Header("Bullet info")]
     [SerializeField] private Transform bulletSpawnPosition;
+    private Vector3 logicBulletStartPosition;
 
 
     [Header("FX info")]
@@ -64,6 +69,8 @@ public class Gun : Weapon
         hipFireFOV = mainCam.fieldOfView;
         adsFOV = CalculateADSVerticalFOV(hipFireFOV, gunData.adsZoomRatio);
 
+        logicBulletStartPosition = mainCam.transform.position;
+
         muzzleFlash_Particle = Instantiate(gunData.muzzleFlash_Particle, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light = Instantiate(gunData.muzzleFlash_Light, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light?.SetActive(false);
@@ -77,22 +84,27 @@ public class Gun : Weapon
 
     private void Update()
     {
-        adsAlphaTargetValue = isInADS ? 1 : 0;
-        float currentADSTime = isInADS ? gunData.adsTime : gunData.adsTime * gunData.adsExitTimeMultiplier;
+        float currentADSTime;
+        if (isInADS)
+        {
+            //hipFireCrosshair?.SetFollowTarget(aimPoint);
+            adsAlphaTargetValue = 1;
+            currentADSTime = gunData.adsTime;
+        }
+        else
+        {
+            //hipFireCrosshair?.SetFollowTarget(null);
+            adsAlphaTargetValue = 0;
+            currentADSTime = gunData.adsTime * gunData.adsExitTimeMultiplier;
+        }
+
+        //adsAlphaTargetValue = isInADS ? 1 : 0;
+        //float currentADSTime = isInADS ? gunData.adsTime : gunData.adsTime * gunData.adsExitTimeMultiplier;
 
         adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / currentADSTime);
-        //adsFOVAlpha = Mathf.SmoothStep(0, 1, adsAlpha);
 
         AnimationCurve adsCurve = gunData.adsCurve;
-        //for (int i = 0; i < adsCurve.length; i++)
-        //{
-        //    adsCurve.SmoothTangents(i, 0f);
-        //}
-
         float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
-
-        //Vector3 gunTargetPosition = isInADS ? gunData.ADSGunPosition : gunData.hipFireGunPosition;
-        //Vector3 gunTargetRotationEuler = isInADS ? gunData.ADSGunRotationEuler : gunData.hipFireGunRotationEuler;
 
         if (weaponRoot != null)
         {
@@ -108,7 +120,16 @@ public class Gun : Weapon
             mainCam.fieldOfView = Mathf.Lerp(hipFireFOV, adsFOV, adsAlpha);
         }
 
-
+        if (adsAlpha == 1)
+        {
+            logicBulletStartPosition = aimPoint.position;
+            hipFireCrosshair?.SetFollowTarget(aimPoint);
+        }
+        else
+        {
+            logicBulletStartPosition = mainCam.transform.position;
+            hipFireCrosshair?.SetFollowTarget(null);
+        }
     }
 
     public override bool TryFire()
@@ -197,28 +218,25 @@ public class Gun : Weapon
 
     private Vector3 CalculateRotationGunKickImpulse(float sign)
     {
-        float rotationGunKickX = /*0 **/ Random.Range(-15f, -5f);
+        float rotationGunKickX = 
+            Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
+            gunData.basicRotationGunKick.x;
+
         float rotationGunKickY =
             sign *
             Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
             gunData.basicRotationGunKick.y;
+
         float rotationGunKickZ =
             -sign *
             Random.Range(gunData.rotationGunKickMultiplier_Min, gunData.rotationGunKickMultiplier_Max) *
             gunData.basicRotationGunKick.z;
 
-        //Quaternion gunKickRotationInCamSpace =
-        //    Quaternion.AngleAxis(rotationGunKickX, mainCam.transform.right) *
-        //    Quaternion.AngleAxis(rotationGunKickY, mainCam.transform.up) *
-        //    Quaternion.AngleAxis(rotationGunKickZ, mainCam.transform.forward);
-
-        //Quaternion gunKickRotationInLocalSpace = Quaternion.Inverse(gunKick.transform.parent.rotation) * gunKickRotationInCamSpace;
 
         Vector3 rotationGunKickImpulse = new Vector3(rotationGunKickX, rotationGunKickY, rotationGunKickZ);
-        //Vector3 rotationGunKickImpulse = gunKickRotationInLocalSpace.eulerAngles;
         if (isInADS)
         {
-            rotationGunKickImpulse *= 0.2f;
+            rotationGunKickImpulse *= 0.5f;
         }
 
         return rotationGunKickImpulse;
@@ -235,25 +253,14 @@ public class Gun : Weapon
         {
             positionGunKickX *= 0.4f;
         }
-        //Vector3 x = positionGunKickX * mainCam.transform.right;
 
         float positionGunKickY = 0 * Random.Range(0f, 0.5f);
-        //Vector3 y = positionGunKickY * mainCam.transform.up;
-
 
         float positionGunKickZ =
             Random.Range(gunData.positionGunKickMultiplier_Min, gunData.positionGunKickMultiplier_Max) *
             gunData.basicPositionGunKick.z;
-        //Vector3 z = positionGunKickZ * mainCam.transform.forward;
-
-        //Vector3 temp = x + y + z;
 
         Vector3 positionGunKickImpulse = new Vector3(positionGunKickX, positionGunKickY, positionGunKickZ);
-        //Vector3 positionGunKickImpulse = gunKick.transform.parent.InverseTransformVector(temp);
-        //if (isInADS)
-        //{
-        //    positionGunKickImpulse *= 1f;
-        //}
 
         return positionGunKickImpulse;
     }
@@ -295,8 +302,7 @@ public class Gun : Weapon
     private void SpawnBullet()
     {
         //raycast detection
-        Camera mainCam = Camera.main;
-        Ray ray = new Ray(mainCam.transform.position, mainCam.transform.forward);
+        Ray ray = new Ray(logicBulletStartPosition/*mainCam.transform.position*/, mainCam.transform.forward);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, gunData.maxRange))
         {
