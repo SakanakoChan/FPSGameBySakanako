@@ -25049,6 +25049,7 @@ MonoBehaviour:
   line_Right: {fileID: 148614998}
   line_Up: {fileID: 1666235699}
   line_Down: {fileID: 1979870455}
+  basicLineOffset: 10
   smoothSpeed: 10
 --- !u!1 &1656468531
 GameObject:

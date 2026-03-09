@@ -82,8 +82,25 @@ public class GunData : ScriptableObject
     [Tooltip("Angles in degree")]
     public float basicHipFireSpreadAngle = 3f;
     public float maxHipFireSpreadAngle = 45f;
+
+    [Space]
     public float hipFireSpreadPunishmentPerShot = 3f;
-    public float hipFireSpreadRecoverySpeed = 45f;
+    public float maxHipFireShotPunishment = 20f;
+    public float hipFireShotPunishmentRecoverySpeed = 45f;
+
+    [Space]
+    public float moveSpeedHipFireSpreadPunishmentRatio = 1f;
+    public float maxHipFireMoveSpeedPunishment = 10f;
+
+    [Space]
+    public float airHipFireSpreadPunishment = 10f;
+    public float airHipFireSpreadTransitionSpeed = 10f;
+
+    [Space]
+    public float basicADSSpreadAngle = 0f;
+    public float maxADSSpreadAngle = 0.01f;
+    public float adsSpreadTransitionSpeed = 30f;
+
 
     [Header("Tools")]
     [SerializeField] private float multiplyAllRecoilsBy = 3f;

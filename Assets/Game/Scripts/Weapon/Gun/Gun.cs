@@ -51,8 +51,30 @@ public class Gun : Weapon
     //private float adsFOVAlpha = 0;
 
 
-    private float currentSpreadAngle;
+    #region Spread fields
+    //basic spread
+    private float currentBasicSpreadAngle;
+    private float currentBasicMinSpreadAngle;
+    private float currentBasicMaxSpreadAngle;
 
+    //shot spread punishment
+    private float currentShotSpreadPunishment;
+    private float currentMaxShotSpreadPunishment;
+
+    //move speed spread punishment
+    private float currentMoveSpeedSpreadPunishment;
+    private float currentMaxMoveSpeedSpreadPunishment;
+
+    //air spread punishment
+    private float currentAirSpreadPunishment;
+
+    //final spread
+    private float currentFinalSpreadAngle;
+    #endregion
+
+
+
+    private PlayerMovement playerMovement;
     private Camera mainCam;
 
 
@@ -74,7 +96,15 @@ public class Gun : Weapon
         hipFireFOV = mainCam.fieldOfView;
         adsFOV = CalculateADSVerticalFOV(hipFireFOV, gunData.adsZoomRatio);
 
-        currentSpreadAngle = gunData.basicHipFireSpreadAngle;
+        currentBasicSpreadAngle = gunData.basicHipFireSpreadAngle;
+        currentBasicMaxSpreadAngle = gunData.maxHipFireSpreadAngle;
+        currentBasicMinSpreadAngle = gunData.basicHipFireSpreadAngle;
+
+        currentShotSpreadPunishment = 0;
+        currentMoveSpeedSpreadPunishment = 0;
+        currentAirSpreadPunishment = 0;
+
+        currentFinalSpreadAngle = currentBasicSpreadAngle;
 
         logicBulletStartPosition = mainCam.transform.position;
 
@@ -86,8 +116,10 @@ public class Gun : Weapon
         cameraRecoil = GetComponentInParent<CameraRecoil>();
         gunKick = GetComponentInParent<GunKick>();
         cameraKick = GetComponentInParent<CameraKick>();
-        
+
         hudCanvas = hipFireCrosshair.GetComponentInParent<Canvas>();
+
+        playerMovement = GetComponentInParent<PlayerMovement>();
         //audioSource.clip = gunData.fireSound;
     }
 
@@ -95,12 +127,24 @@ public class Gun : Weapon
     {
         ADSLogic();
 
-        SpreadRecovery();
+        UpdateBasicSpread();
+        UpdateShotSpreadPunishment();
+        UpdateAirSpreadPunishment();
+        UpdateMoveSpeedSpreadPunishment();
+
+        UpdateFinalSpreadAngle();
 
         SyncSpreadWithHipFireCrosshair();
     }
 
+    private void UpdateMoveSpeedSpreadPunishment()
+    {
+        //change move speed spread punishment
+        currentMaxMoveSpeedSpreadPunishment = Mathf.Lerp(gunData.maxHipFireMoveSpeedPunishment, 0, adsAlpha);
 
+        currentMoveSpeedSpreadPunishment = playerMovement.horizontalVelocity.magnitude * gunData.moveSpeedHipFireSpreadPunishmentRatio;
+        currentMoveSpeedSpreadPunishment = Mathf.Clamp(currentMoveSpeedSpreadPunishment, 0, currentMaxMoveSpeedSpreadPunishment);
+    }
 
     public override bool TryFire()
     {
@@ -130,7 +174,9 @@ public class Gun : Weapon
 
         AddRecoil();
 
-        AddSpread();
+        AddShotSpread();
+
+        UpdateFinalSpreadAngle();
 
         return true;
     }
@@ -164,6 +210,7 @@ public class Gun : Weapon
     private void ADSLogic()
     {
         float currentADSTime;
+
         if (isInADS)
         {
             adsAlphaTargetValue = 1;
@@ -181,8 +228,19 @@ public class Gun : Weapon
         AnimationCurve adsCurve = gunData.adsCurve;
         float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
 
+
+        GunPositionADSTransition(easedAlphaValue);
+
+        FOVADSTransition();
+
+        CrosshairADSTransition();
+    }
+
+    private void GunPositionADSTransition(float easedAlphaValue)
+    {
         if (weaponRoot != null)
         {
+            //move gun position
             weaponRoot.localPosition = Vector3.Lerp(gunData.hipFireGunPosition, gunData.ADSGunPosition, easedAlphaValue);
             weaponRoot.localRotation =
                 Quaternion.Lerp
@@ -191,10 +249,18 @@ public class Gun : Weapon
                     Quaternion.Euler(gunData.ADSGunRotationEuler),
                     easedAlphaValue
                 );
-
-            mainCam.fieldOfView = Mathf.Lerp(hipFireFOV, adsFOV, adsAlpha);
         }
+    }
 
+    private void FOVADSTransition()
+    {
+        //change fov
+        mainCam.fieldOfView = Mathf.Lerp(hipFireFOV, adsFOV, adsAlpha);
+    }
+
+    private void CrosshairADSTransition()
+    {
+        //change crosshair
         if (adsAlpha == 1)
         {
             logicBulletStartPosition = aimPoint.position;
@@ -207,15 +273,55 @@ public class Gun : Weapon
         }
     }
 
-    private void SpreadRecovery()
+    private void UpdateBasicSpread()
     {
-        currentSpreadAngle = Mathf.MoveTowards(currentSpreadAngle, gunData.basicHipFireSpreadAngle, gunData.hipFireSpreadRecoverySpeed * Time.deltaTime);
-        currentSpreadAngle = Mathf.Clamp(currentSpreadAngle, gunData.basicHipFireSpreadAngle, gunData.maxHipFireSpreadAngle);
+        //change basic spread
+        currentBasicMinSpreadAngle = Mathf.Lerp(gunData.basicHipFireSpreadAngle, gunData.basicADSSpreadAngle, adsAlpha);
+        currentBasicMaxSpreadAngle = Mathf.Lerp(gunData.maxHipFireSpreadAngle, gunData.maxADSSpreadAngle, adsAlpha);
+
+        currentBasicSpreadAngle = Mathf.MoveTowards(currentBasicSpreadAngle, currentBasicMinSpreadAngle, gunData.adsSpreadTransitionSpeed * Time.deltaTime);
+        //currentBasicSpreadAngle = Mathf.Lerp(gunData.basicHipFireSpreadAngle, gunData.basicADSSpreadAngle, adsAlpha);
+        currentBasicSpreadAngle = Mathf.Clamp(currentBasicSpreadAngle, currentBasicMinSpreadAngle, currentBasicMaxSpreadAngle);
+    }
+
+    private void AddShotSpread()
+    {
+        currentShotSpreadPunishment += gunData.hipFireSpreadPunishmentPerShot;
+        currentShotSpreadPunishment = Mathf.Clamp(currentShotSpreadPunishment, 0, gunData.maxHipFireShotPunishment);
+    }
+
+    private void UpdateShotSpreadPunishment()
+    {
+        //ads should have no shot spread
+        currentMaxShotSpreadPunishment = Mathf.Lerp(gunData.maxHipFireShotPunishment, 0, adsAlpha);
+
+        //hip fire shot spread recovery
+        currentShotSpreadPunishment = Mathf.MoveTowards(currentShotSpreadPunishment, 0, gunData.hipFireShotPunishmentRecoverySpeed * Time.deltaTime);
+        currentShotSpreadPunishment = Mathf.Clamp(currentShotSpreadPunishment, 0, currentMaxShotSpreadPunishment);
+    }
+
+    private void UpdateAirSpreadPunishment()
+    {
+        if (playerMovement.movementState == PlayerMovement.MovementState.Air)
+        {
+            if (!isInADS)
+            {
+                currentAirSpreadPunishment = Mathf.MoveTowards(currentAirSpreadPunishment, gunData.airHipFireSpreadPunishment, 2f * gunData.airHipFireSpreadTransitionSpeed * Time.deltaTime);
+            }
+            else
+            {
+                currentAirSpreadPunishment = Mathf.MoveTowards(currentAirSpreadPunishment, 0, gunData.airHipFireSpreadTransitionSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            currentAirSpreadPunishment = Mathf.MoveTowards(currentAirSpreadPunishment, 0, gunData.airHipFireSpreadTransitionSpeed * Time.deltaTime);
+        }
     }
 
     private void SyncSpreadWithHipFireCrosshair()
     {
-        float spreadRad = currentSpreadAngle * Mathf.Deg2Rad;
+        float spreadRad = currentFinalSpreadAngle * Mathf.Deg2Rad;
         float fovRad = hipFireFOV * Mathf.Deg2Rad;
 
         float pixelOffset =
@@ -346,12 +452,12 @@ public class Gun : Weapon
     private void SpawnBullet()
     {
         //raycast detection
-        Vector2 spreadOffset = Random.insideUnitCircle * currentSpreadAngle;
+        Vector2 spreadOffset = Random.insideUnitCircle * currentFinalSpreadAngle;
         Quaternion spread = Quaternion.Euler(spreadOffset.y, spreadOffset.x, 0);
 
         Vector3 rayDirection = spread * mainCam.transform.forward;
 
-        Ray ray = new Ray(logicBulletStartPosition/*mainCam.transform.position*/, rayDirection/*mainCam.transform.forward*/);
+        Ray ray = new Ray(logicBulletStartPosition, rayDirection);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, gunData.maxRange))
         {
@@ -372,10 +478,11 @@ public class Gun : Weapon
         projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition);
     }
 
-    private void AddSpread()
+
+
+    private void UpdateFinalSpreadAngle()
     {
-        currentSpreadAngle += gunData.hipFireSpreadPunishmentPerShot;
-        currentSpreadAngle = Mathf.Clamp(currentSpreadAngle, gunData.basicHipFireSpreadAngle, gunData.maxHipFireSpreadAngle);
+        currentFinalSpreadAngle = currentBasicSpreadAngle + currentShotSpreadPunishment + currentMoveSpeedSpreadPunishment + currentAirSpreadPunishment;
     }
 
     private void PlayFireSound()

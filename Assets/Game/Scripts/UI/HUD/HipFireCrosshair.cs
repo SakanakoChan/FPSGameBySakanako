@@ -16,6 +16,9 @@ public class HipFireCrosshair : MonoBehaviour
     [SerializeField] private RectTransform line_Down;
 
     [Space]
+    [SerializeField] private float basicLineOffset = 10f;
+
+    [Space]
     [SerializeField] private float smoothSpeed = 10f;
 
     private float targetLineOffset;
@@ -67,6 +70,6 @@ public class HipFireCrosshair : MonoBehaviour
 
     public void SetLineTargetOffset(float _targetOffset)
     {
-        targetLineOffset = _targetOffset;
+        targetLineOffset = _targetOffset + basicLineOffset;
     }
 }
