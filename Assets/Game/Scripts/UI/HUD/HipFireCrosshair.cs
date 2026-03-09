@@ -9,8 +9,6 @@ public class HipFireCrosshair : MonoBehaviour
     private RectTransform rectTransform;
     private Camera mainCam;
 
-
-
     [Header("Line offset info")]
     [SerializeField] private RectTransform line_Left;
     [SerializeField] private RectTransform line_Right;
@@ -27,12 +25,7 @@ public class HipFireCrosshair : MonoBehaviour
     private float currentLineOffset;
 
 
-    [Header("Crosshair fade info")]
-    [SerializeField] private float fadeSpeed = 2f;
-    private float targetAlphaValue;
-    private float currentAlphaValue;
     private CanvasGroup canvasGroup;
-    private bool isShowingCrosshair = true;
 
 
     private void Start()
@@ -41,8 +34,6 @@ public class HipFireCrosshair : MonoBehaviour
         mainCam = Camera.main;
 
         canvasGroup = GetComponent<CanvasGroup>();
-        currentAlphaValue = 1;
-        targetAlphaValue = 1;
     }
 
     private void LateUpdate()
