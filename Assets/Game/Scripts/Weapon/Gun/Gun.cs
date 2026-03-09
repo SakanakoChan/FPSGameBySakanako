@@ -228,12 +228,27 @@ public class Gun : Weapon
         AnimationCurve adsCurve = gunData.adsCurve;
         float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
 
+        FadeHipFireCrosshair();
 
         GunPositionADSTransition(easedAlphaValue);
 
         FOVADSTransition();
 
         CrosshairADSTransition();
+    }
+
+    private void FadeHipFireCrosshair()
+    {
+        float crosshairFadeThreshold = 0.5f;
+        if (adsAlpha >= crosshairFadeThreshold)
+        {
+            float crossHairAlphaValue = 1 - ((adsAlpha - crosshairFadeThreshold) / (1 - crosshairFadeThreshold));
+            hipFireCrosshair?.SetupAlphaValue(crossHairAlphaValue);
+        }
+        else
+        {
+            hipFireCrosshair?.SetupAlphaValue(1);
+        }
     }
 
     private void GunPositionADSTransition(float easedAlphaValue)

@@ -25005,6 +25005,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1636996037}
   - component: {fileID: 1636996038}
+  - component: {fileID: 1636996039}
   m_Layer: 5
   m_Name: Crosshair_HipFire
   m_TagString: Untagged
@@ -25051,6 +25052,19 @@ MonoBehaviour:
   line_Down: {fileID: 1979870455}
   basicLineOffset: 10
   smoothSpeed: 10
+  fadeSpeed: 20
+--- !u!225 &1636996039
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636996036}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1656468531
 GameObject:
   m_ObjectHideFlags: 0
