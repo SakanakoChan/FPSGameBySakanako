@@ -7,7 +7,22 @@ public abstract class Weapon : MonoBehaviour
     public bool isInADS { get; protected set; } = false;
 
     public abstract bool TryFire();
-    public abstract void Reload();
+    public abstract bool TryReload();
+
+    public virtual void FillMag()
+    {
+
+    }
+
+    public virtual void MakeLeftHandHoldMag()
+    {
+
+    }
+
+    public virtual void MakeLeftHandReturnToNormalPosition()
+    {
+
+    }
 
     public virtual void EnterADS() 
     { 

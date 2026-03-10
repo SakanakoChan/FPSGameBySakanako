@@ -39,6 +39,14 @@ public class Gun : Weapon
     private int currentRecoilIndex = 0;
 
 
+    [Header("IK Target info")]
+    [SerializeField] private Transform leftHandFollowTarget;
+    [SerializeField] private Transform leftHandFollowPosition_Normal;
+    [SerializeField] private Transform leftHandFollowPosition_Reloading;
+
+    private Animator anim;
+
+
     [Header("For test only")]
     [SerializeField] private Vector3 cameraKickImpulse = new Vector3(0, 0, 20);
 
@@ -116,6 +124,7 @@ public class Gun : Weapon
         cameraRecoil = GetComponentInParent<CameraRecoil>();
         gunKick = GetComponentInParent<GunKick>();
         cameraKick = GetComponentInParent<CameraKick>();
+        anim = GetComponent<Animator>();
 
         hudCanvas = hipFireCrosshair.GetComponentInParent<Canvas>();
 
@@ -183,20 +192,27 @@ public class Gun : Weapon
 
 
 
-    public override void Reload()
+    public override bool TryReload()
     {
         if (currentAmmoInMagzine >= gunData.magSize)
         {
             Debug.Log("Mag is full, cannot reload");
-            return;
+            return false;
         }
 
         if (reserveAmmo <= 0)
         {
             Debug.Log("No reserve ammo, cannot reload");
-            return;
+            return false;
         }
 
+        anim?.Play("Reload");
+
+        return true;
+    }
+
+    public override void FillMag()
+    {
         int ammoToTakeFromReserveAmmo = gunData.magSize - currentAmmoInMagzine;
         ammoToTakeFromReserveAmmo = Mathf.Min(ammoToTakeFromReserveAmmo, reserveAmmo);
 
@@ -204,6 +220,46 @@ public class Gun : Weapon
         reserveAmmo -= ammoToTakeFromReserveAmmo;
 
         currentRecoilIndex = 0;
+    }
+
+    public override void MakeLeftHandHoldMag()
+    {
+        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_Reloading, 0.25f));
+    }
+
+    public override void MakeLeftHandReturnToNormalPosition()
+    {
+        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_Normal, 0.4f));
+    }
+
+
+    private IEnumerator ChangeLeftHandFollowTarget(Transform _targetPosition, float _changeDuration)
+    {
+        float duration = _changeDuration;
+        float timer = 0;
+        float progress = 0;
+
+        leftHandFollowTarget.SetParent(_targetPosition.parent);
+        Vector3 startLocalPosition = leftHandFollowTarget.localPosition;
+        Quaternion startLocalRotation = leftHandFollowTarget.localRotation;
+
+        Vector3 endLocalPosition = _targetPosition.localPosition;
+        Quaternion endLocalRotation = _targetPosition.localRotation;
+
+        while (timer < duration)
+        {
+            progress = timer / duration;
+            progress = Mathf.SmoothStep(0, 1, progress);
+
+            leftHandFollowTarget.localPosition = Vector3.Lerp(startLocalPosition, endLocalPosition, progress);
+            leftHandFollowTarget.localRotation = Quaternion.Lerp(startLocalRotation, endLocalRotation, progress);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        leftHandFollowTarget.localPosition = endLocalPosition;
+        leftHandFollowTarget.localRotation = endLocalRotation;
     }
 
 
