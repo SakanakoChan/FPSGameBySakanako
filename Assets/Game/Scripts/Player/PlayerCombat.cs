@@ -14,6 +14,8 @@ public class PlayerCombat : MonoBehaviour
 
     public bool isInADS { get; private set; }
 
+    private bool pause = false;
+
     private void Start()
     {
         currentWeapon = GetComponentInChildren<Weapon>();
@@ -41,7 +43,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (currentWeapon.TryReload() == true)
             {
-                anim.Play("Reload");
+                PlayArmReloadAnimation();
                 currentWeapon?.PlayReloadAnimation();
 
                 MakeLeftHandHoldMag();
@@ -64,6 +66,26 @@ public class PlayerCombat : MonoBehaviour
 
         anim.SetFloat("Aiming", currentWeapon.GetADSAlpha());
 
+
+        //for test only
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            pause = !pause;
+            anim.speed = pause ? 0 : 1;
+        }
+
+    }
+
+    private void PlayArmReloadAnimation()
+    {
+        if (currentWeapon.CheckIfCurrentMagIsEmpty() == false)
+        {
+            anim.Play("Reload");
+        }
+        else
+        {
+            anim.Play("Reload_Empty");
+        }
     }
 
 
@@ -91,6 +113,24 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         yield return GraduallyChangeIKWeight(leftHandConstraint, 0f, 1, 0.1f);
+    }
+
+    public void MoveLeftHandToEmptyReloadingInsertMagPosition()
+    {
+        currentWeapon?.MoveLeftHandToEmptyReloadingInsertMagPosition();
+    }
+
+    public void MoveLeftHandToEmptyReloadingMidPoint()
+    {
+        StartCoroutine(MoveLeftHandToEmptyReloadingMidPoint_IKTransition());
+        currentWeapon?.MoveLeftHandToEmptyReloadingMidPoint();
+    }
+
+    private IEnumerator MoveLeftHandToEmptyReloadingMidPoint_IKTransition()
+    {
+        yield return GraduallyChangeIKWeight(leftHandConstraint, 1, 0.3f, 0.1f);
+        yield return new WaitForSeconds(0.1f);
+        yield return GraduallyChangeIKWeight(leftHandConstraint, 0.3f, 1f, 0.1f);
     }
 
     private IEnumerator GraduallyChangeIKWeight(TwoBoneIKConstraint _handIKConstraint, float _from, float _to, float _duration)

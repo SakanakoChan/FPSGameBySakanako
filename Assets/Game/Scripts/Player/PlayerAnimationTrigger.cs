@@ -21,6 +21,16 @@ public class PlayerAnimationTrigger : MonoBehaviour
         playerCombat?.MakeLeftHandReturnToNormalPosition();
     }
 
+    public void MoveLeftHandToEmptyReloadingInsertMagPosition()
+    {
+        playerCombat?.MoveLeftHandToEmptyReloadingInsertMagPosition();
+    }
+
+    public void MoveLeftHandToEmptyReloadingMidPoint()
+    {
+        playerCombat?.MoveLeftHandToEmptyReloadingMidPoint();
+    }
+
     public void FinishReloading()
     {
         playerCombat?.FinishReloading();

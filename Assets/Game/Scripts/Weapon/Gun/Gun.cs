@@ -43,6 +43,8 @@ public class Gun : Weapon
     [SerializeField] private Transform leftHandFollowTarget;
     [SerializeField] private Transform leftHandFollowPosition_Normal;
     [SerializeField] private Transform leftHandFollowPosition_Reloading;
+    [SerializeField] private Transform leftHandFollowPosition_EmptyReloadingInsertMag;
+    [SerializeField] private Transform leftHandFollowPosition_EmptyReloadingMidPoint;
 
     private Animator anim;
 
@@ -226,7 +228,14 @@ public class Gun : Weapon
     #region Reload related functions
     public override void PlayReloadAnimation()
     {
-        anim?.Play("Reload");
+        if (CheckIfCurrentMagIsEmpty() == false)
+        {
+            anim?.Play("Reload");
+        }
+        else
+        {
+            anim?.Play("Reload_Empty");
+        }
     }
 
     public override void FillMag()
@@ -248,6 +257,16 @@ public class Gun : Weapon
     public override void MakeLeftHandReturnToNormalPosition()
     {
         StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_Normal, 0.4f));
+    }
+
+    public override void MoveLeftHandToEmptyReloadingInsertMagPosition()
+    {
+        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_EmptyReloadingInsertMag, 0.1f));
+    }
+
+    public override void MoveLeftHandToEmptyReloadingMidPoint()
+    {
+        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_EmptyReloadingMidPoint, 0.3f));
     }
 
 
@@ -278,6 +297,18 @@ public class Gun : Weapon
 
         leftHandFollowTarget.localPosition = endLocalPosition;
         leftHandFollowTarget.localRotation = endLocalRotation;
+    }
+
+    public override bool CheckIfCurrentMagIsEmpty()
+    {
+        if (currentAmmoInMagzine <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     #endregion
 

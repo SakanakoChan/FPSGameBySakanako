@@ -36,6 +36,21 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
+    public virtual void MoveLeftHandToEmptyReloadingInsertMagPosition()
+    {
+
+    }
+
+    public virtual void MoveLeftHandToEmptyReloadingMidPoint()
+    {
+
+    }
+
+    public virtual bool CheckIfCurrentMagIsEmpty()
+    {
+        return false;
+    }
+
     public virtual void EnterADS()
     {
     }

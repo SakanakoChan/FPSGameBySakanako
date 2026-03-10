@@ -13143,6 +13143,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 796412431}
   m_CullTransparentMesh: 1
+--- !u!1 &801611182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 801611183}
+  m_Layer: 0
+  m_Name: LeftHandFollowPosition_EmptyReloadingMidPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &801611183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801611182}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7547112, y: 0.6485616, z: 0.05405654, w: 0.0828054}
+  m_LocalPosition: {x: -0.0565, y: -0.1316, z: -0.0226}
+  m_LocalScale: {x: 1, y: 1, z: 1.0000002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393130676}
+  m_LocalEulerAnglesHint: {x: 3.145, y: 169.089, z: 98.351}
 --- !u!1 &806526473
 GameObject:
   m_ObjectHideFlags: 0
@@ -13747,6 +13778,37 @@ RectTransform:
   m_AnchoredPosition: {x: -4.999878, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &896876160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 896876161}
+  m_Layer: 0
+  m_Name: LeftHandFollowPosition_EmptyReloading_Insert
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &896876161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896876160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.34294048, y: 0.40748134, z: 0.76124316, w: 0.36994556}
+  m_LocalPosition: {x: -0.011, y: 0.0691, z: -0.0925}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393130667}
+  m_LocalEulerAnglesHint: {x: -21.509, y: 62.284, z: 115.069}
 --- !u!1 &913618505
 GameObject:
   m_ObjectHideFlags: 0
@@ -22054,6 +22116,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8445401694593213620, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 801611183}
+    - targetCorrespondingSourceObject: {fileID: 8445401694593213620, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 255042856}
     - targetCorrespondingSourceObject: {fileID: 8445401694593213620, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
@@ -22063,6 +22129,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 251898171}
+    - targetCorrespondingSourceObject: {fileID: 8388422276160512096, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 896876161}
     - targetCorrespondingSourceObject: {fileID: 7914072488023287926, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       insertIndex: -1
@@ -23001,6 +23071,8 @@ MonoBehaviour:
   leftHandFollowTarget: {fileID: 255042856}
   leftHandFollowPosition_Normal: {fileID: 1908245580}
   leftHandFollowPosition_Reloading: {fileID: 251898171}
+  leftHandFollowPosition_EmptyReloadingInsertMag: {fileID: 896876161}
+  leftHandFollowPosition_EmptyReloadingMidPoint: {fileID: 801611183}
   cameraKickImpulse: {x: 0, y: 0, z: 20}
 --- !u!82 &1454342371
 AudioSource:
