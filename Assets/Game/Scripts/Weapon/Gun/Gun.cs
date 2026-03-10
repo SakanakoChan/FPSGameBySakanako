@@ -51,15 +51,15 @@ public class Gun : Weapon
     [SerializeField] private Transform rightHandFollowPosition_Normal;
     [SerializeField] private Transform rightHandFollowPosition_EmptyReloadingBolt;
 
-    [Space]
-    [SerializeField] private float IKTransitionDuration_LeftHandHoldMag = 0.25f;
-    [SerializeField] private float IKTransitionDuration_LeftHandReturnToNormalPosition = 0.4f;
-    [SerializeField] private float IKTransitionDuration_LeftHandEmptyReloadingInsertMag = 0.1f;
-    [SerializeField] private float IKTransitionDuration_LeftHandEmptyReloadingMidPoint = 0.3f;
+    //[Space]
+    //[SerializeField] private float IKTransitionDuration_LeftHandHoldMag = 0.25f;
+    //[SerializeField] private float IKTransitionDuration_LeftHandReturnToNormalPosition = 0.4f;
+    //[SerializeField] private float IKTransitionDuration_LeftHandEmptyReloadingInsertMag = 0.1f;
+    //[SerializeField] private float IKTransitionDuration_LeftHandEmptyReloadingMidPoint = 0.3f;
 
-    [Space]
-    [SerializeField] private float IKTransitionDuration_RightHandGrabBolt = 0.2f;
-    [SerializeField] private float IKTransitionDuration_RightHandReturnToNormalPosition = 0.2f;
+    //[Space]
+    //[SerializeField] private float IKTransitionDuration_RightHandGrabBolt = 0.2f;
+    //[SerializeField] private float IKTransitionDuration_RightHandReturnToNormalPosition = 0.2f;
 
     private Animator anim;
 
@@ -268,32 +268,32 @@ public class Gun : Weapon
 
     public override void MakeLeftHandHoldMag()
     {
-        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Reloading, IKTransitionDuration_LeftHandHoldMag/*0.25f*/));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Reloading, gunData.IKTransitionDuration_LeftHandHoldMag/*0.25f*/));
     }
 
     public override void MakeLeftHandReturnToNormalPosition()
     {
-        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Normal, IKTransitionDuration_LeftHandReturnToNormalPosition/*0.4f*/));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Normal, gunData.IKTransitionDuration_LeftHandReturnToNormalPosition/*0.4f*/));
     }
 
     public override void MoveLeftHandToEmptyReloadingInsertMagPosition()
     {
-        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_EmptyReloadingInsertMag, IKTransitionDuration_LeftHandEmptyReloadingInsertMag/*0.1f*/));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_EmptyReloadingInsertMag, gunData.IKTransitionDuration_LeftHandEmptyReloadingInsertMag/*0.1f*/));
     }
 
     public override void MoveLeftHandToEmptyReloadingMidPoint()
     {
-        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_EmptyReloadingMidPoint, IKTransitionDuration_LeftHandEmptyReloadingMidPoint/*0.3f*/));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_EmptyReloadingMidPoint, gunData.IKTransitionDuration_LeftHandEmptyReloadingMidPoint/*0.3f*/));
     }
 
     public override void MakeRightHandGrabBolt()
     {
-        StartCoroutine(ChangeHandFollowPosition(rightHandFollowTarget, rightHandFollowPosition_EmptyReloadingBolt, IKTransitionDuration_RightHandGrabBolt/*0.2f*/));
+        StartCoroutine(ChangeHandFollowPosition(rightHandFollowTarget, rightHandFollowPosition_EmptyReloadingBolt, gunData.IKTransitionDuration_RightHandGrabBolt/*0.2f*/));
     }
 
     public override void MakeRightHandReturnToNormalPosition()
     {
-        StartCoroutine(ChangeHandFollowPosition(rightHandFollowTarget, rightHandFollowPosition_Normal, IKTransitionDuration_RightHandReturnToNormalPosition/*0.2f*/));
+        StartCoroutine(ChangeHandFollowPosition(rightHandFollowTarget, rightHandFollowPosition_Normal, gunData.IKTransitionDuration_RightHandReturnToNormalPosition/*0.2f*/));
     }
 
 

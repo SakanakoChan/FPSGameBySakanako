@@ -102,6 +102,17 @@ public class GunData : ScriptableObject
     public float adsSpreadTransitionSpeed = 30f;
 
 
+    [Header("IK info")]
+    public float IKTransitionDuration_LeftHandHoldMag = 0.25f;
+    public float IKTransitionDuration_LeftHandReturnToNormalPosition = 0.4f;
+    public float IKTransitionDuration_LeftHandEmptyReloadingInsertMag = 0.1f;
+    public float IKTransitionDuration_LeftHandEmptyReloadingMidPoint = 0.3f;
+
+    [Space]
+    public float IKTransitionDuration_RightHandGrabBolt = 0.2f;
+    public float IKTransitionDuration_RightHandReturnToNormalPosition = 0.2f;
+
+
     [Header("Tools")]
     [SerializeField] private float multiplyAllRecoilsBy = 3f;
 
