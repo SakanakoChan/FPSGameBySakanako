@@ -42,7 +42,8 @@ public class PlayerCombat : MonoBehaviour
             if (currentWeapon.TryReload() == true)
             {
                 anim.Play("Reload");
-                currentWeapon?.MakeLeftHandHoldMag();
+                currentWeapon?.PlayReloadAnimation();
+                MakeLeftHandHoldMag();
             }
         }
 
@@ -78,7 +79,6 @@ public class PlayerCombat : MonoBehaviour
     public void MakeLeftHandReturnToNormalPosition()
     {
         StartCoroutine(MakeLeftHandReturnToNormalPosition_IKTransition());
-        //leftHandConstraint.weight = 0.2f;
         currentWeapon.MakeLeftHandReturnToNormalPosition();
     }
 
@@ -99,6 +99,7 @@ public class PlayerCombat : MonoBehaviour
         float timer = 0;
 
         float IKWeight = _from;
+        _handIKConstraint.weight = IKWeight;
 
         while (timer < duration)
         {
@@ -112,6 +113,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         IKWeight = _to;
+        _handIKConstraint.weight = IKWeight;
     }
 
 

@@ -9,6 +9,11 @@ public abstract class Weapon : MonoBehaviour
     public abstract bool TryFire();
     public abstract bool TryReload();
 
+    public virtual void PlayReloadAnimation()
+    {
+
+    }
+
     public virtual void FillMag()
     {
 

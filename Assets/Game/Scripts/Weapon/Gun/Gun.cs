@@ -206,9 +206,13 @@ public class Gun : Weapon
             return false;
         }
 
-        anim?.Play("Reload");
-
         return true;
+    }
+
+    #region Reload related functions
+    public override void PlayReloadAnimation()
+    {
+        anim?.Play("Reload");
     }
 
     public override void FillMag()
@@ -261,6 +265,7 @@ public class Gun : Weapon
         leftHandFollowTarget.localPosition = endLocalPosition;
         leftHandFollowTarget.localRotation = endLocalRotation;
     }
+    #endregion
 
 
     private void ADSLogic()
