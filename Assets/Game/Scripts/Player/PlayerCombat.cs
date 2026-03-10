@@ -85,11 +85,11 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator MakeLeftHandReturnToNormalPosition_IKTransition()
     {
-        yield return GraduallyChangeIKWeight(leftHandConstraint, 1, 0.2f, 0.1f);
+        yield return GraduallyChangeIKWeight(leftHandConstraint, 1, 0f, 0.1f);
 
         yield return new WaitForSeconds(0.2f);
 
-        yield return GraduallyChangeIKWeight(leftHandConstraint, 0.2f, 1, 0.1f);
+        yield return GraduallyChangeIKWeight(leftHandConstraint, 0f, 1, 0.1f);
     }
 
     private IEnumerator GraduallyChangeIKWeight(TwoBoneIKConstraint _handIKConstraint, float _from, float _to, float _duration)
