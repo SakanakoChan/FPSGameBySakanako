@@ -6,8 +6,15 @@ public abstract class Weapon : MonoBehaviour
 {
     public bool isInADS { get; protected set; } = false;
 
+    public bool isReloading { get; protected set; } = false;
+
     public abstract bool TryFire();
     public abstract bool TryReload();
+
+    public virtual void FinishReloading()
+    {
+        isReloading = false;
+    }
 
     public virtual void PlayReloadAnimation()
     {
@@ -29,13 +36,13 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
-    public virtual void EnterADS() 
-    { 
+    public virtual void EnterADS()
+    {
     }
 
 
-    public virtual void ExitADS() 
-    { 
+    public virtual void ExitADS()
+    {
     }
 
     public virtual float GetADSAlpha()

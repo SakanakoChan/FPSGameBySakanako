@@ -20,4 +20,9 @@ public class PlayerAnimationTrigger : MonoBehaviour
     {
         playerCombat?.MakeLeftHandReturnToNormalPosition();
     }
+
+    public void FinishReloading()
+    {
+        playerCombat?.FinishReloading();
+    }
 }

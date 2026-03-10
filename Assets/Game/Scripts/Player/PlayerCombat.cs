@@ -43,6 +43,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 anim.Play("Reload");
                 currentWeapon?.PlayReloadAnimation();
+
                 MakeLeftHandHoldMag();
             }
         }
@@ -114,6 +115,11 @@ public class PlayerCombat : MonoBehaviour
 
         IKWeight = _to;
         _handIKConstraint.weight = IKWeight;
+    }
+
+    public void FinishReloading()
+    {
+        currentWeapon?.FinishReloading();
     }
 
 

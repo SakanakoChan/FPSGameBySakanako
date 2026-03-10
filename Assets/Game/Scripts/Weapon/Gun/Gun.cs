@@ -169,6 +169,12 @@ public class Gun : Weapon
             return false;
         }
 
+        if (isReloading)
+        {
+            Debug.Log("Cannot fire while reloading!");
+            return false;
+        }
+
 
         ApplyRecoilRecovery();
 
@@ -205,6 +211,14 @@ public class Gun : Weapon
             Debug.Log("No reserve ammo, cannot reload");
             return false;
         }
+
+        if (isReloading == true)
+        {
+            Debug.Log("Is already in reloading process!");
+            return false;
+        }
+
+        isReloading = true;
 
         return true;
     }
