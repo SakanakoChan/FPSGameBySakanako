@@ -23115,6 +23115,12 @@ MonoBehaviour:
   rightHandFollowTarget: {fileID: 1496497442}
   rightHandFollowPosition_Normal: {fileID: 1727136899}
   rightHandFollowPosition_EmptyReloadingBolt: {fileID: 377126114}
+  IKTransitionDuration_LeftHandHoldMag: 0.25
+  IKTransitionDuration_LeftHandReturnToNormalPosition: 0.4
+  IKTransitionDuration_LeftHandEmptyReloadingInsertMag: 0.1
+  IKTransitionDuration_LeftHandEmptyReloadingMidPoint: 0.3
+  IKTransitionDuration_RightHandGrabBolt: 0.2
+  IKTransitionDuration_RightHandReturnToNormalPosition: 0.2
   cameraKickImpulse: {x: 0, y: 0, z: 20}
 --- !u!82 &1454342371
 AudioSource:
