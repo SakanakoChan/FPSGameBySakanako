@@ -46,6 +46,16 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
+    public virtual void MakeRightHandGrabBolt()
+    {
+
+    }
+
+    public virtual void MakeRightHandReturnToNormalPosition()
+    {
+
+    }
+
     public virtual bool CheckIfCurrentMagIsEmpty()
     {
         return false;

@@ -31,6 +31,16 @@ public class PlayerAnimationTrigger : MonoBehaviour
         playerCombat?.MoveLeftHandToEmptyReloadingMidPoint();
     }
 
+    public void MakeRightHandGrabBolt()
+    {
+        playerCombat?.MakeRightHandGrabBolt();
+    }
+
+    public void MakeRightHandReturnToNormalPosition()
+    {
+        playerCombat?.MakeRightHandReturnToNormalPosition();
+    }
+
     public void FinishReloading()
     {
         playerCombat?.FinishReloading();

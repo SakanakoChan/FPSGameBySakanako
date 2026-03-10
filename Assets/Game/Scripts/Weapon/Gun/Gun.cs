@@ -46,6 +46,11 @@ public class Gun : Weapon
     [SerializeField] private Transform leftHandFollowPosition_EmptyReloadingInsertMag;
     [SerializeField] private Transform leftHandFollowPosition_EmptyReloadingMidPoint;
 
+    [Space]
+    [SerializeField] private Transform rightHandFollowTarget;
+    [SerializeField] private Transform rightHandFollowPosition_Normal;
+    [SerializeField] private Transform rightHandFollowPosition_EmptyReloadingBolt;
+
     private Animator anim;
 
 
@@ -251,52 +256,62 @@ public class Gun : Weapon
 
     public override void MakeLeftHandHoldMag()
     {
-        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_Reloading, 0.25f));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Reloading, 0.25f));
     }
 
     public override void MakeLeftHandReturnToNormalPosition()
     {
-        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_Normal, 0.4f));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Normal, 0.4f));
     }
 
     public override void MoveLeftHandToEmptyReloadingInsertMagPosition()
     {
-        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_EmptyReloadingInsertMag, 0.1f));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_EmptyReloadingInsertMag, 0.1f));
     }
 
     public override void MoveLeftHandToEmptyReloadingMidPoint()
     {
-        StartCoroutine(ChangeLeftHandFollowTarget(leftHandFollowPosition_EmptyReloadingMidPoint, 0.3f));
+        StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_EmptyReloadingMidPoint, 0.3f));
+    }
+
+    public override void MakeRightHandGrabBolt()
+    {
+        StartCoroutine(ChangeHandFollowPosition(rightHandFollowTarget, rightHandFollowPosition_EmptyReloadingBolt, 0.2f));
+    }
+
+    public override void MakeRightHandReturnToNormalPosition()
+    {
+        StartCoroutine(ChangeHandFollowPosition(rightHandFollowTarget, rightHandFollowPosition_Normal, 0.2f));
     }
 
 
-    private IEnumerator ChangeLeftHandFollowTarget(Transform _targetPosition, float _changeDuration)
+    private IEnumerator ChangeHandFollowPosition(Transform _handFollowTarget, Transform _newFollowPosition, float _changeDuration)
     {
         float duration = _changeDuration;
         float timer = 0;
         float progress = 0;
 
-        leftHandFollowTarget.SetParent(_targetPosition.parent);
-        Vector3 startLocalPosition = leftHandFollowTarget.localPosition;
-        Quaternion startLocalRotation = leftHandFollowTarget.localRotation;
+        _handFollowTarget.SetParent(_newFollowPosition.parent);
+        Vector3 startLocalPosition = _handFollowTarget.localPosition;
+        Quaternion startLocalRotation = _handFollowTarget.localRotation;
 
-        Vector3 endLocalPosition = _targetPosition.localPosition;
-        Quaternion endLocalRotation = _targetPosition.localRotation;
+        Vector3 endLocalPosition = _newFollowPosition.localPosition;
+        Quaternion endLocalRotation = _newFollowPosition.localRotation;
 
         while (timer < duration)
         {
             progress = timer / duration;
             progress = Mathf.SmoothStep(0, 1, progress);
 
-            leftHandFollowTarget.localPosition = Vector3.Lerp(startLocalPosition, endLocalPosition, progress);
-            leftHandFollowTarget.localRotation = Quaternion.Lerp(startLocalRotation, endLocalRotation, progress);
+            _handFollowTarget.localPosition = Vector3.Lerp(startLocalPosition, endLocalPosition, progress);
+            _handFollowTarget.localRotation = Quaternion.Lerp(startLocalRotation, endLocalRotation, progress);
 
             timer += Time.deltaTime;
             yield return null;
         }
 
-        leftHandFollowTarget.localPosition = endLocalPosition;
-        leftHandFollowTarget.localRotation = endLocalRotation;
+        _handFollowTarget.localPosition = endLocalPosition;
+        _handFollowTarget.localRotation = endLocalRotation;
     }
 
     public override bool CheckIfCurrentMagIsEmpty()

@@ -133,6 +133,36 @@ public class PlayerCombat : MonoBehaviour
         yield return GraduallyChangeIKWeight(leftHandConstraint, 0.3f, 1f, 0.1f);
     }
 
+    public void MakeRightHandGrabBolt()
+    {
+        StartCoroutine(MakeRightHandGrabBolt_IKTransition());
+        currentWeapon?.MakeRightHandGrabBolt();
+    }
+
+    private IEnumerator MakeRightHandGrabBolt_IKTransition()
+    {
+        yield return GraduallyChangeIKWeight(rightHandConstraint, 1, 0f, 0.1f);
+        yield return new WaitForSeconds(0.1f);
+        yield return GraduallyChangeIKWeight(rightHandConstraint, 0, 1, 0.1f);
+    }
+
+
+
+    public void MakeRightHandReturnToNormalPosition()
+    {
+        StartCoroutine(MakeRightHandReturnToNormalPosition_IKTransition());
+        currentWeapon?.MakeRightHandReturnToNormalPosition();
+    }
+
+    private IEnumerator MakeRightHandReturnToNormalPosition_IKTransition()
+    {
+        yield return GraduallyChangeIKWeight(rightHandConstraint, 1, 0f, 0.2f);
+        yield return new WaitForSeconds(0.1f);
+        yield return GraduallyChangeIKWeight(rightHandConstraint, 0f, 1, 0.2f);
+    }
+
+
+
     private IEnumerator GraduallyChangeIKWeight(TwoBoneIKConstraint _handIKConstraint, float _from, float _to, float _duration)
     {
         float duration = _duration;
