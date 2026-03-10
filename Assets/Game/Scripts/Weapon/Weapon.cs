@@ -26,6 +26,8 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
+    #region Reload animation IK
+
     public virtual void MakeLeftHandHoldMag()
     {
 
@@ -55,6 +57,7 @@ public abstract class Weapon : MonoBehaviour
     {
 
     }
+    #endregion
 
     public virtual bool CheckIfCurrentMagIsEmpty()
     {

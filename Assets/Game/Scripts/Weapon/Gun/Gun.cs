@@ -254,6 +254,8 @@ public class Gun : Weapon
         currentRecoilIndex = 0;
     }
 
+    #region Reload animation IK
+
     public override void MakeLeftHandHoldMag()
     {
         StartCoroutine(ChangeHandFollowPosition(leftHandFollowTarget, leftHandFollowPosition_Reloading, 0.25f));
@@ -313,6 +315,7 @@ public class Gun : Weapon
         _handFollowTarget.localPosition = endLocalPosition;
         _handFollowTarget.localRotation = endLocalRotation;
     }
+    #endregion
 
     public override bool CheckIfCurrentMagIsEmpty()
     {

@@ -94,6 +94,8 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon?.FillMag();
     }
 
+
+    #region Reload animation IK
     public void MakeLeftHandHoldMag()
     {
         currentWeapon?.MakeLeftHandHoldMag();
@@ -101,19 +103,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void MakeLeftHandReturnToNormalPosition()
     {
-        StartCoroutine(MakeLeftHandReturnToNormalPosition_IKTransition());
+        StartCoroutine(TemporarilyReleaseHandConstraint(leftHandConstraint, 0.1f, 0.2f, 0.1f, 1, 0));
         currentWeapon.MakeLeftHandReturnToNormalPosition();
     }
 
-
-    private IEnumerator MakeLeftHandReturnToNormalPosition_IKTransition()
-    {
-        yield return GraduallyChangeIKWeight(leftHandConstraint, 1, 0f, 0.1f);
-
-        yield return new WaitForSeconds(0.2f);
-
-        yield return GraduallyChangeIKWeight(leftHandConstraint, 0f, 1, 0.1f);
-    }
 
     public void MoveLeftHandToEmptyReloadingInsertMagPosition()
     {
@@ -122,45 +115,33 @@ public class PlayerCombat : MonoBehaviour
 
     public void MoveLeftHandToEmptyReloadingMidPoint()
     {
-        StartCoroutine(MoveLeftHandToEmptyReloadingMidPoint_IKTransition());
+        StartCoroutine(TemporarilyReleaseHandConstraint(leftHandConstraint, 0.1f, 0.1f, 0.1f, 1, 0.3f));
         currentWeapon?.MoveLeftHandToEmptyReloadingMidPoint();
     }
 
-    private IEnumerator MoveLeftHandToEmptyReloadingMidPoint_IKTransition()
-    {
-        yield return GraduallyChangeIKWeight(leftHandConstraint, 1, 0.3f, 0.1f);
-        yield return new WaitForSeconds(0.1f);
-        yield return GraduallyChangeIKWeight(leftHandConstraint, 0.3f, 1f, 0.1f);
-    }
 
     public void MakeRightHandGrabBolt()
     {
-        StartCoroutine(MakeRightHandGrabBolt_IKTransition());
+        StartCoroutine(TemporarilyReleaseHandConstraint(rightHandConstraint, 0.1f, 0.1f, 0.1f, 1, 0));
         currentWeapon?.MakeRightHandGrabBolt();
     }
-
-    private IEnumerator MakeRightHandGrabBolt_IKTransition()
-    {
-        yield return GraduallyChangeIKWeight(rightHandConstraint, 1, 0f, 0.1f);
-        yield return new WaitForSeconds(0.1f);
-        yield return GraduallyChangeIKWeight(rightHandConstraint, 0, 1, 0.1f);
-    }
-
 
 
     public void MakeRightHandReturnToNormalPosition()
     {
-        StartCoroutine(MakeRightHandReturnToNormalPosition_IKTransition());
+        StartCoroutine(TemporarilyReleaseHandConstraint(rightHandConstraint, 0.2f, 0.1f, 0.2f, 1, 0));
         currentWeapon?.MakeRightHandReturnToNormalPosition();
     }
 
-    private IEnumerator MakeRightHandReturnToNormalPosition_IKTransition()
-    {
-        yield return GraduallyChangeIKWeight(rightHandConstraint, 1, 0f, 0.2f);
-        yield return new WaitForSeconds(0.1f);
-        yield return GraduallyChangeIKWeight(rightHandConstraint, 0f, 1, 0.2f);
-    }
 
+
+    private IEnumerator TemporarilyReleaseHandConstraint(TwoBoneIKConstraint _handConstraint, 
+        float _fadeOutTime, float _pauseTime, float _fadeInTime, float _highestWeight, float _lowestWeight)
+    {
+        yield return GraduallyChangeIKWeight(_handConstraint, _highestWeight, _lowestWeight, _fadeOutTime);
+        yield return new WaitForSeconds(_pauseTime);
+        yield return GraduallyChangeIKWeight(_handConstraint, _lowestWeight, _highestWeight, _fadeInTime);
+    }
 
 
     private IEnumerator GraduallyChangeIKWeight(TwoBoneIKConstraint _handIKConstraint, float _from, float _to, float _duration)
@@ -186,6 +167,7 @@ public class PlayerCombat : MonoBehaviour
         IKWeight = _to;
         _handIKConstraint.weight = IKWeight;
     }
+    #endregion
 
     public void FinishReloading()
     {
