@@ -102,6 +102,8 @@ public class Gun : Weapon
     private PlayerMovement playerMovement;
     private Camera mainCam;
 
+    private Coroutine handIKCoroutine;
+
 
 
     private void Start()
@@ -260,11 +262,11 @@ public class Gun : Weapon
     {
         if (CheckIfCurrentMagIsEmpty() == false)
         {
-            anim?.Play("Reload");
+            anim?.Play("Reload", 0, 0);
         }
         else
         {
-            anim?.Play("Reload_Empty");
+            anim?.Play("Reload_Empty", 0, 0);
         }
     }
 

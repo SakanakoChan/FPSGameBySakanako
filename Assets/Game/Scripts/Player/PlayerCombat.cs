@@ -6,7 +6,10 @@ using UnityEngine.Animations.Rigging;
 public class PlayerCombat : MonoBehaviour
 {
     private Weapon currentWeapon;
-    public Animator anim;
+    private CameraKick cameraKick;
+
+    public Animator armsAnim;
+    public Animator cameraTiltAnim;
 
     [Header("IK info")]
     [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
@@ -20,6 +23,7 @@ public class PlayerCombat : MonoBehaviour
     {
         currentWeapon = GetComponentInChildren<Weapon>();
 
+        cameraKick = GetComponentInChildren<CameraKick>();
     }
 
     private void Update()
@@ -33,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     //play arm fire animation to add animated gunkick
                     //(to combine with code driven gunkick)
-                    if (isInADS == false) anim.Play("Fire", 2, 0);
+                    if (isInADS == false) armsAnim.Play("Fire", 2, 0);
                 }
             }
 
@@ -46,6 +50,7 @@ public class PlayerCombat : MonoBehaviour
                 PlayArmReloadAnimation();
                 //currentWeapon?.PlayReloadAnimation();
 
+                cameraTiltAnim?.Play("Reload");
                 MakeLeftHandHoldMag();
             }
         }
@@ -54,24 +59,24 @@ public class PlayerCombat : MonoBehaviour
         if (InputManager.instance.AimDownSightHeld)
         {
             currentWeapon?.EnterADS();
-            anim.SetBool("Aim", true);
+            armsAnim.SetBool("Aim", true);
             isInADS = true;
         }
         else
         {
             currentWeapon?.ExitADS();
-            anim.SetBool("Aim", false);
+            armsAnim.SetBool("Aim", false);
             isInADS = false;
         }
 
-        anim.SetFloat("Aiming", currentWeapon.GetADSAlpha());
+        armsAnim.SetFloat("Aiming", currentWeapon.GetADSAlpha());
 
 
         //for test only
         if (Input.GetKeyDown(KeyCode.P))
         {
             pause = !pause;
-            anim.speed = pause ? 0 : 1;
+            armsAnim.speed = pause ? 0 : 1;
         }
 
     }
@@ -80,18 +85,24 @@ public class PlayerCombat : MonoBehaviour
     {
         if (currentWeapon.CheckIfCurrentMagIsEmpty() == false)
         {
-            anim.Play("Reload");
+            armsAnim.Play("Reload", 3, 0);
         }
         else
         {
-            anim.Play("Reload_Empty");
+            armsAnim.Play("Reload_Empty", 3, 0);
         }
     }
 
+    public void OnMagReleased()
+    {
+        cameraKick?.AddCameraKick(new Vector3(0, 0, 30f));
+    }
 
     public void FillMag()
     {
         currentWeapon?.FillMag();
+
+        cameraKick?.AddCameraKick(new Vector3(0, 0, 50f));
     }
 
 
@@ -135,7 +146,7 @@ public class PlayerCombat : MonoBehaviour
 
 
 
-    private IEnumerator TemporarilyReleaseHandConstraint(TwoBoneIKConstraint _handConstraint, 
+    private IEnumerator TemporarilyReleaseHandConstraint(TwoBoneIKConstraint _handConstraint,
         float _fadeOutTime, float _pauseTime, float _fadeInTime, float _highestWeight, float _lowestWeight)
     {
         yield return GraduallyChangeIKWeight(_handConstraint, _highestWeight, _lowestWeight, _fadeOutTime);

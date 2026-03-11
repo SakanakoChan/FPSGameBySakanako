@@ -11,6 +11,11 @@ public class PlayerAnimationTrigger : MonoBehaviour
         playerCombat = GetComponentInParent<PlayerCombat>();
     }
 
+    public void OnMagReleased()
+    {
+        playerCombat?.OnMagReleased();
+    }
+
     public void FillMag()
     {
         playerCombat?.FillMag();
