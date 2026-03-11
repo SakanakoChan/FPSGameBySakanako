@@ -22250,6 +22250,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: AK47
       objectReference: {fileID: 0}
+    - target: {fileID: 8445401694593213616, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0122
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445401694593213616, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0418
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445401694593213616, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.079
+      objectReference: {fileID: 0}
     - target: {fileID: 8445401694593213622, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22304,6 +22319,10 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4099188412197882921, guid: 1d917315d84837e4daadded5757bb55b, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8445401694593213620, guid: 1d917315d84837e4daadded5757bb55b,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1403806067}
     - targetCorrespondingSourceObject: {fileID: 8445401694593213620, guid: 1d917315d84837e4daadded5757bb55b,
         type: 3}
       insertIndex: -1
@@ -22424,6 +22443,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1393130665}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1403806066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403806067}
+  m_Layer: 0
+  m_Name: CasingSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1403806067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403806066}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.012199899, y: -0.14379992, z: 0.07900008}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1393130676}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1409930573
 GameObject:
   m_ObjectHideFlags: 0
@@ -23271,6 +23321,7 @@ MonoBehaviour:
   aimPoint: {fileID: 1557870692}
   hipFireCrosshair: {fileID: 1636996038}
   bulletSpawnPosition: {fileID: 411883784}
+  casingSpawnPosition: {fileID: 1403806067}
   muzzleFlashPosition: {fileID: 411883784}
   leftHandFollowTarget: {fileID: 255042856}
   leftHandFollowPosition_Normal: {fileID: 1908245580}

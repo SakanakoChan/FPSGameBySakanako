@@ -71,6 +71,8 @@ MonoBehaviour:
   maxRange: 1000
   bulletPrefab: {fileID: 1086664671600574, guid: 9d679713b917df94ba6ebf38bddf67a3,
     type: 3}
+  casingPrefab: {fileID: 1492315059354262, guid: 461c7120a5ba76b4792b2524940b9012,
+    type: 3}
   muzzleFlash_Particle: {fileID: 4742348811577898604, guid: 083282f5767a98b44a834ccd97a63e38,
     type: 3}
   muzzleFlash_Light: {fileID: 8398006699242687195, guid: 70836a65199eb614fb6721b3708e0ac9,

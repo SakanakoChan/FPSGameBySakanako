@@ -100,6 +100,11 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    public void OnEjectCasing()
+    {
+        currentWeapon?.EjectCasing();
+    }
+
     public void OnMagReleased()
     {
         cameraKick?.AddCameraKick(new Vector3(0, 0, 30f));

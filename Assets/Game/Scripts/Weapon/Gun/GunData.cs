@@ -45,6 +45,7 @@ public class GunData : ScriptableObject
     public float bulletGravity;
     public float maxRange;
     public GameObject bulletPrefab;
+    public GameObject casingPrefab;
 
     [Header("Fx info")]
     public ParticleSystem muzzleFlash_Particle;

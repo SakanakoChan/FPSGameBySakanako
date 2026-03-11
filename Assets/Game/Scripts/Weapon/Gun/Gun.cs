@@ -23,6 +23,7 @@ public class Gun : Weapon
 
     [Header("Bullet info")]
     [SerializeField] private Transform bulletSpawnPosition;
+    [SerializeField] private Transform casingSpawnPosition;
     private Vector3 logicBulletStartPosition;
 
 
@@ -204,6 +205,8 @@ public class Gun : Weapon
 
         SpawnBullet();
 
+        SpawnCasing();
+
         PlayFireSound();
 
         AddRecoil();
@@ -214,8 +217,6 @@ public class Gun : Weapon
 
         return true;
     }
-
-
 
     public override bool TryReload()
     {
@@ -639,7 +640,7 @@ public class Gun : Weapon
 
         bool isNearWall = Vector3.Distance(hit.point, mainCam.transform.position) <= 1f;
 
-        Debug.Log("Is Near Wall: " + isNearWall);
+        //Debug.Log("Is Near Wall: " + isNearWall);
         if (isNearWall)
         {
             bulletSpawnPosition = mainCam.transform.position;
@@ -654,6 +655,14 @@ public class Gun : Weapon
         projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition/*bulletSpawnPosition.position*/);
     }
 
+    private void SpawnCasing()
+    {
+        GameObject casing = Instantiate(gunData.casingPrefab, casingSpawnPosition.position, casingSpawnPosition.rotation);
+        Rigidbody casingRB = casing.GetComponent<Rigidbody>();
+        casingRB.velocity = Random.Range(2f, 5f) * transform.right;
+        casingRB.AddTorque(Random.onUnitSphere * Random.Range(5f, 15f), ForceMode.Impulse);
+        //casingRB.angularVelocity = new Vector3(Random.Range(-45f, 45f), Random.Range(-45f, 45f), Random.Range(-45f, 45f));
+    }
 
 
     private void UpdateFinalSpreadAngle()
@@ -690,5 +699,10 @@ public class Gun : Weapon
         float adsFOVRad = 2f * Mathf.Atan(Mathf.Tan(hipFOVRad * 0.5f) / zoomMultiplier);
 
         return adsFOVRad * Mathf.Rad2Deg;
+    }
+
+    public override void EjectCasing()
+    {
+
     }
 }
