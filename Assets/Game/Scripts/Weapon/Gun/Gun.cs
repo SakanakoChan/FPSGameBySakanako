@@ -237,7 +237,22 @@ public class Gun : Weapon
 
         isReloading = true;
 
+        PlayReloadAnimation();
+        PlayReloadSound();
+
         return true;
+    }
+
+    private void PlayReloadSound()
+    {
+        if (CheckIfCurrentMagIsEmpty())
+        {
+            audioSource.PlayOneShot(gunData.reloadSound_Empty);
+        }
+        else
+        {
+            audioSource.PlayOneShot(gunData.reloadSound);
+        }
     }
 
     #region Reload related functions

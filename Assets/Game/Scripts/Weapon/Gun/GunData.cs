@@ -54,6 +54,8 @@ public class GunData : ScriptableObject
     [Header("Audio info")]
     public AudioClip fireSound;
     public AudioClip fireSound_Empty;
+    public AudioClip reloadSound;
+    public AudioClip reloadSound_Empty;
 
 
     [Header("Recoil pattern")]

@@ -44,7 +44,7 @@ public class PlayerCombat : MonoBehaviour
             if (currentWeapon.TryReload() == true)
             {
                 PlayArmReloadAnimation();
-                currentWeapon?.PlayReloadAnimation();
+                //currentWeapon?.PlayReloadAnimation();
 
                 MakeLeftHandHoldMag();
             }

@@ -78,6 +78,8 @@ MonoBehaviour:
   muzzleFlashLightDuration: 0.05
   fireSound: {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
   fireSound_Empty: {fileID: 0}
+  reloadSound: {fileID: 8300000, guid: 778c7be53403f9e45804f5a61a13a3e6, type: 3}
+  reloadSound_Empty: {fileID: 8300000, guid: 1fe5c2e1733f354428fe88c1a7cbafe4, type: 3}
   recoilRecoveryDelay: 0.3
   recoilRecoveryInterval: 0.025
   recoilPatternList:
@@ -132,4 +134,10 @@ MonoBehaviour:
   basicADSSpreadAngle: 0
   maxADSSpreadAngle: 0.01
   adsSpreadTransitionSpeed: 30
+  IKTransitionDuration_LeftHandHoldMag: 0.25
+  IKTransitionDuration_LeftHandReturnToNormalPosition: 0.4
+  IKTransitionDuration_LeftHandEmptyReloadingInsertMag: 0.1
+  IKTransitionDuration_LeftHandEmptyReloadingMidPoint: 0.3
+  IKTransitionDuration_RightHandGrabBolt: 0.2
+  IKTransitionDuration_RightHandReturnToNormalPosition: 0.2
   multiplyAllRecoilsBy: 0.75
