@@ -8,6 +8,7 @@ public class PlayerCombat : MonoBehaviour
     private Weapon currentWeapon;
     private CameraKick cameraKick;
     private GunKick gunKick;
+    private PlayerMovement playerMovement;
 
     public Animator armsAnim;
     public Animator cameraTiltAnim;
@@ -16,13 +17,14 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
     [SerializeField] private TwoBoneIKConstraint rightHandConstraint;
 
-    public bool isInADS { get; private set; }
+    public bool armIsInADS { get; private set; }
 
     private bool pause = false;
 
     private void Start()
     {
         currentWeapon = GetComponentInChildren<Weapon>();
+        playerMovement = GetComponent<PlayerMovement>();
 
         cameraKick = GetComponentInChildren<CameraKick>();
         gunKick = GetComponentInChildren<GunKick>();
@@ -34,12 +36,18 @@ public class PlayerCombat : MonoBehaviour
         {
             if (currentWeapon != null)
             {
+                if (playerMovement.isSprinting)
+                {
+                    playerMovement?.CancelSprint();
+                    currentWeapon?.StartSprintToFireDelay();
+                }
+
                 bool fireSucceeded = currentWeapon.TryFire();
                 if (fireSucceeded)
                 {
                     //play arm fire animation to add animated gunkick
                     //(to combine with code driven gunkick)
-                    if (isInADS == false) armsAnim.Play("Fire", 2, 0);
+                    if (armIsInADS == false) armsAnim.Play("Fire", 2, 0);
                 }
             }
 
@@ -49,6 +57,11 @@ public class PlayerCombat : MonoBehaviour
         {
             if (currentWeapon.TryReload() == true)
             {
+                if (armIsInADS)
+                {
+                    CancelADS();
+                }
+
                 PlayArmReloadAnimation();
                 //currentWeapon?.PlayReloadAnimation();
 
@@ -65,18 +78,25 @@ public class PlayerCombat : MonoBehaviour
         }
 
 
-        if (InputManager.instance.AimDownSightHeld)
+        if (!currentWeapon.isReloading)
         {
-            currentWeapon?.EnterADS();
-            armsAnim.SetBool("Aim", true);
-            isInADS = true;
+            if (InputManager.instance.AimDownSightHeld)
+            {
+                if (playerMovement.isSprinting)
+                {
+                    playerMovement?.CancelSprint();
+                }
+
+                currentWeapon?.EnterADS();
+                armsAnim.SetBool("Aim", true);
+                armIsInADS = true;
+            }
+            else
+            {
+                CancelADS();
+            }
         }
-        else
-        {
-            currentWeapon?.ExitADS();
-            armsAnim.SetBool("Aim", false);
-            isInADS = false;
-        }
+
 
         armsAnim.SetFloat("Aiming", currentWeapon.GetADSAlpha());
 
@@ -88,6 +108,14 @@ public class PlayerCombat : MonoBehaviour
             armsAnim.speed = pause ? 0 : 1;
         }
 
+    }
+
+
+    public void CancelADS()
+    {
+        currentWeapon?.ExitADS();
+        armsAnim.SetBool("Aim", false);
+        armIsInADS = false;
     }
 
     private void PlayArmReloadAnimation()
@@ -102,15 +130,15 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void OnEjectCasing()
-    {
-        currentWeapon?.EjectCasing();
-    }
+    //public void OnEjectCasing()
+    //{
+    //    currentWeapon?.EjectCasing();
+    //}
 
     public void OnMagReleased()
     {
         cameraKick?.AddCameraKick(new Vector3(0, 0, 30f));
-        gunKick?.AddGunKick(Vector3.zero,  new Vector3(Random.Range(-20f, -10f), Random.Range(5f, 10f),  Random.Range(-240f, -180f)));
+        gunKick?.AddGunKick(Vector3.zero, new Vector3(Random.Range(-20f, -10f), Random.Range(5f, 10f), Random.Range(-240f, -180f)));
     }
 
     public void OnMagInserted_EmptyReloading()

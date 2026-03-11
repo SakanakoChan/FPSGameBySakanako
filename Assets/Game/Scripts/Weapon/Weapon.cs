@@ -78,7 +78,12 @@ public abstract class Weapon : MonoBehaviour
         return 0;
     }
 
-    public virtual void EjectCasing()
+    //public virtual void EjectCasing()
+    //{
+
+    //}
+
+    public virtual void StartSprintToFireDelay()
     {
 
     }

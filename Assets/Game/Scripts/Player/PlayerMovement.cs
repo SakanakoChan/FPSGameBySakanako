@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator anim;
     private CharacterController cc;
 
+    private PlayerCombat playerCombat;
+
 
     [Header("Acceleration info")]
     [SerializeField] private float acceleration_Grounded = 8;
@@ -74,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         PauseManager.instance.OnPauseStateChanged += HandlePause;
 
         cc = GetComponent<CharacterController>();
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     private void Update()
@@ -155,8 +158,8 @@ public class PlayerMovement : MonoBehaviour
         float forwardDot = Vector3.Dot(moveDirection, transform.forward);
         bool isMovingForwardEnough = forwardDot > forwardDotThresholdToTriggerSprint;
 
-        bool curremtMovementConditionSupportsSprint = 
-            isMovingForwardEnough && 
+        bool curremtMovementConditionSupportsSprint =
+            isMovingForwardEnough &&
             moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint &&
             movementState == MovementState.Grounded;
 
@@ -247,6 +250,13 @@ public class PlayerMovement : MonoBehaviour
             moveSpeedRatio = 0;
         }
         anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
+    }
+
+    public void CancelSprint()
+    {
+        isSprinting = false;
+        wantsToSprint = false;
+        anim.SetBool("Running", isSprinting);
     }
 
     private void HandlePause(bool _gameIsPaused)

@@ -26,6 +26,9 @@ public class GunData : ScriptableObject
     public Vector3 hipFireGunPosition = new Vector3(0.1773f, -0.2071f, 0.984f);
     public Vector3 hipFireGunRotationEuler = Vector3.zero;
 
+    [Header("Sprint to fire time")]
+    public float sprintToFireTime = 0.2f;
+
     [Header("ADS info")]
     public float adsTime = 0.25f;
     [Tooltip("ADS exit time = ADSTime * ADSExitTimeMultiplier")]

@@ -76,6 +76,8 @@ public class Gun : Weapon
     public float hipFireFOV { get; private set; }
     //private float adsFOVAlpha = 0;
 
+    private float sprintToFireTimer = 0;
+
 
     #region Spread fields
     //basic spread
@@ -164,6 +166,8 @@ public class Gun : Weapon
         UpdateFinalSpreadAngle();
 
         SyncSpreadWithHipFireCrosshair();
+
+        sprintToFireTimer -= Time.deltaTime;
     }
 
     private void UpdateMoveSpeedSpreadPunishment()
@@ -192,6 +196,12 @@ public class Gun : Weapon
         if (isReloading)
         {
             Debug.Log("Cannot fire while reloading!");
+            return false;
+        }
+
+        if (sprintToFireTimer > 0)
+        {
+            Debug.Log("Sprint to fire delay... fuck i hate this design");
             return false;
         }
 
@@ -701,8 +711,8 @@ public class Gun : Weapon
         return adsFOVRad * Mathf.Rad2Deg;
     }
 
-    public override void EjectCasing()
+    public override void StartSprintToFireDelay()
     {
-
+        sprintToFireTimer = gunData.sprintToFireTime;
     }
 }
