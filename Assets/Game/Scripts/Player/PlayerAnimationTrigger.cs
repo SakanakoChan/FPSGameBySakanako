@@ -16,6 +16,11 @@ public class PlayerAnimationTrigger : MonoBehaviour
         playerCombat?.OnMagReleased();
     }
 
+    public void OnMagInserted_EmptyReloading()
+    {
+        playerCombat?.OnMagInserted_EmptyReloading();
+    }
+
     public void FillMag()
     {
         playerCombat?.FillMag();
@@ -44,6 +49,11 @@ public class PlayerAnimationTrigger : MonoBehaviour
     public void MakeRightHandReturnToNormalPosition()
     {
         playerCombat?.MakeRightHandReturnToNormalPosition();
+    }
+
+    public void OnStockAgainstArm()
+    {
+        playerCombat?.OnStockAgainstArm();
     }
 
     public void FinishReloading()

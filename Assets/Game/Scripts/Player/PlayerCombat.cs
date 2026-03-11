@@ -50,7 +50,14 @@ public class PlayerCombat : MonoBehaviour
                 PlayArmReloadAnimation();
                 //currentWeapon?.PlayReloadAnimation();
 
-                cameraTiltAnim?.Play("Reload");
+                if (currentWeapon.CheckIfCurrentMagIsEmpty())
+                {
+                    cameraTiltAnim?.Play("Reload_Empty");
+                }
+                else
+                {
+                    cameraTiltAnim?.Play("Reload");
+                }
                 MakeLeftHandHoldMag();
             }
         }
@@ -98,11 +105,21 @@ public class PlayerCombat : MonoBehaviour
         cameraKick?.AddCameraKick(new Vector3(0, 0, 30f));
     }
 
+    public void OnMagInserted_EmptyReloading()
+    {
+        cameraKick?.AddCameraKick(new Vector3(0, 0, 40f));
+    }
+
     public void FillMag()
     {
         currentWeapon?.FillMag();
 
         cameraKick?.AddCameraKick(new Vector3(0, 0, 50f));
+    }
+
+    public void OnStockAgainstArm()
+    {
+        cameraKick?.AddCameraKick(new Vector3(0, 0, 20f));
     }
 
 
