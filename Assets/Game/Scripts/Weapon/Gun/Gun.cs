@@ -618,13 +618,23 @@ public class Gun : Weapon
             Debug.LogFormat("Bullet didnt hit any target, stopped at its max range: " + gunData.maxRange);
         }
 
+        Vector3 bulletSpawnPosition = this.bulletSpawnPosition.position;
+
+        bool isNearWall = Vector3.Distance(hit.point, mainCam.transform.position) <= 1f;
+
+        Debug.Log("Is Near Wall: " + isNearWall);
+        if (isNearWall)
+        {
+            bulletSpawnPosition = mainCam.transform.position;
+        }
+
         //spawn projectile
         GameObject bullet = Instantiate(gunData.bulletPrefab);
         var projectile = bullet.GetComponent<Projectile>();
 
-        Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition.position).normalized;
+        Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition).normalized;
         Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
-        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition);
+        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition/*bulletSpawnPosition.position*/);
     }
 
 

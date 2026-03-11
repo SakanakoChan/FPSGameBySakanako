@@ -37,12 +37,12 @@ public class Projectile : MonoBehaviour
     }
 
 
-    public void SetupProjectile(Vector3 _velocity, float _gravity, Transform _spawnPosition)
+    public void SetupProjectile(Vector3 _velocity, float _gravity, Vector3 _spawnPosition)
     {
         velocity = _velocity;
         gravity = _gravity;
 
-        transform.position = _spawnPosition.position;
+        transform.position = _spawnPosition;
         transform.forward = velocity.normalized;
         currentPosition = transform.position;
 
