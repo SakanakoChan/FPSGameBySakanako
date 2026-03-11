@@ -7,6 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     private Weapon currentWeapon;
     private CameraKick cameraKick;
+    private GunKick gunKick;
 
     public Animator armsAnim;
     public Animator cameraTiltAnim;
@@ -24,6 +25,7 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon = GetComponentInChildren<Weapon>();
 
         cameraKick = GetComponentInChildren<CameraKick>();
+        gunKick = GetComponentInChildren<GunKick>();
     }
 
     private void Update()
@@ -108,11 +110,13 @@ public class PlayerCombat : MonoBehaviour
     public void OnMagReleased()
     {
         cameraKick?.AddCameraKick(new Vector3(0, 0, 30f));
+        gunKick?.AddGunKick(Vector3.zero,  new Vector3(Random.Range(-20f, -10f), Random.Range(5f, 10f),  Random.Range(-240f, -180f)));
     }
 
     public void OnMagInserted_EmptyReloading()
     {
         cameraKick?.AddCameraKick(new Vector3(0, 0, 40f));
+        gunKick?.AddGunKick(Vector3.zero, new Vector3(Random.Range(-20f, -10f), Random.Range(5f, 10f), Random.Range(-240f, -180f)));
     }
 
     public void FillMag()
@@ -120,6 +124,7 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon?.FillMag();
 
         cameraKick?.AddCameraKick(new Vector3(0, 0, 50f));
+        gunKick?.AddGunKick(Vector3.zero, new Vector3(Random.Range(-20f, -10f), Random.Range(5f, 10f), Random.Range(-240f, -180f)));
     }
 
     public void OnStockAgainstArm()
