@@ -166,6 +166,7 @@ public class Gun : Weapon
 
         UpdateFinalSpreadAngle();
 
+        //hipfire cross hair will get updated by PlayerCombat..
         //SyncSpreadWithHipFireCrosshair();
 
         sprintToFireTimer -= Time.deltaTime;
@@ -497,20 +498,20 @@ public class Gun : Weapon
         }
     }
 
-    private void SyncSpreadWithHipFireCrosshair()
-    {
-        float spreadRad = currentFinalSpreadAngle * Mathf.Deg2Rad;
-        float fovRad = hipFireFOV * Mathf.Deg2Rad;
+    //private void SyncSpreadWithHipFireCrosshair()
+    //{
+    //    float spreadRad = currentFinalSpreadAngle * Mathf.Deg2Rad;
+    //    float fovRad = hipFireFOV * Mathf.Deg2Rad;
 
-        float pixelOffset =
-            Mathf.Tan(spreadRad) /
-            Mathf.Tan(fovRad * 0.5f) *
-            (Screen.height * 0.5f);
+    //    float pixelOffset =
+    //        Mathf.Tan(spreadRad) /
+    //        Mathf.Tan(fovRad * 0.5f) *
+    //        (Screen.height * 0.5f);
 
-        float uiOffset = pixelOffset / hudCanvas.scaleFactor;
+    //    float uiOffset = pixelOffset / hudCanvas.scaleFactor;
 
-        hipFireCrosshair?.SetLineTargetOffset(uiOffset);
-    }
+    //    hipFireCrosshair?.SetLineTargetOffset(uiOffset);
+    //}
 
 
 
