@@ -24,7 +24,7 @@ public class Gun : Weapon
     [Header("Bullet info")]
     [SerializeField] private Transform bulletSpawnPosition;
     [SerializeField] private Transform casingSpawnPosition;
-    private Vector3 logicBulletStartPosition;
+    public Vector3 logicBulletStartPosition { get; private set; }
 
 
     [Header("FX info")]

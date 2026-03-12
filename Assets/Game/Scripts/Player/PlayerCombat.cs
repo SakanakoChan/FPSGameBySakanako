@@ -247,11 +247,9 @@ public class PlayerCombat : MonoBehaviour
     }
 
 
-    public void ShowHitMark(Vector2 _localPosition, Color _color, bool _isHeadShot)
+    public void ShowHitMark(Color _color, bool _isHeadShot)
     {
-        hitMark?.ShowHitMark(_localPosition, _color, _isHeadShot);
-        hitMark?.gameObject.SetActive(false);
-        hitMark?.gameObject.SetActive(true);
+        hitMark?.ShowHitMark(currentWeapon as Gun, _color, _isHeadShot);
     }
 
 }

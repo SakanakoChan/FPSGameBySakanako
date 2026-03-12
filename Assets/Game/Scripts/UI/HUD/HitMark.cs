@@ -13,18 +13,37 @@ public class HitMark : MonoBehaviour
     [SerializeField] private GameObject pattern_Normal;
     [SerializeField] private GameObject pattern_HeadShot;
 
+    private Gun currentGun;
+    private Camera mainCam;
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        mainCam = Camera.main;
 
         imageList = GetComponentsInChildren<Image>(true).ToList();
 
         gameObject.SetActive(false);
     }
 
-    public void ShowHitMark(Vector2 _localPosition, Color _color, bool _isHeadShot)
+    private void LateUpdate()
     {
-        rectTransform.localPosition = _localPosition;
+        if (currentGun != null && gameObject.activeSelf == true)
+        {
+            Vector3 screenPosition = mainCam.WorldToScreenPoint(currentGun.logicBulletStartPosition);
+            Vector2 localPosition;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent as RectTransform, screenPosition, null, out localPosition);
+            rectTransform.localPosition = localPosition;
+        }
+    }
+
+    public void ShowHitMark(Gun _gun, Color _color, bool _isHeadShot)
+    {
+        gameObject.SetActive(false);
+        gameObject.SetActive(true);
+
+        currentGun = _gun;
+
         foreach (var image in imageList)
         {
             image.color = _color;
