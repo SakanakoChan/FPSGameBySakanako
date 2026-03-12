@@ -63,6 +63,7 @@ public class PlayerLook : MonoBehaviour
 
     private CameraRecoil cameraRecoil;
     private Gun currentGun;
+    private PlayerCombat playerCombat;
 
 
     private void Awake()
@@ -70,6 +71,7 @@ public class PlayerLook : MonoBehaviour
         //pov = vcam.GetCinemachineComponent<CinemachinePOV>();
         cameraRecoil = GetComponentInChildren<CameraRecoil>();
         currentGun = GetComponentInChildren<Gun>();
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     private void OnEnable()
@@ -144,11 +146,15 @@ public class PlayerLook : MonoBehaviour
             float processedLookInputX = processedLookInput.x;
             float processedLookInputY = processedLookInput.y;
 
-            if (turnAcceleration)
+            if (playerCombat != null && playerCombat.armIsInADS == false)
             {
-                processedLookInputX = horizontalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.x, processedLookInputX);
-                processedLookInputY = verticalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.y, processedLookInputY);
+                if (turnAcceleration)
+                {
+                    processedLookInputX = horizontalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.x, processedLookInputX);
+                    processedLookInputY = verticalTurnAcceleration.ApplyTurnAcceleration(rawLookInput.y, processedLookInputY);
+                }
             }
+
 
             //in rewired, controller stick related axis actions always return absolute value
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent

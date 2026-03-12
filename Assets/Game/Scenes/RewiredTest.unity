@@ -6471,7 +6471,7 @@ GameObject:
   - component: {fileID: 499433145}
   - component: {fileID: 499433144}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7230,9 +7230,9 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 21
+        _actionId: 22
         _elementType: 1
-        _elementIdentifierId: 13
+        _elementIdentifierId: 10
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
@@ -7241,9 +7241,9 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 22
+        _actionId: 21
         _elementType: 1
-        _elementIdentifierId: 10
+        _elementIdentifierId: 12
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
@@ -7369,7 +7369,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 21
         _elementType: 1
         _elementIdentifierId: 11
         _axisRange: 0
@@ -7380,7 +7380,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 21
+        _actionId: -1
         _elementType: 0
         _elementIdentifierId: 5
         _axisRange: 1

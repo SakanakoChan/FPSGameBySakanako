@@ -18,6 +18,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private TwoBoneIKConstraint rightHandConstraint;
 
     public bool armIsInADS { get; private set; }
+    public bool isTryingToFire { get; private set; } = false;
 
     private bool pause = false;
 
@@ -32,10 +33,12 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        isTryingToFire = false;
         if (InputManager.instance.FireHeld)
         {
             if (currentWeapon != null)
             {
+                isTryingToFire = true;
                 if (playerMovement.isSprinting)
                 {
                     playerMovement?.CancelSprint();

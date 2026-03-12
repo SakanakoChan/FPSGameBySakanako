@@ -173,9 +173,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //auto sprint settings
-        if (InputManager.instance.currentInputDevice == InputDevice.Controller && GameSettings.controllerAutoSprint == true)
+        if (playerCombat != null && playerCombat.armIsInADS == false && playerCombat.isTryingToFire == false)
         {
-            wantsToSprint = true;
+            if (InputManager.instance.currentInputDevice == InputDevice.Controller && GameSettings.controllerAutoSprint == true)
+            {
+                wantsToSprint = true;
+            }
         }
 
 
