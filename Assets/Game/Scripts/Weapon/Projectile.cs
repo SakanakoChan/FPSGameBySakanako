@@ -15,6 +15,8 @@ public class Projectile : MonoBehaviour
 
     private bool hasBeenSetup = false;
 
+    private PlayerCombat playerCombat;
+
     private void Update()
     {
         if (hasBeenSetup == false)
@@ -31,9 +33,12 @@ public class Projectile : MonoBehaviour
             if (damageable != null)
             {
                 float finalDamage = basicDamage;
+
+                bool isHeadShot = false;
                 if (hit.collider.tag.Equals("Head"))
                 {
                     finalDamage *= 2;
+                    isHeadShot = true;
                 }
                 else if(hit.collider.tag.Equals("Torso"))
                 {
@@ -48,7 +53,12 @@ public class Projectile : MonoBehaviour
                     finalDamage *= 0.8f;
                 }
 
-                damageable.TakeDamage(finalDamage);
+                damageable.TakeDamage(finalDamage, out bool killedTarget);
+
+                Color hitMarkColor = killedTarget ? Color.red : Color.white;
+                hitMarkColor.a = 0.65f;
+                playerCombat?.ShowHitMark(Vector2.zero, hitMarkColor, isHeadShot);
+
             }
 
             //Debug.Log("Bullet has hit target: " + hit.collider.name);
@@ -63,11 +73,12 @@ public class Projectile : MonoBehaviour
     }
 
 
-    public void SetupProjectile(Vector3 _velocity, float _gravity, Vector3 _spawnPosition, float _damage)
+    public void SetupProjectile(Vector3 _velocity, float _gravity, Vector3 _spawnPosition, float _damage, PlayerCombat _playerCombat)
     {
         velocity = _velocity;
         gravity = _gravity;
         basicDamage = _damage;
+        playerCombat = _playerCombat;
 
         transform.position = _spawnPosition;
         transform.forward = velocity.normalized;

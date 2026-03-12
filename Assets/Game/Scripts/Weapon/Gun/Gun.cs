@@ -101,7 +101,7 @@ public class Gun : Weapon
     #endregion
 
 
-
+    private PlayerCombat playerCombat;
     private PlayerMovement playerMovement;
     private Camera mainCam;
 
@@ -150,6 +150,7 @@ public class Gun : Weapon
 
         hudCanvas = hipFireCrosshair.GetComponentInParent<Canvas>();
 
+        playerCombat = GetComponentInParent<PlayerCombat>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         //audioSource.clip = gunData.fireSound;
     }
@@ -662,7 +663,7 @@ public class Gun : Weapon
 
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition).normalized;
         Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
-        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition/*bulletSpawnPosition.position*/, -1 * gunData.damage);
+        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition, -1 * gunData.damage, playerCombat);
     }
 
     private void SpawnCasing()

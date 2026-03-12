@@ -194,6 +194,11 @@ public class SliderSettingsItem : SettingsItem
 
     public override void SaveData()
     {
+        if (slider == null)
+        {
+            return;
+        }
+
         SaveManager.instance.SetSettings(config.key, config.SerializeValue(slider.value));
 
         //Deprecated

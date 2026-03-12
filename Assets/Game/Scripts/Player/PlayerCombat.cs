@@ -13,6 +13,9 @@ public class PlayerCombat : MonoBehaviour
     public Animator armsAnim;
     public Animator cameraTiltAnim;
 
+    [Header("HUD info")]
+    [SerializeField] private HitMark hitMark;
+
     [Header("IK info")]
     [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
     [SerializeField] private TwoBoneIKConstraint rightHandConstraint;
@@ -243,5 +246,12 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon?.FinishReloading();
     }
 
+
+    public void ShowHitMark(Vector2 _localPosition, Color _color, bool _isHeadShot)
+    {
+        hitMark?.ShowHitMark(_localPosition, _color, _isHeadShot);
+        hitMark?.gameObject.SetActive(false);
+        hitMark?.gameObject.SetActive(true);
+    }
 
 }

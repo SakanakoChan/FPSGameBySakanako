@@ -63,6 +63,10 @@ public class ToggleSettingsItem : SettingsItem
 
     public override void SaveData()
     {
+        if (toggle == null)
+        {
+            return;
+        }
         SaveManager.instance.SetSettings(config.key, config.SerializeValue(toggle.isOn));
 
         //Deprecated

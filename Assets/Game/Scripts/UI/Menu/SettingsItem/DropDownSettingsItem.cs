@@ -138,6 +138,11 @@ public class DropDownSettingsItem : SettingsItem
 
     public override void SaveData()
     {
+        if (dropdown == null)
+        {
+            return;
+        }
+
         SaveManager.instance.SetSettings(config.key, config.SerializeValue(dropdown.value));
 
         //Deprecated

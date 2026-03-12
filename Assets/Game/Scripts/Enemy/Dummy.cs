@@ -15,14 +15,17 @@ public class Dummy : MonoBehaviour, IDamageable
         currentHP = maxHP;
     }
 
-    public void TakeDamage(float _damage)
+    public void TakeDamage(float _damage, out bool _isKilled)
     {
         currentHP += _damage;
         Debug.Log("Received damage: " + -_damage);
 
+        _isKilled = false;
+
         if (currentHP <= 0)
         {
             isDead = true;
+            _isKilled = true;
         }
     }
 }
