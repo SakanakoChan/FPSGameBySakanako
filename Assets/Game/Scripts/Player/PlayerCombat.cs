@@ -14,6 +14,8 @@ public class PlayerCombat : MonoBehaviour
     public Animator cameraTiltAnim;
 
     [Header("HUD info")]
+    [SerializeField] private Canvas hudCanvas;
+    [SerializeField] private HipFireCrosshair hipFireCrosshair;
     [SerializeField] private HitMark hitMark;
 
     [Header("IK info")]
@@ -36,6 +38,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        SyncSpreadWithHipFireCrosshair();
+
         isTryingToFire = false;
         if (InputManager.instance.FireHeld)
         {
@@ -246,6 +250,22 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon?.FinishReloading();
     }
 
+    private void SyncSpreadWithHipFireCrosshair()
+    {
+        Gun gun = currentWeapon as Gun;
+
+        float spreadRad = gun.currentFinalSpreadAngle * Mathf.Deg2Rad;
+        float fovRad = gun.hipFireFOV * Mathf.Deg2Rad;
+
+        float pixelOffset =
+            Mathf.Tan(spreadRad) /
+            Mathf.Tan(fovRad * 0.5f) *
+            (Screen.height * 0.5f);
+
+        float uiOffset = pixelOffset / hudCanvas.scaleFactor;
+
+        hipFireCrosshair?.SetLineTargetOffset(uiOffset);
+    }
 
     public void ShowHitMark(Color _color, bool _isHeadShot)
     {

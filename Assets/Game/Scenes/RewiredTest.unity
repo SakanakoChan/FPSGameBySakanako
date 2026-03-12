@@ -25298,6 +25298,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armsAnim: {fileID: 1005843013}
   cameraTiltAnim: {fileID: 1005282836}
+  hudCanvas: {fileID: 160469873}
+  hipFireCrosshair: {fileID: 1636996038}
   hitMark: {fileID: 1524035722}
   leftHandConstraint: {fileID: 131105447}
   rightHandConstraint: {fileID: 101779375}

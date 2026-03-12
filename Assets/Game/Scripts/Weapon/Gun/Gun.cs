@@ -97,7 +97,7 @@ public class Gun : Weapon
     private float currentAirSpreadPunishment;
 
     //final spread
-    private float currentFinalSpreadAngle;
+    public float currentFinalSpreadAngle { get; private set; }
     #endregion
 
 
@@ -166,7 +166,7 @@ public class Gun : Weapon
 
         UpdateFinalSpreadAngle();
 
-        SyncSpreadWithHipFireCrosshair();
+        //SyncSpreadWithHipFireCrosshair();
 
         sprintToFireTimer -= Time.deltaTime;
     }
