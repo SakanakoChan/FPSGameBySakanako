@@ -28,7 +28,7 @@ public class SettingsMenu : MonoBehaviour, IUIAction
 
     private void Awake()
     {
-        settingsItemList = GetComponentsInChildren<SettingsItem>();
+        settingsItemList = GetComponentsInChildren<SettingsItem>(true);
     }
 
     private void Start()

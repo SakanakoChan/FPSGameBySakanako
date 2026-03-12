@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SettingsConfigDatabase
   m_EditorClassIdentifier: 
   settingsConfigList:
+  - {fileID: 11400000, guid: 2fedb939c4771c04797bccff46f62e6e, type: 2}
   - {fileID: 11400000, guid: 9d54ce1ef38575b419828809c68cb37d, type: 2}
   - {fileID: 11400000, guid: 7cd04f28b4983b543b0ce6f35e5b394d, type: 2}
   - {fileID: 11400000, guid: e1930692f93d31346864abcb06a4dfe9, type: 2}

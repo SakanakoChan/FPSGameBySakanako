@@ -20,6 +20,7 @@ public static class GameSettings
     public static float verticalTurnAccelerationRampUpTime => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationRampUpTime");
     public static float verticalTurnAccelerationSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("VerticalTurnAccelerationSensitivityMultiplier");
     public static ADSSensitivityTransition controllerADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("ControllerADSSensitivityTransition");
+    public static float controllerADSSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("ControllerADSSensitivityMultiplier");
     #endregion
 
     #region Mouse Settings
