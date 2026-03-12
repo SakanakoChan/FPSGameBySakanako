@@ -638,7 +638,7 @@ public class Gun : Weapon
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, gunData.maxRange))
         {
-            Debug.Log("Bullet hit target: " + hit.collider.name);
+            //Debug.Log("Bullet hit target: " + hit.collider.name);
         }
         else
         {
@@ -662,7 +662,7 @@ public class Gun : Weapon
 
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition).normalized;
         Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
-        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition/*bulletSpawnPosition.position*/);
+        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition/*bulletSpawnPosition.position*/, -1 * gunData.damage);
     }
 
     private void SpawnCasing()

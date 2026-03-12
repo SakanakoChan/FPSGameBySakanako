@@ -11,6 +11,8 @@ public class Projectile : MonoBehaviour
     private float gravity;
     private Vector3 currentPosition;
 
+    private float basicDamage;
+
     private bool hasBeenSetup = false;
 
     private void Update()
@@ -25,6 +27,30 @@ public class Projectile : MonoBehaviour
 
         if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude))
         {
+            IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
+            if (damageable != null)
+            {
+                float finalDamage = basicDamage;
+                if (hit.collider.tag.Equals("Head"))
+                {
+                    finalDamage *= 2;
+                }
+                else if(hit.collider.tag.Equals("Torso"))
+                {
+                    finalDamage *= 1;
+                }
+                else if(hit.collider.tag.Equals("Arm"))
+                {
+                    finalDamage *= 0.9f;
+                }
+                else if(hit.collider.tag.Equals("Leg"))
+                {
+                    finalDamage *= 0.8f;
+                }
+
+                damageable.TakeDamage(finalDamage);
+            }
+
             //Debug.Log("Bullet has hit target: " + hit.collider.name);
             SpawnBulletImpact(hit);
             Destroy(gameObject);
@@ -37,10 +63,11 @@ public class Projectile : MonoBehaviour
     }
 
 
-    public void SetupProjectile(Vector3 _velocity, float _gravity, Vector3 _spawnPosition)
+    public void SetupProjectile(Vector3 _velocity, float _gravity, Vector3 _spawnPosition, float _damage)
     {
         velocity = _velocity;
         gravity = _gravity;
+        basicDamage = _damage;
 
         transform.position = _spawnPosition;
         transform.forward = velocity.normalized;
