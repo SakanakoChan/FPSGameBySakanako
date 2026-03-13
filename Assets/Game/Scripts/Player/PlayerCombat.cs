@@ -24,6 +24,17 @@ public class PlayerCombat : MonoBehaviour
 
     public bool armIsInADS { get; private set; }
     public bool isTryingToFire { get; private set; } = false;
+    public bool isReloading { 
+        get
+        {
+            if (currentWeapon != null)
+            {
+                return currentWeapon.isReloading;
+            }
+
+            return false;
+        }
+}
 
     private bool pause = false;
 
@@ -48,8 +59,7 @@ public class PlayerCombat : MonoBehaviour
                 isTryingToFire = true;
                 if (playerMovement.isSprinting)
                 {
-                    playerMovement?.CancelSprint();
-                    currentWeapon?.StartSprintToFireDelay();
+                    return;
                 }
 
                 bool fireSucceeded = currentWeapon.TryFire();
@@ -92,11 +102,6 @@ public class PlayerCombat : MonoBehaviour
         {
             if (InputManager.instance.AimDownSightHeld)
             {
-                if (playerMovement.isSprinting)
-                {
-                    playerMovement?.CancelSprint();
-                }
-
                 currentWeapon?.EnterADS();
                 armsAnim.SetBool("Aim", true);
                 armIsInADS = true;
@@ -270,6 +275,11 @@ public class PlayerCombat : MonoBehaviour
     public void ShowHitMark(Color _color, bool _isHeadShot)
     {
         hitMark?.ShowHitMark(currentWeapon as Gun, _color, _isHeadShot);
+    }
+
+    public void StartSprintToFireDelay()
+    {
+        currentWeapon?.StartSprintToFireDelay();
     }
 
 }

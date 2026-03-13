@@ -69,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isSprinting { get; private set; } = false;
     private bool wantsToSprint = false;
+    private bool wasSprintingInLastFrame = false;
 
 
     private void Start()
@@ -145,10 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveInputMagnitude < 0.01f)
         {
-            isSprinting = false;
             wantsToSprint = false;
-            anim.SetBool("Running", isSprinting);
-            return;
         }
 
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
@@ -158,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         float forwardDot = Vector3.Dot(moveDirection, transform.forward);
         bool isMovingForwardEnough = forwardDot > forwardDotThresholdToTriggerSprint;
 
-        bool curremtMovementConditionSupportsSprint =
+        bool currentMovementConditionSupportsSprint =
             isMovingForwardEnough &&
             moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint &&
             movementState == MovementState.Grounded;
@@ -181,9 +179,20 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        bool currentCombatConditionSupportsSprint = !playerCombat.armIsInADS && !playerCombat.isTryingToFire && !playerCombat.isReloading;
 
-        isSprinting = wantsToSprint && curremtMovementConditionSupportsSprint;
+
+        isSprinting = wantsToSprint && currentMovementConditionSupportsSprint && currentCombatConditionSupportsSprint;
         anim.SetBool("Running", isSprinting);
+
+
+        //add sprint to fire delay
+        if (wasSprintingInLastFrame == true && isSprinting == false)
+        {
+            playerCombat?.StartSprintToFireDelay();
+        }
+
+        wasSprintingInLastFrame = isSprinting;
     }
 
     private void ApplyFriction(Vector2 _moveInput)
@@ -260,6 +269,7 @@ public class PlayerMovement : MonoBehaviour
         isSprinting = false;
         wantsToSprint = false;
         anim.SetBool("Running", isSprinting);
+        playerCombat?.StartSprintToFireDelay();
     }
 
     private void HandlePause(bool _gameIsPaused)
