@@ -100,7 +100,7 @@ public class Projectile : MonoBehaviour
         {
             Quaternion impactDirection = Quaternion.LookRotation(_hit.normal);
             Vector3 impactPosition = _hit.point + 0.05f * _hit.normal;
-            Instantiate(impactPrefab, impactPosition, impactDirection);
+            Instantiate(impactPrefab, impactPosition, impactDirection, _hit.collider.transform.parent);
         }
     }
 

@@ -30,7 +30,7 @@ public class HitMark : MonoBehaviour
     {
         if (currentGun != null && gameObject.activeSelf == true)
         {
-            Vector3 screenPosition = mainCam.WorldToScreenPoint(currentGun.logicBulletStartPosition);
+            Vector3 screenPosition = mainCam.WorldToScreenPoint(currentGun.logicBulletStartPosition + mainCam.transform.forward);
             Vector2 localPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent as RectTransform, screenPosition, null, out localPosition);
             rectTransform.localPosition = localPosition;
