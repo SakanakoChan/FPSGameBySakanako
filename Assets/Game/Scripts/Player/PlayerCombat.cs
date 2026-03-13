@@ -22,6 +22,11 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
     [SerializeField] private TwoBoneIKConstraint rightHandConstraint;
 
+    [Header("Audio info")]
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip killSound_Normal;
+    [SerializeField] private AudioClip killSound_HeadShot;
+
     public bool isInADS
     {
         get
@@ -284,9 +289,25 @@ public class PlayerCombat : MonoBehaviour
         hipFireCrosshair?.SetLineTargetOffset(uiOffset);
     }
 
-    public void ShowHitMark(Color _color, bool _isHeadShot)
+    public void ShowHitFeedback(Color _hitMarkColor, bool _isHeadShot, bool _thisHitMakesKill)
     {
-        hitMark?.ShowHitMark(currentWeapon as Gun, _color, _isHeadShot);
+        hitMark?.ShowHitMark(currentWeapon as Gun, _hitMarkColor, _isHeadShot);
+
+        if (_thisHitMakesKill)
+        {
+            if (_isHeadShot)
+            {
+                AudioManager.instance?.PlaySound(killSound_HeadShot, transform.position);
+            }
+            else
+            {
+                AudioManager.instance?.PlaySound(killSound_Normal, transform.position);
+            }
+        }
+        else
+        {
+            AudioManager.instance?.PlaySound(hitSound, transform.position);
+        }
     }
 
     public void StartSprintToFireDelay()

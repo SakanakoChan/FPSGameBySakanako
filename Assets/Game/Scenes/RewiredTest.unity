@@ -25402,6 +25402,9 @@ MonoBehaviour:
   hitMark: {fileID: 1524035722}
   leftHandConstraint: {fileID: 131105447}
   rightHandConstraint: {fileID: 101779375}
+  hitSound: {fileID: 8300000, guid: 31f38e36483ca924a95214a136a734cb, type: 3}
+  killSound_Normal: {fileID: 8300000, guid: 22e6067104b704c4092ff6f99f82f72e, type: 3}
+  killSound_HeadShot: {fileID: 8300000, guid: 5fe41a35a5b142a4386b9bc81b444a85, type: 3}
 --- !u!114 &1436997272
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -61,7 +61,7 @@ public class Projectile : MonoBehaviour
                 {
                     Color hitMarkColor = killedTarget ? Color.red : Color.white;
                     hitMarkColor.a = 0.65f;
-                    playerCombat?.ShowHitMark(hitMarkColor, isHeadShot);
+                    playerCombat?.ShowHitFeedback(hitMarkColor, isHeadShot, killedTarget);
                 }
 
             }
