@@ -10,12 +10,16 @@ public class Projectile : MonoBehaviour
     private Vector3 velocity;
     private float gravity;
     private Vector3 currentPosition;
+    private float fliedDistance = 0;
 
     private float basicDamage;
 
     private bool hasBeenSetup = false;
 
     private PlayerCombat playerCombat;
+    private TrailRenderer trailRenderer;
+
+    private GameObject prefabReference;
 
     private void Update()
     {
@@ -68,13 +72,32 @@ public class Projectile : MonoBehaviour
 
             //Debug.Log("Bullet has hit target: " + hit.collider.name);
             SpawnBulletImpact(hit);
-            Destroy(gameObject);
+            ObjectPoolManager.instance?.ReturnObjectToPool(gameObject, prefabReference);
+            //Destroy(gameObject);
             return;
         }
 
         currentPosition += displacement;
         transform.position = currentPosition;
         transform.forward = velocity.normalized;
+
+        fliedDistance += displacement.magnitude;
+        if (fliedDistance > 1000)
+        {
+            ObjectPoolManager.instance?.ReturnObjectToPool(gameObject, prefabReference);
+        }
+    }
+
+    private void OnDisable()
+    {
+        trailRenderer?.Clear();
+
+        velocity = Vector3.zero;
+        gravity = 0;
+        currentPosition = Vector3.zero;
+        fliedDistance = 0;
+        basicDamage = 0;
+        hasBeenSetup = false;
     }
 
 
@@ -89,9 +112,16 @@ public class Projectile : MonoBehaviour
         transform.forward = velocity.normalized;
         currentPosition = transform.position;
 
+        if (trailRenderer == null)
+            trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer?.Clear();
+
+        if (prefabReference == null)
+            prefabReference = GetComponent<PooledObject>().prefabReference;
+
         hasBeenSetup = true;
 
-        StartCoroutine(SelfDestroyWithDelay_Coroutine(10));
+        //StartCoroutine(SelfDestroyWithDelay_Coroutine(10));
     }
 
     private void SpawnBulletImpact(RaycastHit _hit)
@@ -100,7 +130,12 @@ public class Projectile : MonoBehaviour
         {
             Quaternion impactDirection = Quaternion.LookRotation(_hit.normal);
             Vector3 impactPosition = _hit.point + 0.05f * _hit.normal;
-            Instantiate(impactPrefab, impactPosition, impactDirection, _hit.collider.transform.parent);
+
+            GameObject impact = ObjectPoolManager.instance?.GetObjectFromPool(impactPrefab);
+            impact.transform.position = impactPosition;
+            impact.transform.rotation = impactDirection;
+            impact.transform.SetParent(_hit.collider.transform);
+            //Instantiate(impactPrefab, impactPosition, impactDirection, _hit.collider.transform.parent);
         }
     }
 
@@ -109,6 +144,7 @@ public class Projectile : MonoBehaviour
     {
         yield return new WaitForSeconds(_delay);
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        ObjectPoolManager.instance?.ReturnObjectToPool(gameObject, gameObject);
     }
 }

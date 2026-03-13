@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4879702113200764}
   - component: {fileID: 96448838451407516}
   - component: {fileID: 3863543591307362463}
+  - component: {fileID: 2233141303539663242}
   m_Layer: 15
   m_Name: P_LPSP_PROJ_Bullet_01
   m_TagString: Untagged
@@ -163,6 +164,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impactPrefab: {fileID: 1067471869909948, guid: 432a222f7a581c44b8907bb1d0e78d93,
     type: 3}
+--- !u!114 &2233141303539663242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086664671600574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64f54118e3ae5348b3dce9b1679e1f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1231345400216816
 GameObject:
   m_ObjectHideFlags: 0

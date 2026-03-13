@@ -661,7 +661,8 @@ public class Gun : Weapon
         }
 
         //spawn projectile
-        GameObject bullet = Instantiate(gunData.bulletPrefab);
+        GameObject bullet = ObjectPoolManager.instance?.GetObjectFromPool(gunData.bulletPrefab);
+        //GameObject bullet = Instantiate(gunData.bulletPrefab);
         var projectile = bullet.GetComponent<Projectile>();
 
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition).normalized;
