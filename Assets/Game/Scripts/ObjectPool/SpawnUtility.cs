@@ -22,6 +22,9 @@ public static class SpawnUtility
 
     public static void DestroyObject(GameObject _object)
     {
+        if (_object == null)
+            return;
+
         var pooledObject = _object.GetComponent<PooledObject>();
         if (ObjectPoolManager.instance != null && pooledObject != null)
         {

@@ -661,8 +661,7 @@ public class Gun : Weapon
         }
 
         //spawn projectile
-        GameObject bullet = ObjectPoolManager.instance?.GetObjectFromPool(gunData.bulletPrefab);
-        //GameObject bullet = Instantiate(gunData.bulletPrefab);
+        GameObject bullet = SpawnUtility.SpawnObject(gunData.bulletPrefab);
         var projectile = bullet.GetComponent<Projectile>();
 
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition).normalized;
@@ -672,7 +671,10 @@ public class Gun : Weapon
 
     private void SpawnCasing()
     {
-        GameObject casing = Instantiate(gunData.casingPrefab, casingSpawnPosition.position, casingSpawnPosition.rotation);
+        GameObject casing = SpawnUtility.SpawnObject(gunData.casingPrefab);
+        casing.transform.position = casingSpawnPosition.position;
+        casing.transform.rotation = casingSpawnPosition.rotation;
+
         Rigidbody casingRB = casing.GetComponent<Rigidbody>();
         casingRB.velocity = Random.Range(2f, 5f) * transform.right;
         casingRB.AddTorque(Random.onUnitSphere * Random.Range(5f, 15f), ForceMode.Impulse);

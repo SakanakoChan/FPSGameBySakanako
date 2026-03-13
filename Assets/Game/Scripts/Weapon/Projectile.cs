@@ -72,8 +72,7 @@ public class Projectile : MonoBehaviour
 
             //Debug.Log("Bullet has hit target: " + hit.collider.name);
             SpawnBulletImpact(hit);
-            ObjectPoolManager.instance?.ReturnObjectToPool(gameObject, prefabReference);
-            //Destroy(gameObject);
+            SpawnUtility.DestroyObject(gameObject);
             return;
         }
 
@@ -84,7 +83,7 @@ public class Projectile : MonoBehaviour
         fliedDistance += displacement.magnitude;
         if (fliedDistance > 1000)
         {
-            ObjectPoolManager.instance?.ReturnObjectToPool(gameObject, prefabReference);
+            SpawnUtility.DestroyObject(gameObject);
         }
     }
 
@@ -131,11 +130,10 @@ public class Projectile : MonoBehaviour
             Quaternion impactDirection = Quaternion.LookRotation(_hit.normal);
             Vector3 impactPosition = _hit.point + 0.05f * _hit.normal;
 
-            GameObject impact = ObjectPoolManager.instance?.GetObjectFromPool(impactPrefab);
+            GameObject impact = SpawnUtility.SpawnObject(impactPrefab);
             impact.transform.position = impactPosition;
             impact.transform.rotation = impactDirection;
             impact.transform.SetParent(_hit.collider.transform);
-            //Instantiate(impactPrefab, impactPosition, impactDirection, _hit.collider.transform.parent);
         }
     }
 

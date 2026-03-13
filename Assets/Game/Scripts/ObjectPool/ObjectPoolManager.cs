@@ -52,12 +52,14 @@ public class ObjectPoolManager : MonoBehaviour
 
 
         result = Instantiate(_prefab);
+        result.transform.SetParent(transform);
         var pooledObjectScript = result.GetComponent<PooledObject>();
         if (pooledObjectScript == null)
         {
             Debug.LogError($"{result.name}: Pooled object doesnt have PooledObject script!");
         }
         pooledObjectScript.prefabReference = _prefab;
+        
 
         return result;
     }
@@ -65,6 +67,7 @@ public class ObjectPoolManager : MonoBehaviour
     public void ReturnObjectToPool(GameObject _obj, GameObject _prefab)
     {
         _obj.SetActive(false);
+        _obj.transform.SetParent(transform);
         poolDictionary[_prefab].Enqueue(_obj);
     }
 }
