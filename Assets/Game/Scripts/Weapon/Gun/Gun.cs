@@ -664,7 +664,7 @@ public class Gun : Weapon
 
         Vector3 bulletFlyDirection = (hit.point - bulletSpawnPosition).normalized;
         Vector3 initialVelocity = bulletFlyDirection * gunData.bulletFlySpeed;
-        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition, -1 * gunData.damage, playerCombat);
+        projectile?.SetupProjectile(initialVelocity, gunData.bulletGravity, bulletSpawnPosition, gunData.damage, playerCombat);
     }
 
     private void SpawnCasing()

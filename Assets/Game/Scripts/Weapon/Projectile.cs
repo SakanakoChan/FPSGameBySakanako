@@ -40,24 +40,29 @@ public class Projectile : MonoBehaviour
                     finalDamage *= 2;
                     isHeadShot = true;
                 }
-                else if(hit.collider.tag.Equals("Torso"))
+                else if (hit.collider.tag.Equals("Torso"))
                 {
                     finalDamage *= 1;
                 }
-                else if(hit.collider.tag.Equals("Arm"))
+                else if (hit.collider.tag.Equals("Arm"))
                 {
                     finalDamage *= 0.9f;
                 }
-                else if(hit.collider.tag.Equals("Leg"))
+                else if (hit.collider.tag.Equals("Leg"))
                 {
                     finalDamage *= 0.8f;
                 }
 
+                bool damageableWasDead = damageable.isDead;
+
                 damageable.TakeDamage(finalDamage, out bool killedTarget);
 
-                Color hitMarkColor = killedTarget ? Color.red : Color.white;
-                hitMarkColor.a = 0.65f;
-                playerCombat?.ShowHitMark(hitMarkColor, isHeadShot);
+                if (damageableWasDead == false)
+                {
+                    Color hitMarkColor = killedTarget ? Color.red : Color.white;
+                    hitMarkColor.a = 0.65f;
+                    playerCombat?.ShowHitMark(hitMarkColor, isHeadShot);
+                }
 
             }
 
