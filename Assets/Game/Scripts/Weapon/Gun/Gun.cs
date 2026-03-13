@@ -262,11 +262,13 @@ public class Gun : Weapon
     {
         if (CheckIfCurrentMagIsEmpty())
         {
-            audioSource.PlayOneShot(gunData.reloadSound_Empty);
+            AudioManager.instance?.PlaySound(gunData.reloadSound_Empty, transform.position);
+            //audioSource.PlayOneShot(gunData.reloadSound_Empty);
         }
         else
         {
-            audioSource.PlayOneShot(gunData.reloadSound);
+            AudioManager.instance?.PlaySound(gunData.reloadSound, transform.position);
+            //audioSource.PlayOneShot(gunData.reloadSound);
         }
     }
 
@@ -685,8 +687,8 @@ public class Gun : Weapon
     private void PlayFireSound()
     {
         float remainingAmmoPercentInCurrentMag = (float)currentAmmoInMagzine / (float)gunData.magSize;
-        audioSource.pitch = 1 + Mathf.Pow((1 - remainingAmmoPercentInCurrentMag) * 0.25f, 1.5f);
-        audioSource.PlayOneShot(gunData.fireSound);
+        float pitch = 1 + Mathf.Pow((1 - remainingAmmoPercentInCurrentMag) * 0.25f, 1.5f);
+        AudioManager.instance?.PlaySound(gunData.fireSound, transform.position, pitch);
     }
 
     public override void EnterADS()
