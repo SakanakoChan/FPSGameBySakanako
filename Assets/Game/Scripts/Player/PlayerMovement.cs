@@ -264,14 +264,6 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
     }
 
-    public void CancelSprint()
-    {
-        isSprinting = false;
-        wantsToSprint = false;
-        anim.SetBool("Running", isSprinting);
-        playerCombat?.StartSprintToFireDelay();
-    }
-
     private void HandlePause(bool _gameIsPaused)
     {
         enabled = !_gameIsPaused;
