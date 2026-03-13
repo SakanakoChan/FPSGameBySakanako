@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //auto sprint settings
-        if (playerCombat != null && playerCombat.armIsInADS == false && playerCombat.isTryingToFire == false)
+        if (playerCombat != null && playerCombat.isInADS == false && playerCombat.isTryingToFire == false)
         {
             if (InputManager.instance.currentInputDevice == InputDevice.Controller && GameSettings.controllerAutoSprint == true)
             {
@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        bool currentCombatConditionSupportsSprint = !playerCombat.armIsInADS && !playerCombat.isTryingToFire && !playerCombat.isReloading;
+        bool currentCombatConditionSupportsSprint = !playerCombat.isInADS && !playerCombat.isTryingToFire && !playerCombat.isReloading;
 
 
         isSprinting = wantsToSprint && currentMovementConditionSupportsSprint && currentCombatConditionSupportsSprint;

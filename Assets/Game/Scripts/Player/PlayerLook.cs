@@ -146,7 +146,7 @@ public class PlayerLook : MonoBehaviour
             float processedLookInputX = processedLookInput.x;
             float processedLookInputY = processedLookInput.y;
 
-            if (playerCombat != null && playerCombat.armIsInADS == false)
+            if (playerCombat != null && playerCombat.isInADS == false)
             {
                 if (turnAcceleration)
                 {

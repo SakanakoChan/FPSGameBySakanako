@@ -22,9 +22,21 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
     [SerializeField] private TwoBoneIKConstraint rightHandConstraint;
 
-    public bool armIsInADS { get; private set; }
+    public bool isInADS
+    {
+        get
+        {
+            if (currentWeapon != null)
+            {
+                return currentWeapon.isInADS;
+            }
+
+            return false;   
+        }
+    }
     public bool isTryingToFire { get; private set; } = false;
-    public bool isReloading { 
+    public bool isReloading
+    {
         get
         {
             if (currentWeapon != null)
@@ -34,7 +46,7 @@ public class PlayerCombat : MonoBehaviour
 
             return false;
         }
-}
+    }
 
     private bool pause = false;
 
@@ -67,7 +79,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     //play arm fire animation to add animated gunkick
                     //(to combine with code driven gunkick)
-                    if (armIsInADS == false) armsAnim.Play("Fire", 2, 0);
+                    if (isInADS == false) armsAnim.Play("Fire", 2, 0);
                 }
             }
 
@@ -77,7 +89,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (currentWeapon.TryReload() == true)
             {
-                if (armIsInADS)
+                if (isInADS)
                 {
                     CancelADS();
                 }
@@ -104,7 +116,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 currentWeapon?.EnterADS();
                 armsAnim.SetBool("Aim", true);
-                armIsInADS = true;
+                //isInADS = true;
             }
             else
             {
@@ -130,7 +142,7 @@ public class PlayerCombat : MonoBehaviour
     {
         currentWeapon?.ExitADS();
         armsAnim.SetBool("Aim", false);
-        armIsInADS = false;
+        //isInADS = false;
     }
 
     private void PlayArmReloadAnimation()
