@@ -3,7 +3,87 @@ guid: e72e6f18f5d51be48861d5fb49d5e5d6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u53E3\u8154.002"
+    second: {fileID: 2100000, guid: 1d7bc72671fcc354abeafc630ba84239, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u5934\u53D1.002"
+    second: {fileID: 2100000, guid: 115ab1b8655467c42bf1d24bf3b384a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u7259\u9F7F.002"
+    second: {fileID: 2100000, guid: a98a037f3f7018443acb63856dbef104, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u76AE\u80A4.002"
+    second: {fileID: 2100000, guid: c598127ab1d806648a7f9089b77b67c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u773C\u5F71.002"
+    second: {fileID: 2100000, guid: edbc6c79fdb6b9e468a5ad8d10151bce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u773C\u767D.002"
+    second: {fileID: 2100000, guid: 43449d67d5b21984ca7a31f0cdc38bb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u773C\u7709.002"
+    second: {fileID: 2100000, guid: 3c0505ee72ba2a344b214276129a7192, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u773C\u775B.002"
+    second: {fileID: 2100000, guid: 6b143274912d6b94c94975fba621f2dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u80F8\u53E3\u76AE\u80A4.002"
+    second: {fileID: 2100000, guid: a51ebdc429a6f5d428c85d5b1b9d4723, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u8138.002"
+    second: {fileID: 2100000, guid: cd540170190c66b4ca22e077a862d1b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u820C\u5934.002"
+    second: {fileID: 2100000, guid: fae04c0bd1b7c244f817f455be9f3bcc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u8863\u670D.002"
+    second: {fileID: 2100000, guid: 9542d3cdefa48c84384bb11d13a0ff45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u8863\u8896\u900F\u660E\u6750\u8D28.002"
+    second: {fileID: 2100000, guid: fa60d9bb313018e4daf6e268013b5fc7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u88E4\u5B50\u900F\u660E\u6750\u8D28.002"
+    second: {fileID: 2100000, guid: ae6f909b3ad6f764694d074aba6f8ab5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u91D1\u5C5E.002"
+    second: {fileID: 2100000, guid: c6c18a919ed0af74c9643f0485469031, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u9ED1\u4E1D\u6750\u8D28.002"
+    second: {fileID: 2100000, guid: ed6af0f0842a5a04d8df8428e1b5b61b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -16,9 +96,7 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tFound
-      duplicate transform 'ribbon_hand_L_03' for human bone 'Left Little Proximal'
-      and 'LeftHand'\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
