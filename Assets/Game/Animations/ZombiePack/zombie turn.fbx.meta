@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ae788f8e69c1b6549b510e4fc3c1a6b4
+guid: b8a3a66e22715914e81155944d0626c2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -16,7 +16,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
+      does not match:\n\tTransform '\u8170' for human bone 'Hips' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -499,13 +500,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: walking(Clone)
+    - name: Walking(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:Hips
-      parentName: walking(Clone)
+      parentName: Walking(Clone)
       position: {x: 0.000082316394, y: 0.97109646, z: -0.011404176}
       rotation: {x: -0.15880616, y: -0.07485069, z: 0.026387492, w: 0.98411465}
       scale: {x: 1, y: 1, z: 1}
@@ -844,7 +845,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: cc2d82bd0ec0d0248a3b38ab10e7fe7c,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 29e6cb0b55517ba41bc41c6e9fbd4d7a,
     type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3

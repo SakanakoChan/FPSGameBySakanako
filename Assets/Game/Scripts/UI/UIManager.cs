@@ -45,8 +45,9 @@ public class UIManager : MonoBehaviour
     {
         //OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
-        ShowPauseMenu(PauseManager.instance.gameIsPaused);
-        ShowSettingsMenu(false);
+        EnterState(MenuState.None);
+        //ShowPauseMenu(PauseManager.instance.gameIsPaused);
+        //ShowSettingsMenu(false);
     }
 
     private void Update()
@@ -107,6 +108,7 @@ public class UIManager : MonoBehaviour
             case MenuState.None:
                 PauseManager.instance?.UnpauseGame();
                 ShowPauseMenu(false);
+                ShowSettingsMenu(false);
                 InputManager.instance?.EnterUIMapMode(false);
                 currentUIAction = null;
                 break;
