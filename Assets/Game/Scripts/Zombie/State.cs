@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class State
 {
-    private StateMachine stateMachine;
-	private string animBoolName;
+    protected StateMachine stateMachine;
+	protected string animBoolName;
 
 	public State(StateMachine _stateMachine, string _animBoolName)
 	{
@@ -15,7 +15,7 @@ public class State
 
 	public virtual void Enter()
 	{
-
+		
 	}
 
 	public virtual void Exit()
@@ -24,6 +24,11 @@ public class State
 	}
 
 	public virtual void Update()
+	{
+
+	}
+
+	public virtual void OnAnimatorMove()
 	{
 
 	}

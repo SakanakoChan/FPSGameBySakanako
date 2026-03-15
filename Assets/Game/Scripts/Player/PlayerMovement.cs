@@ -71,6 +71,10 @@ public class PlayerMovement : MonoBehaviour
     private bool wantsToSprint = false;
     private bool wasSprintingInLastFrame = false;
 
+    private void Awake()
+    {
+        PlayerReference.SetPlayerTrasnform(transform);
+    }
 
     private void Start()
     {

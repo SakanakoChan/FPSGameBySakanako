@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IDamageable
 {
     public bool isDead { get; }
-    public void TakeDamage(float _damage, out bool _isKilled);
+    public void TakeDamage(float _damage, out bool _thisDamageKilledTarget);
 }

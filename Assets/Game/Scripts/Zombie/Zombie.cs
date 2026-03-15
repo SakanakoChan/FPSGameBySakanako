@@ -12,19 +12,28 @@ public class Zombie : MonoBehaviour, IDamageable
     #region States
     private StateMachine stateMachine = new StateMachine();
 
-
+    public ZombiePatrolState patrolState { get; private set; }
+    public ZombieChaseState chaseState { get; private set; }
     #endregion
+
 
     [Header("HP info")]
     [SerializeField] private float maxHP = 100;
     private float currentHP;
     public bool isDead { get; private set; } = false;
 
-    [Header("Move info")]
-    [SerializeField] private float rootMotionMultiplier = 2f;
+    [Header("Patrol info")]
+    public List<Transform> patrolWayPoints;
+    public float patrolWaitTime = 5f;
 
-    [Space]
-    [SerializeField] private Transform playerTransform;
+    [Header("Chase info")]
+    public float pathRefreshInterval = 0.2f;
+    public float repathDistance = 0.5f;
+    public float startChaseDistance = 5f;
+    public float loseTargetDistance = 15f;
+
+    [Header("Attack info")]
+    public float attackDistance = 1f;
 
 
     private void Start()
@@ -32,28 +41,48 @@ public class Zombie : MonoBehaviour, IDamageable
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        currentHP = maxHP;
-
         agent.updatePosition = false;
         agent.updateRotation = true;
+
+        currentHP = maxHP;
+
+        patrolState = new ZombiePatrolState(this, stateMachine, null);
+        chaseState = new ZombieChaseState( this, stateMachine, "Running");
+
+        stateMachine.Initialize(patrolState);
     }
 
     private void Update()
     {
-        agent.SetDestination(playerTransform.position);
+        stateMachine.currentState.Update();
     }
 
     private void OnAnimatorMove()
     {
-        Vector3 deltaPosition = anim.deltaPosition * rootMotionMultiplier;
-        transform.position += deltaPosition;
-
-        //transform.position = anim.rootPosition;
+        transform.position = anim.rootPosition;
         agent.nextPosition = transform.position;
     }
 
-    public void TakeDamage(float _damage, out bool _isKilled)
+    public void TakeDamage(float _damage, out bool _thisDamageKilledTarget)
     {
-        throw new System.NotImplementedException();
+        _thisDamageKilledTarget = false;
+
+        if (isDead)
+        {
+            return;
+        }
+
+        currentHP -= _damage;
+        if (currentHP <= 0)
+        {
+            _thisDamageKilledTarget = true;
+
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        isDead = true;
     }
 }

@@ -18,9 +18,9 @@ public class Dummy : MonoBehaviour, IDamageable
         currentHP = maxHP;
     }
 
-    public void TakeDamage(float _damage, out bool _isKilled)
+    public void TakeDamage(float _damage, out bool _thisDamageKilledTarget)
     {
-        _isKilled = false;
+        _thisDamageKilledTarget = false;
 
         if (isDead)
         {
@@ -32,7 +32,7 @@ public class Dummy : MonoBehaviour, IDamageable
 
         if (currentHP <= 0)
         {
-            _isKilled = true;
+            _thisDamageKilledTarget = true;
             Die();
         }
     }
