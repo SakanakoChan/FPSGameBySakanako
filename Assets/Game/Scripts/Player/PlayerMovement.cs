@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Move Speed info")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float sprintSpeed;
+    [SerializeField] private float ADSWalkSpeed = 3;
     public float maxSpeed
     {
         get
@@ -41,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
             if (isSprinting)
             {
                 return sprintSpeed;
+            }
+
+            if (playerCombat != null && playerCombat.isInADS)
+            {
+                return ADSWalkSpeed;
             }
 
             return walkSpeed;

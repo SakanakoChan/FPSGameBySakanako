@@ -25460,6 +25460,7 @@ MonoBehaviour:
   friction_WithMoveInput: 6
   walkSpeed: 4.5
   sprintSpeed: 7
+  ADSWalkSpeed: 3
   moveInputMagnitudeThresholdToTriggerSprint: 0.7
   forwardDotThresholdToTriggerSprint: 0.5
   jumpForce: 6.5
