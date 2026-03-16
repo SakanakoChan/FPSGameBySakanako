@@ -14,6 +14,7 @@ public class Zombie : MonoBehaviour, IDamageable
 
     public ZombiePatrolState patrolState { get; private set; }
     public ZombieChaseState chaseState { get; private set; }
+    public ZombieAttackState attackState { get; private set; }
     #endregion
 
 
@@ -47,7 +48,8 @@ public class Zombie : MonoBehaviour, IDamageable
         currentHP = maxHP;
 
         patrolState = new ZombiePatrolState(this, stateMachine, null);
-        chaseState = new ZombieChaseState( this, stateMachine, "Running");
+        chaseState = new ZombieChaseState(this, stateMachine, "Running");
+        attackState = new ZombieAttackState(this, stateMachine, "Attack");
 
         stateMachine.Initialize(patrolState);
     }
@@ -84,5 +86,15 @@ public class Zombie : MonoBehaviour, IDamageable
     private void Die()
     {
         isDead = true;
+    }
+
+    public void OpenAttackWindow()
+    {
+        stateMachine.currentState?.OpenAttackWindow();
+    }
+
+    public void CloseAttackWindow()
+    {
+        stateMachine.currentState?.CloseAttackWindow();
     }
 }

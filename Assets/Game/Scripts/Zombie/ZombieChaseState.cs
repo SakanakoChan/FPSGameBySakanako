@@ -47,6 +47,12 @@ public class ZombieChaseState : ZombieState
             return;
         }
 
+        if (distanceToPlayer <= zombie.attackDistance)
+        {
+            stateMachine.ChangeState(zombie.attackState);
+            return;
+        }
+
 
         ChaseLogic();
     }

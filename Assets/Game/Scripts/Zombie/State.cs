@@ -32,4 +32,15 @@ public class State
 	{
 
 	}
+
+
+	public virtual void OpenAttackWindow()
+	{
+
+	}
+
+	public virtual void CloseAttackWindow()
+	{
+
+	}
 }
