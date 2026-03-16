@@ -35,6 +35,9 @@ public class Zombie : MonoBehaviour, IDamageable
 
     [Header("Attack info")]
     public float attackDistance = 1f;
+    [SerializeField] private Transform attackPosition;
+    [SerializeField] private float attackRadius = 1.2f;
+    [SerializeField] private float attackPower = 10f;
 
 
     private void Start()
@@ -63,6 +66,27 @@ public class Zombie : MonoBehaviour, IDamageable
     {
         transform.position = anim.rootPosition;
         agent.nextPosition = transform.position;
+    }
+
+    public void PerformAttack(out bool _hasHitTarget)
+    {
+        _hasHitTarget = false;
+
+        var hits = Physics.OverlapSphere(attackPosition.position, attackRadius);
+        foreach (var hit in hits)
+        {
+            if (hit.transform.root == transform.root)
+            {
+                continue;
+            }
+
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            if (damageable != null)
+            {
+                _hasHitTarget = true;
+                damageable?.TakeDamage(attackPower, out bool thisDamageKilledTarget);
+            }
+        }
     }
 
     public void TakeDamage(float _damage, out bool _thisDamageKilledTarget)

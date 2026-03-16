@@ -25383,6 +25383,7 @@ GameObject:
   - component: {fileID: 1436997268}
   - component: {fileID: 1436997269}
   - component: {fileID: 1436997271}
+  - component: {fileID: 1436997273}
   - component: {fileID: 1436997272}
   m_Layer: 0
   m_Name: Player (CameraRecoil)
@@ -25530,6 +25531,19 @@ MonoBehaviour:
   springStrength: 120
   damping: 15
   recoilOffset: {x: 0, y: 0}
+--- !u!114 &1436997273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436997266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9dd6a7924146094fae7beaa2f20dd51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
 --- !u!1 &1439261450
 GameObject:
   m_ObjectHideFlags: 0
@@ -41482,9 +41496,12 @@ MonoBehaviour:
   patrolWaitTime: 4
   pathRefreshInterval: 0.2
   repathDistance: 0.5
-  startChaseDistance: 5
+  startChaseDistance: 6
   loseTargetDistance: 15
-  attackDistance: 1
+  attackDistance: 3
+  attackPosition: {fileID: 4445966859562662761}
+  attackRadius: 3
+  attackPower: 10
 --- !u!136 &5866666021929482930
 CapsuleCollider:
   m_ObjectHideFlags: 0

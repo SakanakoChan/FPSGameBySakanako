@@ -31,6 +31,8 @@ public class ZombiePatrolState : ZombieState
     {
         if (waitCoroutine != null)
             zombie.StopCoroutine(waitCoroutine);
+
+        anim.SetBool("Walking", false);
     }
 
     public override void Update()
