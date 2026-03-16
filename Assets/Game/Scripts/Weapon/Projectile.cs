@@ -59,7 +59,8 @@ public class Projectile : MonoBehaviour
 
                 bool damageableWasDead = damageable.isDead;
 
-                damageable.TakeDamage(finalDamage, out bool killedTarget);
+
+                damageable.TakeDamage(finalDamage, velocity.normalized, out bool killedTarget);
 
                 if (damageableWasDead == false)
                 {

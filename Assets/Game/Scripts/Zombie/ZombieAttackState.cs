@@ -30,7 +30,7 @@ public class ZombieAttackState : ZombieState
         base.Update();
 
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        if (info.IsName("Attack") && info.normalizedTime >= 1f)
+        if (info.IsName(animBoolName) && info.normalizedTime >= 1f)
         {
             stateMachine.ChangeState(zombie.chaseState);
             return;

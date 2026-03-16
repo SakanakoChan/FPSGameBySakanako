@@ -47,7 +47,7 @@ public class ZombiePatrolState : ZombieState
 
         if (agent.remainingDistance <= agent.stoppingDistance && !isWaiting)
         {
-            zombie.StartCoroutine(WaitAndSetNextTargetPosition());
+            waitCoroutine = zombie.StartCoroutine(WaitAndSetNextTargetPosition());
         }
     }
 

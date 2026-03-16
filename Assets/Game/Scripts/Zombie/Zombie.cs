@@ -15,6 +15,7 @@ public class Zombie : MonoBehaviour, IDamageable
     public ZombiePatrolState patrolState { get; private set; }
     public ZombieChaseState chaseState { get; private set; }
     public ZombieAttackState attackState { get; private set; }
+    public ZombieDeathState deathState { get; private set; }
     #endregion
 
 
@@ -53,6 +54,7 @@ public class Zombie : MonoBehaviour, IDamageable
         patrolState = new ZombiePatrolState(this, stateMachine, null);
         chaseState = new ZombieChaseState(this, stateMachine, "Running");
         attackState = new ZombieAttackState(this, stateMachine, "Attack");
+        deathState = new ZombieDeathState(this, stateMachine, "Death");
 
         stateMachine.Initialize(patrolState);
     }
@@ -60,6 +62,8 @@ public class Zombie : MonoBehaviour, IDamageable
     private void Update()
     {
         stateMachine.currentState.Update();
+
+        Debug.Log(stateMachine.currentState);
     }
 
     private void OnAnimatorMove()
@@ -71,6 +75,9 @@ public class Zombie : MonoBehaviour, IDamageable
     public void PerformAttack(out bool _hasHitTarget)
     {
         _hasHitTarget = false;
+
+        if (isDead)
+            return;
 
         var hits = Physics.OverlapSphere(attackPosition.position, attackRadius);
         foreach (var hit in hits)
@@ -84,12 +91,14 @@ public class Zombie : MonoBehaviour, IDamageable
             if (damageable != null)
             {
                 _hasHitTarget = true;
-                damageable?.TakeDamage(attackPower, out bool thisDamageKilledTarget);
+
+                Vector3 damageDirection = (hit.transform.position - transform.position).normalized;
+                damageable?.TakeDamage(attackPower, damageDirection, out bool thisDamageKilledTarget);
             }
         }
     }
 
-    public void TakeDamage(float _damage, out bool _thisDamageKilledTarget)
+    public void TakeDamage(float _damage, Vector3 _damageDirection, out bool _thisDamageKilledTarget)
     {
         _thisDamageKilledTarget = false;
 
@@ -103,13 +112,54 @@ public class Zombie : MonoBehaviour, IDamageable
         {
             _thisDamageKilledTarget = true;
 
-            Die();
+            Die(_damageDirection);
         }
     }
 
-    private void Die()
+    private void Die(Vector3 _damageDirection)
     {
+        if (isDead)
+        {
+            return;
+        }
+
         isDead = true;
+
+        Vector3 localPosition = transform.InverseTransformDirection(_damageDirection);
+        int deathDirection = CalculateDeathDirection(localPosition);
+        anim.SetInteger("DeathDirection", deathDirection);
+
+        stateMachine.ChangeState(deathState);
+    }
+
+    private int CalculateDeathDirection(Vector3 localPosition)
+    {
+        int deathDirection = 0;
+        if (localPosition.z > 0.5f)
+        {
+            deathDirection = 0;
+            return deathDirection;
+        }
+
+        if (localPosition.z < -0.5f)
+        {
+            deathDirection = 2;
+            return deathDirection;
+        }
+
+        if (localPosition.x > 0)
+        {
+            deathDirection = 1;
+            return deathDirection;
+        }
+
+        if (localPosition.x < 0)
+        {
+            deathDirection = 3;
+            return deathDirection;
+        }
+
+        return deathDirection;
     }
 
     public void OpenAttackWindow()

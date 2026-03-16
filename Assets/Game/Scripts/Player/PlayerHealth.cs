@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
 
 
-    public void TakeDamage(float _damage, out bool _thisDamageKilledTarget)
+    public void TakeDamage(float _damage, Vector3 _damageDirection, out bool _thisDamageKilledTarget)
     {
         _thisDamageKilledTarget = false;
         
