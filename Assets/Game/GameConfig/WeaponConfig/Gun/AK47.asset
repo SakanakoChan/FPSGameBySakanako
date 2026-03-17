@@ -127,9 +127,9 @@ MonoBehaviour:
   cameraKickMultiplier_Max: 1.3
   basicHipFireSpreadAngle: 3
   maxHipFireSpreadAngle: 25
-  hipFireSpreadPunishmentPerShot: 5
-  maxHipFireShotPunishment: 15
-  hipFireShotPunishmentRecoverySpeed: 35
+  hipFireSpreadPunishmentPerShot: 2.1
+  maxHipFireShotPunishment: 10
+  hipFireShotPunishmentRecoverySpeed: 17.5
   moveSpeedHipFireSpreadPunishmentRatio: 1
   maxHipFireMoveSpeedPunishment: 10
   airHipFireSpreadPunishment: 5
