@@ -69,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
     private float verticalVelocity;
     public Vector3 currentVelocity { get; private set; }
 
+    public Vector3 localVelocity { get { return transform.InverseTransformVector(currentVelocity); } }
+
 
     public MovementState movementState { get; private set; }
     private Stance stance;

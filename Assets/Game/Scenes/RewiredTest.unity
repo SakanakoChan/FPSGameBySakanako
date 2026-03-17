@@ -4001,6 +4001,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 225866129}
   m_CullTransparentMesh: 1
+--- !u!1 &237359736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 237359737}
+  - component: {fileID: 237359738}
+  m_Layer: 0
+  m_Name: WeaponSway
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &237359737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237359736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1005843012}
+  m_Father: {fileID: 685695944}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &237359738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237359736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 141750b671bef7f419434e5332606627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yawOffsetRatio: 0.5
+  yawOffsetLimit: 10
+  adsYawOffsetRatio: 0.05
+  adsYawOffsetLimit: 0.075
+  smoothSpeed: 20
 --- !u!1 &240531606
 GameObject:
   m_ObjectHideFlags: 0
@@ -12456,7 +12506,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1005843012}
+  - {fileID: 237359737}
   m_Father: {fileID: 853553557}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &685695945
@@ -16591,7 +16641,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 685695944}
+    m_TransformParent: {fileID: 237359737}
     m_Modifications:
     - target: {fileID: 634105038903191, guid: 2b72b3ca3149a994c95a391a88dc5d95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
