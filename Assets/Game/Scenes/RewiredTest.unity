@@ -49529,8 +49529,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027e108d6b32aab439a1975d91df7ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitFXPrefab: {fileID: 1962516439210982, guid: 465a4127b535d044e91b9fd505d446e8,
-    type: 3}
+  hitFXPrefabList:
+  - {fileID: 100004, guid: e0c72f2b8de7202438fa0e8c2916f479, type: 3}
+  - {fileID: 1962516439210982, guid: 465a4127b535d044e91b9fd505d446e8, type: 3}
   fxPositionOffset: 0
 --- !u!95 &5866666021929482927
 Animator:

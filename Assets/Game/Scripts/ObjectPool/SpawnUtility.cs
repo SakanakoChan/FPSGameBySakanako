@@ -8,7 +8,8 @@ public static class SpawnUtility
     {
         GameObject result = null;
 
-        if (ObjectPoolManager.instance != null)
+        var pooledObject = _prefab.GetComponent<PooledObject>();
+        if (ObjectPoolManager.instance != null && pooledObject != null)
         {
             result = ObjectPoolManager.instance.GetObjectFromPool(_prefab);
         }
