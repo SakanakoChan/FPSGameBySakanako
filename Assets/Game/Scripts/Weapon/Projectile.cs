@@ -72,7 +72,10 @@ public class Projectile : MonoBehaviour
             }
 
             //Debug.Log("Bullet has hit target: " + hit.collider.name);
-            SpawnBulletImpact(hit);
+            //SpawnBulletImpact(hit);
+            IHitEffect hitEffect = hit.collider.GetComponentInParent<IHitEffect>();
+            hitEffect?.ShowHitEffect(hit);
+
             SpawnUtility.DestroyObject(gameObject);
             return;
         }
