@@ -39,6 +39,8 @@ public class MaterialAutoFade : MonoBehaviour
             material.color = new Color(material.color.r, material.color.g, material.color.b, alphaValue);
 
             timer += Time.deltaTime;
+
+            Debug.Log("Current alpha: " + alphaValue);
             yield return null;
         }
 

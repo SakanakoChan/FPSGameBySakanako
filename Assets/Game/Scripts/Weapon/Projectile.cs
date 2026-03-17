@@ -31,28 +31,34 @@ public class Projectile : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         Vector3 displacement = velocity * Time.deltaTime;
 
-        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, LayerMask.GetMask("Hitbox")))
+        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, LayerMask.GetMask("Hittable")))
         {
             IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
                 float finalDamage = basicDamage;
-
                 bool isHeadShot = false;
-                if (hit.collider.tag.Equals("Head"))
+
+                var hitbox = hit.collider.GetComponentInParent<Hitbox>();
+                if (hitbox == null)
+                {
+                    Debug.LogError("Damageable object doesn't have hitbox! " + hit.collider.name);
+                }
+
+                if (hitbox.hitboxType == HitboxType.Head /*hit.collider.tag.Equals("Head")*/)
                 {
                     finalDamage *= 2;
                     isHeadShot = true;
                 }
-                else if (hit.collider.tag.Equals("Torso"))
+                else if (hitbox.hitboxType == HitboxType.Torso/*hit.collider.tag.Equals("Torso")*/)
                 {
                     finalDamage *= 1;
                 }
-                else if (hit.collider.tag.Equals("Arm"))
+                else if (hitbox.hitboxType == HitboxType.Arm/*hit.collider.tag.Equals("Arm")*/)
                 {
                     finalDamage *= 0.9f;
                 }
-                else if (hit.collider.tag.Equals("Leg"))
+                else if (hitbox.hitboxType == HitboxType.Leg/*hit.collider.tag.Equals("Leg")*/)
                 {
                     finalDamage *= 0.8f;
                 }
@@ -68,7 +74,6 @@ public class Projectile : MonoBehaviour
                     hitMarkColor.a = 0.65f;
                     playerCombat?.ShowHitFeedback(hitMarkColor, isHeadShot, killedTarget);
                 }
-
             }
 
             //Debug.Log("Bullet has hit target: " + hit.collider.name);
