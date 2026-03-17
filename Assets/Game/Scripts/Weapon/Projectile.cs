@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         Vector3 displacement = velocity * Time.deltaTime;
 
-        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude))
+        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, LayerMask.GetMask("Hitbox")))
         {
             IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
             if (damageable != null)

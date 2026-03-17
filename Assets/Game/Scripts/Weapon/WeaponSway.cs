@@ -34,7 +34,6 @@ public class WeaponSway : MonoBehaviour
         targetYawOffset = Mathf.Clamp(targetYawOffset, -currentOffsetLimit, currentOffsetLimit);
 
         currentYawOffset = Mathf.Lerp(currentYawOffset, targetYawOffset, smoothSpeed * Time.deltaTime);
-
         transform.localRotation = Quaternion.Euler(0, currentYawOffset, 0);
     }
 }
