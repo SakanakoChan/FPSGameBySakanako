@@ -9,11 +9,23 @@ public class MaterialAutoFade : MonoBehaviour
 
     private Renderer r;
 
-    private void Start()
+    private void Awake()
     {
         r = GetComponent<Renderer>();
+    }
+
+    private void OnEnable()
+    {
+        ResetColor();
 
         AutoFade();
+    }
+
+    private void ResetColor()
+    {
+        var originalColor = r.material.color;
+        originalColor.a = 1;
+        r.material.color = originalColor;
     }
 
     private void AutoFade()
