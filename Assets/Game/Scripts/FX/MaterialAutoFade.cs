@@ -40,7 +40,6 @@ public class MaterialAutoFade : MonoBehaviour
 
             timer += Time.deltaTime;
 
-            Debug.Log("Current alpha: " + alphaValue);
             yield return null;
         }
 

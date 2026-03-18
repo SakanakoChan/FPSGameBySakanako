@@ -13,6 +13,8 @@ public class ZombieDeathState : ZombieState
         anim.SetTrigger(animBoolName);
 
         agent.enabled = false;
+
+        zombie.StartCoroutine(EnterRagdollModeWithDelay(1f));
     }
 
     public override void Exit()
@@ -23,5 +25,12 @@ public class ZombieDeathState : ZombieState
     public override void Update()
     {
         base.Update();
+    }
+
+    private IEnumerator EnterRagdollModeWithDelay(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+
+        zombie?.EnterRagdollMode();
     }
 }

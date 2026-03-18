@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -41,10 +42,23 @@ public class Zombie : MonoBehaviour, IDamageable
     [SerializeField] private float attackPower = 10f;
 
 
+    #region Ragdoll control
+    private List<Rigidbody> ragDollRBList;
+    private Collider cd;
+    #endregion
+
+
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        cd = GetComponent<Collider>();
+        ragDollRBList = GetComponentsInChildren<Rigidbody>().ToList();
+
+        foreach (var rb in ragDollRBList)
+        {
+            rb.isKinematic = true;
+        }
 
         agent.updatePosition = false;
         agent.updateRotation = true;
@@ -63,7 +77,7 @@ public class Zombie : MonoBehaviour, IDamageable
     {
         stateMachine.currentState.Update();
 
-        Debug.Log(stateMachine.currentState);
+        //Debug.Log(stateMachine.currentState);
     }
 
     private void OnAnimatorMove()
@@ -160,6 +174,17 @@ public class Zombie : MonoBehaviour, IDamageable
         }
 
         return deathDirection;
+    }
+
+    public void EnterRagdollMode()
+    {
+        cd.isTrigger = true;
+        anim.enabled = false;
+
+        foreach (var rb in ragDollRBList)
+        {
+            rb.isKinematic = false;
+        }
     }
 
     public void OpenAttackWindow()
