@@ -42,7 +42,7 @@ public class Zombie : MonoBehaviour, IDamageable
     [SerializeField] private float attackPower = 10f;
 
 
-    #region Ragdoll control
+    #region Ragdoll Control
     private List<Rigidbody> ragDollRBList;
     private Collider cd;
     #endregion
@@ -76,7 +76,6 @@ public class Zombie : MonoBehaviour, IDamageable
     private void Update()
     {
         stateMachine.currentState.Update();
-
         //Debug.Log(stateMachine.currentState);
     }
 

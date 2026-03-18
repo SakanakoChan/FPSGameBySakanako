@@ -31,55 +31,13 @@ public class Projectile : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         Vector3 displacement = velocity * Time.deltaTime;
 
-        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, LayerMask.GetMask("Hittable")))
+        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, LayerMask.GetMask("Hittable", "Environment")))
         {
-            IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
-            if (damageable != null)
-            {
-                float finalDamage = basicDamage;
-                bool isHeadShot = false;
+            TryDealDamage(hit);
 
-                var hitbox = hit.collider.GetComponentInParent<Hitbox>();
-                if (hitbox == null)
-                {
-                    Debug.LogError("Damageable object doesn't have hitbox! " + hit.collider.name);
-                }
+            TryShowHitEffect(hit);
 
-                if (hitbox.hitboxType == HitboxType.Head /*hit.collider.tag.Equals("Head")*/)
-                {
-                    finalDamage *= 2;
-                    isHeadShot = true;
-                }
-                else if (hitbox.hitboxType == HitboxType.Torso/*hit.collider.tag.Equals("Torso")*/)
-                {
-                    finalDamage *= 1;
-                }
-                else if (hitbox.hitboxType == HitboxType.Arm/*hit.collider.tag.Equals("Arm")*/)
-                {
-                    finalDamage *= 0.9f;
-                }
-                else if (hitbox.hitboxType == HitboxType.Leg/*hit.collider.tag.Equals("Leg")*/)
-                {
-                    finalDamage *= 0.8f;
-                }
-
-                bool damageableWasDead = damageable.isDead;
-
-
-                damageable.TakeDamage(finalDamage, velocity.normalized, out bool killedTarget);
-
-                if (damageableWasDead == false)
-                {
-                    Color hitMarkColor = killedTarget ? Color.red : Color.white;
-                    hitMarkColor.a = 0.65f;
-                    playerCombat?.ShowHitFeedback(hitMarkColor, isHeadShot, killedTarget);
-                }
-            }
-
-            //Debug.Log("Bullet has hit target: " + hit.collider.name);
-            //SpawnBulletImpact(hit);
-            IHitEffect hitEffect = hit.collider.GetComponentInParent<IHitEffect>();
-            hitEffect?.ShowHitEffect(hit);
+            TryAddForceToRagdoll(hit);
 
             SpawnUtility.DestroyObject(gameObject);
             return;
@@ -96,6 +54,8 @@ public class Projectile : MonoBehaviour
         }
     }
 
+
+
     private void OnDisable()
     {
         trailRenderer?.Clear();
@@ -107,6 +67,71 @@ public class Projectile : MonoBehaviour
         basicDamage = 0;
         hasBeenSetup = false;
     }
+
+
+    private void TryDealDamage(RaycastHit hit)
+    {
+        IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
+
+        if (damageable != null)
+        {
+            float finalDamage = basicDamage;
+            bool isHeadShot = false;
+
+            var hitbox = hit.collider.GetComponentInParent<Hitbox>();
+            if (hitbox == null)
+            {
+                Debug.LogError("Damageable object doesn't have hitbox! " + hit.collider.name);
+            }
+
+            if (hitbox.hitboxType == HitboxType.Head /*hit.collider.tag.Equals("Head")*/)
+            {
+                finalDamage *= 2;
+                isHeadShot = true;
+            }
+            else if (hitbox.hitboxType == HitboxType.Torso/*hit.collider.tag.Equals("Torso")*/)
+            {
+                finalDamage *= 1;
+            }
+            else if (hitbox.hitboxType == HitboxType.Arm/*hit.collider.tag.Equals("Arm")*/)
+            {
+                finalDamage *= 0.9f;
+            }
+            else if (hitbox.hitboxType == HitboxType.Leg/*hit.collider.tag.Equals("Leg")*/)
+            {
+                finalDamage *= 0.8f;
+            }
+
+            bool damageableWasDead = damageable.isDead;
+
+            damageable.TakeDamage(finalDamage, velocity.normalized, out bool killedTarget);
+
+            if (damageableWasDead == false)
+            {
+                Color hitMarkColor = killedTarget ? Color.red : Color.white;
+                hitMarkColor.a = 0.65f;
+                playerCombat?.ShowHitFeedback(hitMarkColor, isHeadShot, killedTarget);
+            }
+        }
+    }
+
+    private void TryShowHitEffect(RaycastHit hit)
+    {
+        IHitEffect hitEffect = hit.collider.GetComponentInParent<IHitEffect>();
+        hitEffect?.ShowHitEffect(hit);
+    }
+
+
+    private void TryAddForceToRagdoll(RaycastHit hit)
+    {
+        Rigidbody rb = hit.collider.attachedRigidbody;
+
+        if (rb != null && !rb.isKinematic)
+        {
+            rb.AddForce(velocity.normalized * 25f, ForceMode.Impulse);
+        }
+    }
+
 
 
     public void SetupProjectile(Vector3 _velocity, float _gravity, Vector3 _spawnPosition, float _damage, PlayerCombat _playerCombat)

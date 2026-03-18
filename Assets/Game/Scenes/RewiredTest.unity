@@ -4997,7 +4997,7 @@ GameObject:
   - component: {fileID: 292969696}
   - component: {fileID: 292969695}
   - component: {fileID: 292969698}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Torso
   m_TagString: Torso
   m_Icon: {fileID: 0}
@@ -5193,7 +5193,7 @@ GameObject:
   - component: {fileID: 304632541}
   - component: {fileID: 304632540}
   - component: {fileID: 304632543}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: LeftLeg
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -5366,7 +5366,7 @@ GameObject:
   - component: {fileID: 337250292}
   - component: {fileID: 337250291}
   - component: {fileID: 337250294}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: LeftArm
   m_TagString: Arm
   m_Icon: {fileID: 0}
@@ -6681,7 +6681,7 @@ GameObject:
   - component: {fileID: 434480785}
   - component: {fileID: 434480784}
   - component: {fileID: 434480787}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Head
   m_TagString: Head
   m_Icon: {fileID: 0}
@@ -7041,7 +7041,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 80504842}
   m_HandleRect: {fileID: 80504841}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7589,7 +7589,7 @@ GameObject:
   - component: {fileID: 499433144}
   - component: {fileID: 499433148}
   - component: {fileID: 499433149}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20440,7 +20440,7 @@ GameObject:
   - component: {fileID: 1029008622}
   - component: {fileID: 1029008621}
   - component: {fileID: 1029008625}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24713,7 +24713,7 @@ GameObject:
   - component: {fileID: 1385224745}
   - component: {fileID: 1385224744}
   - component: {fileID: 1385224747}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: RightLeg
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -25664,7 +25664,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -26212,7 +26212,7 @@ GameObject:
   - component: {fileID: 1457903651}
   - component: {fileID: 1457903650}
   - component: {fileID: 1457903653}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: RightArm
   m_TagString: Arm
   m_Icon: {fileID: 0}
@@ -31013,7 +31013,7 @@ GameObject:
   - component: {fileID: 1788052309}
   - component: {fileID: 1788052313}
   - component: {fileID: 1788052314}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34428,7 +34428,7 @@ GameObject:
   - component: {fileID: 2016626178}
   - component: {fileID: 2016626177}
   - component: {fileID: 2016626181}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37088,7 +37088,7 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
-  m_UpdateWhenOffscreen: 0
+  m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: -775042069562008085, guid: 6ae52590b4b13cb4ca2d68074049ee61, type: 3}
   m_Bones:
@@ -38025,7 +38025,7 @@ Transform:
   m_GameObject: {fileID: 919132147487626332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.033, z: 7.87}
+  m_LocalPosition: {x: 0, y: 0, z: 7.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -43296,7 +43296,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &3212206650180458668
@@ -44011,7 +44011,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!135 &3394164341328968012
@@ -47420,7 +47420,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &4769944722996496951
@@ -47853,7 +47853,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!136 &4896325615569762093
@@ -48133,7 +48133,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &5025502324577917797
@@ -49213,7 +49213,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!136 &5606640988616167422
@@ -51707,7 +51707,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!136 &6683986680398629133
@@ -53285,7 +53285,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &7444704557655658389
@@ -53780,7 +53780,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &7671602175931868442
@@ -56613,7 +56613,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &8690524113684959114
@@ -57139,7 +57139,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!136 &8893409920858516687

@@ -131,7 +131,15 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(currentVelocity.magnitude);
     }
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody rb = hit.collider.attachedRigidbody;
 
+        if (rb != null && !rb.isKinematic)
+        {
+            rb.AddForce(hit.moveDirection * currentVelocity.magnitude * 1.5f, ForceMode.Impulse);
+        }
+    }
 
     private void UpdateMovementState()
     {
