@@ -156,6 +156,11 @@ public class PlayerLook : MonoBehaviour
             }
 
 
+            if (rawLookInput.magnitude >= 0.5f)
+            {
+                processedLookInputY = YInputSupress(processedLookInputX, processedLookInputY);
+            }
+
             //in rewired, controller stick related axis actions always return absolute value
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent
             //under different frame rates
@@ -196,6 +201,18 @@ public class PlayerLook : MonoBehaviour
     private void OnDestroy()
     {
         PauseManager.instance.OnPauseStateChanged -= HandlePause;
+    }
+
+    private float YInputSupress(float lookInputX, float lookInputY)
+    {
+        float absX = Mathf.Abs(lookInputX);
+        float absY = Mathf.Abs(lookInputY);
+
+        float dominance = absX / (absX + absY + 0.0001f);
+        float suppression = Mathf.Lerp(1f, 0.75f, dominance);
+
+        lookInputY *= suppression;
+        return lookInputY;
     }
 
 

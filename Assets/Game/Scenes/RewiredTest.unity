@@ -6680,6 +6680,7 @@ GameObject:
   - component: {fileID: 434480786}
   - component: {fileID: 434480785}
   - component: {fileID: 434480784}
+  - component: {fileID: 434480787}
   m_Layer: 6
   m_Name: Head
   m_TagString: Head
@@ -6773,6 +6774,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434480782}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &434480787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434480782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463464feaa7f2664bad7b7ca9ebbce8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxType: 0
 --- !u!1 &434492513
 GameObject:
   m_ObjectHideFlags: 0
