@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public float maxHP = 100;
     private float currentHP;
 
+    [SerializeField] private DamageDirectionIndicator damageDirectionIndicator;
+
     public bool isDead { get; private set; } = false;
 
 
@@ -20,8 +22,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void TakeDamage(float _damage, Vector3 _damageDirection, out bool _thisDamageKilledTarget)
     {
         _thisDamageKilledTarget = false;
-        
+
         currentHP -= _damage;
+
+
+        damageDirectionIndicator.ShowDamageDirectionHint(_damageDirection);
+
 
         if (currentHP < 0)
         {

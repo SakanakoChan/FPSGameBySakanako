@@ -100,6 +100,7 @@ public class Zombie : MonoBehaviour, IDamageable
                 continue;
             }
 
+            Debug.Log("Zombie hit: " + hit.name);
             IDamageable damageable = hit.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
