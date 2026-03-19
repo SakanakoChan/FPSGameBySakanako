@@ -109,7 +109,7 @@ public class Gun : Weapon
 
 
 
-    private void Start()
+    private void Awake()
     {
         if (gunData == null)
         {
@@ -721,5 +721,20 @@ public class Gun : Weapon
     public override void StartSprintToFireDelay()
     {
         sprintToFireTimer = gunData.sprintToFireTime;
+    }
+
+    public override string GetWeaponName()
+    {
+        return gunData.weaponName;
+    }
+
+    public override int GetCurrentAmmoInMagzine()
+    {
+        return currentAmmoInMagzine;
+    }
+
+    public override int GetReserveAmmo()
+    {
+        return reserveAmmo;
     }
 }

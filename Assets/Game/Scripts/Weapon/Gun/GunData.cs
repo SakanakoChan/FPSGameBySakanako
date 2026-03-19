@@ -15,6 +15,7 @@ public enum FireMode
 public class GunData : ScriptableObject
 {
     [Header("Basic info")]
+    public string weaponName = "AK47";
     public int damage;
     public float fireRate;
     public int magSize;

@@ -17,6 +17,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Canvas hudCanvas;
     [SerializeField] private HipFireCrosshair hipFireCrosshair;
     [SerializeField] private HitMark hitMark;
+    [SerializeField] private WeaponInfoIndicator weaponInfoIndicator;
 
     [Header("IK info")]
     [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
@@ -36,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
                 return currentWeapon.isInADS;
             }
 
-            return false;   
+            return false;
         }
     }
     public bool isTryingToFire { get; private set; } = false;
@@ -62,6 +63,9 @@ public class PlayerCombat : MonoBehaviour
 
         cameraKick = GetComponentInChildren<CameraKick>();
         gunKick = GetComponentInChildren<GunKick>();
+
+        if (currentWeapon != null)
+            weaponInfoIndicator?.UpdateAmmoInfo(currentWeapon.GetCurrentAmmoInMagzine(), currentWeapon.GetReserveAmmo());
     }
 
     private void Update()
@@ -84,8 +88,10 @@ public class PlayerCombat : MonoBehaviour
                 {
                     //play arm fire animation to add animated gunkick
                     //(to combine with code driven gunkick)
-                    if (isInADS == false) 
+                    if (isInADS == false)
                         armsAnim.Play("Fire", 2, 0);
+
+                    weaponInfoIndicator?.UpdateAmmoInfo(currentWeapon.GetCurrentAmmoInMagzine(), currentWeapon.GetReserveAmmo());
                 }
             }
 
@@ -183,6 +189,7 @@ public class PlayerCombat : MonoBehaviour
     public void FillMag()
     {
         currentWeapon?.FillMag();
+        weaponInfoIndicator?.UpdateAmmoInfo(currentWeapon.GetCurrentAmmoInMagzine(), currentWeapon.GetReserveAmmo());
 
         cameraKick?.AddCameraKick(new Vector3(0, 0, 50f));
         gunKick?.AddGunKick(Vector3.zero, new Vector3(Random.Range(-20f, -10f), Random.Range(5f, 10f), Random.Range(-240f, -180f)));

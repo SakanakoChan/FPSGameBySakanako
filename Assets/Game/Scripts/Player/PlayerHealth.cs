@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public float maxHP = 100;
     private float currentHP;
 
+    [Header("HUD info")]
     [SerializeField] private DamageDirectionIndicator damageDirectionIndicator;
 
     public bool isDead { get; private set; } = false;

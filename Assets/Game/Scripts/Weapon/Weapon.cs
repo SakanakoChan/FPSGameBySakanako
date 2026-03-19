@@ -87,4 +87,20 @@ public abstract class Weapon : MonoBehaviour
     {
 
     }
+
+    public virtual int GetCurrentAmmoInMagzine()
+    {
+        return 0;
+    }
+
+    public virtual int GetReserveAmmo()
+    {
+        return 0;
+    }
+
+    public virtual string GetWeaponName()
+    {
+        return string.Empty;
+    }
+
 }
