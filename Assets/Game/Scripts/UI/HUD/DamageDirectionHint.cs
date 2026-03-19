@@ -12,6 +12,7 @@ public class DamageDirectionHint : MonoBehaviour
     [SerializeField] private float fadeDuration = 1f;
     private Image image;
     private float originalAlphaValue;
+    private Coroutine autoFadeCoroutine;
 
     private Transform playerTransform;
     private Camera mainCam;
@@ -32,7 +33,7 @@ public class DamageDirectionHint : MonoBehaviour
 
     private void FollowDamageDirection()
     {
-        if (damageDirection == null)
+        if (damageDirection == Vector3.zero)
             return;
 
         Vector3 direction = -damageDirection;
@@ -52,7 +53,10 @@ public class DamageDirectionHint : MonoBehaviour
 
         FollowDamageDirection();
 
-        StartCoroutine(AutoFade());
+        if(autoFadeCoroutine != null)
+            StopCoroutine(autoFadeCoroutine);
+
+        autoFadeCoroutine = StartCoroutine(AutoFade());
     }
 
     private IEnumerator AutoFade()
