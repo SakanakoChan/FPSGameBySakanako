@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Zombie : MonoBehaviour, IDamageable
+public class Zombie : MonoBehaviour, IDamageable, IScoreSource
 {
     public Animator anim { get; private set; }
     public NavMeshAgent agent { get; private set; }
@@ -127,6 +127,12 @@ public class Zombie : MonoBehaviour, IDamageable
             _thisDamageKilledTarget = true;
 
             Die(_damageDirection);
+
+            AddScore(ScoreType.Kill, 100, "Kill");
+            if (_isHeadshot)
+            {
+                AddScore(ScoreType.Headshot, 25, "Headshot");
+            }
         }
     }
 
@@ -195,5 +201,10 @@ public class Zombie : MonoBehaviour, IDamageable
     public void CloseAttackWindow()
     {
         stateMachine.currentState?.CloseAttackWindow();
+    }
+
+    public void AddScore(ScoreType _scoreType, int _scoreValue, string _scoreDescription)
+    {
+        GameEvents.OnScore?.Invoke(_scoreType, _scoreValue, _scoreDescription);
     }
 }
