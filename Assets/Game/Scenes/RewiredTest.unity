@@ -1344,7 +1344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571e24c935ea24443927666b3870aefb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springStrength: 120
+  springStrength: 80
   damping: 15
 --- !u!1 &110721040
 GameObject:
@@ -26270,7 +26270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   damageDirectionIndicator: {fileID: 1392140359}
-  damageFlinchRatio: 3
+  damageFlinchRatio: 7
 --- !u!136 &1436997274
 CapsuleCollider:
   m_ObjectHideFlags: 0
