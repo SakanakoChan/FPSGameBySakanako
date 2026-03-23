@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dummy : MonoBehaviour, IDamageable
+public class Dummy : MonoBehaviour, IDamageable, IScoreSource
 {
     private Animator anim;
 
@@ -18,7 +18,7 @@ public class Dummy : MonoBehaviour, IDamageable
         currentHP = maxHP;
     }
 
-    public void TakeDamage(float _damage, Vector3 _damageDirection, out bool _thisDamageKilledTarget)
+    public void TakeDamage(float _damage, Vector3 _damageDirection, bool _isHeadshot, out bool _thisDamageKilledTarget)
     {
         _thisDamageKilledTarget = false;
 
@@ -34,6 +34,12 @@ public class Dummy : MonoBehaviour, IDamageable
         {
             _thisDamageKilledTarget = true;
             Die();
+
+            AddScore(ScoreType.Kill, 100, "Kill");
+            if (_isHeadshot)
+            {
+                AddScore(ScoreType.Headshot, 25, "Headshot");
+            }
         }
     }
 
@@ -56,4 +62,8 @@ public class Dummy : MonoBehaviour, IDamageable
         isDead = false;
     }
 
+    public void AddScore(ScoreType _scoreType, int _scoreValue, string _scoreDescription)
+    {
+        GameEvents.OnScore?.Invoke(_scoreType, _scoreValue, _scoreDescription);
+    }
 }

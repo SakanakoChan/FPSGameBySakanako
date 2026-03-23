@@ -66,6 +66,13 @@ public class ObjectPoolManager : MonoBehaviour
 
     public void ReturnObjectToPool(GameObject _obj, GameObject _prefab)
     {
+        if (_prefab == null)
+        {
+            Debug.LogWarning($"Warning! {_obj.name} prefab reference is null! Now destroying it..");
+            Destroy(_obj);
+            return;
+        }
+
         _obj.SetActive(false);
         _obj.transform.SetParent(transform);
         poolDictionary[_prefab].Enqueue(_obj);

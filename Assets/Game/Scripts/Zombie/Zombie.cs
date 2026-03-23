@@ -107,12 +107,12 @@ public class Zombie : MonoBehaviour, IDamageable
                 _hasHitTarget = true;
 
                 Vector3 damageDirection = (hit.transform.position - transform.position).normalized;
-                damageable?.TakeDamage(attackPower, damageDirection, out bool thisDamageKilledTarget);
+                damageable?.TakeDamage(attackPower, damageDirection, false, out bool thisDamageKilledTarget);
             }
         }
     }
 
-    public void TakeDamage(float _damage, Vector3 _damageDirection, out bool _thisDamageKilledTarget)
+    public void TakeDamage(float _damage, Vector3 _damageDirection, bool _isHeadshot, out bool _thisDamageKilledTarget)
     {
         _thisDamageKilledTarget = false;
 
