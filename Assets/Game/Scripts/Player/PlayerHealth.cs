@@ -13,9 +13,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public bool isDead { get; private set; } = false;
 
+    [Header("Flinch info")]
+    [SerializeField] private float damageFlinchRatio = 2f;
+    private Flinch flinch;
 
     private void Start()
     {
+        flinch = GetComponentInChildren<Flinch>();
+
         currentHP = maxHP;
     }
 
@@ -26,7 +31,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         currentHP -= _damage;
 
-
+        flinch?.AddFlinch(new Vector3(-damageFlinchRatio * _damage, 0, 0));
         damageDirectionIndicator.ShowDamageDirectionHint(_damageDirection);
 
 

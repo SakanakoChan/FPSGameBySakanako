@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
     private Vector3 currentPosition;
     private float fliedDistance = 0;
 
+    private int hitMask;
     private float basicDamage;
 
     private bool hasBeenSetup = false;
@@ -31,7 +32,7 @@ public class Projectile : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         Vector3 displacement = velocity * Time.deltaTime;
 
-        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, LayerMask.GetMask("Hittable", "Environment")))
+        if (Physics.Raycast(currentPosition, velocity.normalized, out RaycastHit hit, displacement.magnitude, hitMask))
         {
             TryDealDamage(hit);
 
@@ -151,6 +152,8 @@ public class Projectile : MonoBehaviour
 
         if (prefabReference == null)
             prefabReference = GetComponent<PooledObject>().prefabReference;
+
+        hitMask = LayerMask.GetMask("Hittable", "Environment");
 
         hasBeenSetup = true;
 

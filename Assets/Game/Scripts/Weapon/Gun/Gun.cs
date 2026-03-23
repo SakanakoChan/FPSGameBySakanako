@@ -530,13 +530,14 @@ public class Gun : Weapon
 
         //******Position GunKick
         Vector3 positionGunKickImpulse = CalculatePositionGunKickImpulse(sign);
-        //positionGunKickImpulse *= 0f;
-        //Vector3 positionGunKickImpulse = 0.1f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-3f, -5f));
+        //if (!isInADS)
+        //    positionGunKickImpulse *= 2f;
 
         //******Rotation GunKick
         Vector3 rotationGunKickImpulse = CalculateRotationGunKickImpulse(sign);
-        //rotationGunKickImpulse = Vector3.zero;
-        //Vector3 rotationGunKickImpulse = 15f * new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), Random.Range(-2f, 2f));
+        //if (!isInADS)
+        //    rotationGunKickImpulse *= 2f;
+
         gunKick?.AddGunKick(positionGunKickImpulse, rotationGunKickImpulse);
 
 
@@ -652,7 +653,7 @@ public class Gun : Weapon
 
         Vector3 bulletSpawnPosition = this.bulletSpawnPosition.position;
 
-        bool isNearWall = Vector3.Distance(hit.point, mainCam.transform.position) <= 1f;
+        bool isNearWall = Vector3.Distance(hit.point, mainCam.transform.position) <= 2f;
 
         //Debug.Log("Is Near Wall: " + isNearWall);
         if (isNearWall)
