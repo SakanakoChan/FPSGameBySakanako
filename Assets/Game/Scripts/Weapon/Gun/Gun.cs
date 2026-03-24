@@ -483,7 +483,7 @@ public class Gun : Weapon
 
     private void UpdateAirSpreadPunishment()
     {
-        if (playerMovement.movementState == PlayerMovement.MovementState.Air)
+        if (playerMovement.groundedState == PlayerMovement.GroundedState.Air)
         {
             if (!isInADS)
             {

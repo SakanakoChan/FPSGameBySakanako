@@ -76,7 +76,7 @@ public class CameraEffect : MonoBehaviour
         targetRotation = Quaternion.identity;
 
         float speed = playerMovement.horizontalVelocity.magnitude;
-        bool isMovingOnGround = speed > 0.1f && playerMovement.movementState == PlayerMovement.MovementState.Grounded;
+        bool isMovingOnGround = speed > 0.1f && playerMovement.groundedState == PlayerMovement.GroundedState.Grounded;
 
         if (!isMovingOnGround)
         {
@@ -135,7 +135,7 @@ public class CameraEffect : MonoBehaviour
 
     private void ApplyLandingEffect()
     {
-        bool isGrounded = playerMovement.movementState == PlayerMovement.MovementState.Grounded;
+        bool isGrounded = playerMovement.groundedState == PlayerMovement.GroundedState.Grounded;
         if (!wasGrounded && isGrounded)
         {
             landingTimer = landingDuration;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public enum MovementState
+    public enum GroundedState
     {
         Grounded,
         Air
@@ -35,6 +35,17 @@ public class PlayerMovement : MonoBehaviour
     private Stance currentStance;
     private bool wantsToCrouch = false;
     private bool isCrouching = false;
+
+    [Header("Slide info")]
+    [SerializeField] private float requiredSpeedToTriggerSlide = 6f;
+    [SerializeField] private float slideInitialSpeedBoost = 5f;
+    [SerializeField] private float slideFriction = 10f;
+    [SerializeField] private float maxSlideTime = 1f;
+    private float slideTimer;
+    private bool isSliding = false;
+    private bool wantsToSlide = false;
+    private Vector3 slideDirection;
+    private bool slideInputLock = false;
 
 
     [Header("Acceleration info")]
@@ -96,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 localVelocity { get { return transform.InverseTransformVector(currentVelocity); } }
 
 
-    public MovementState movementState { get; private set; }
+    public GroundedState groundedState { get; private set; }
     private Stance stance = Stance.Stand;
 
     public bool isSprinting { get; private set; } = false;
@@ -123,9 +134,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = InputManager.instance.moveInput;
         Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
 
-        UpdateMovementState();
+        UpdateGroundedState();
 
-        CrouchControl();
+        CrouchAndSlideControl();
+
+        SlideLogic();
 
         JumpControl();
 
@@ -159,43 +172,48 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void UpdateMovementState()
+    private void UpdateGroundedState()
     {
         if (cc.isGrounded)
         {
-            movementState = MovementState.Grounded;
+            groundedState = GroundedState.Grounded;
         }
         else
         {
-            movementState = MovementState.Air;
+            groundedState = GroundedState.Air;
         }
     }
 
-    private void CrouchControl()
+    private void CrouchAndSlideControl()
     {
         if (InputManager.instance.CrouchPressed)
         {
             wantsToCrouch = !wantsToCrouch;
             wantsToSprint = false;
 
-            //switch (currentStance)
-            //{
-            //    case Stance.Stand:
-            //        currentStance = Stance.Crouch;
-            //        break;
+            if (horizontalVelocity.magnitude >= requiredSpeedToTriggerSlide && wantsToCrouch == true)
+            {
+                wantsToSlide = true;
+            }
 
-            //    case Stance.Crouch:
-            //        currentStance = Stance.Stand;
-            //        break;
-
-            //    default: break;
-            //}
+            if (isSliding)
+            {
+                StopSlide();
+                wantsToCrouch = true;
+                wantsToSlide = false;
+            }
         }
 
-        bool currentMovementStateSupportsCrouch = 
-            movementState == MovementState.Grounded;
+        bool currentMovementStateSupportsCrouch =
+            groundedState == GroundedState.Grounded;
 
         isCrouching = wantsToCrouch && currentMovementStateSupportsCrouch;
+
+        UpdateStance();
+    }
+
+    private void UpdateStance()
+    {
         currentStance = isCrouching ? Stance.Crouch : Stance.Stand;
 
         float targetHeight_CC = standHeight_CC;
@@ -221,9 +239,49 @@ public class PlayerMovement : MonoBehaviour
         cc.center = newCenter;
     }
 
+    private void SlideLogic()
+    {
+        if (!isSliding /*&& horizontalVelocity.magnitude >= requiredSpeedToTriggerSlide*/ && wantsToSlide && isCrouching)
+        {
+            StartSlide();
+        }
+
+        if (isSliding)
+        {
+            slideTimer -= Time.deltaTime;
+
+            //***this friction control is written in ApplyFriction as well***
+            //float speed = horizontalVelocity.magnitude;
+            //float reduceAmount = slideFriction * Time.deltaTime;
+            //horizontalVelocity = slideDirection * Mathf.Max(speed - reduceAmount, 0f);
+
+            if (slideTimer <= 0 || horizontalVelocity.magnitude <= crouchWalkSpeed || groundedState == GroundedState.Air)
+            {
+                StopSlide();
+            }
+        }
+    }
+
+    private void StartSlide()
+    {
+        isSliding = true;
+        wantsToSlide = false;
+        slideTimer = maxSlideTime;
+
+        slideDirection = horizontalVelocity.normalized;
+
+        horizontalVelocity = slideDirection * (horizontalVelocity.magnitude + slideInitialSpeedBoost);
+    }
+
+    private void StopSlide()
+    {
+        isSliding = false;
+    }
+
+
     private void JumpControl()
     {
-        if (movementState == MovementState.Grounded)
+        if (groundedState == GroundedState.Grounded)
         {
             //to make player stand on surface and avoid sudden floating
             if (verticalVelocity < 0)
@@ -233,13 +291,19 @@ public class PlayerMovement : MonoBehaviour
 
             if (InputManager.instance.JumpPressed)
             {
-                verticalVelocity = jumpForce;
-                movementState = MovementState.Air;
+                if (currentStance == Stance.Stand)
+                {
+                    verticalVelocity = jumpForce;
+                    groundedState = GroundedState.Air;
+                }
+                else if(currentStance == Stance.Crouch)
+                {
+                    wantsToCrouch = false;
+                    StopSlide();
+                }
             }
         }
     }
-
-
 
     private void ApplyGravity()
     {
@@ -266,7 +330,7 @@ public class PlayerMovement : MonoBehaviour
         bool currentMovementConditionSupportsSprint =
             isMovingForwardEnough &&
             moveInputMagnitude > moveInputMagnitudeThresholdToTriggerSprint &&
-            movementState == MovementState.Grounded;
+            groundedState == GroundedState.Grounded;
 
 
 
@@ -277,12 +341,17 @@ public class PlayerMovement : MonoBehaviour
             wantsToSprint = true;
             wantsToCrouch = false;
             //currentStance = Stance.Stand;
+
+            if (isSliding)
+            {
+                StopSlide();
+            }
         }
 
         //auto sprint settings
         if (playerCombat != null && playerCombat.isInADS == false && playerCombat.isTryingToFire == false)
         {
-            if (InputManager.instance.currentInputDevice == InputDevice.Controller && 
+            if (InputManager.instance.currentInputDevice == InputDevice.Controller &&
                 GameSettings.controllerAutoSprint == true &&
                 wantsToCrouch == false)
             {
@@ -317,9 +386,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float friction = _moveInput.sqrMagnitude > 0.01f ? friction_WithMoveInput : friction_WithoutMoveInput;
-        if (movementState == MovementState.Air)
+        if (groundedState == GroundedState.Air)
         {
             friction = 0;
+        }
+
+        if (isSliding)
+        {
+            friction = slideFriction;
         }
 
         float speedReduceAmount = speed * friction * Time.deltaTime;
@@ -331,6 +405,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyAcceleration(Vector2 moveInput, Vector3 moveDirection)
     {
+        if (isSliding)
+            return;
+
         Vector3 wishDirection = moveDirection.normalized;
         float wishSpeed = maxSpeed * moveInput.magnitude;
         if (isSprinting)
@@ -351,7 +428,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float actualAcceleration =
-            movementState == MovementState.Grounded ? acceleration_Grounded : acceleration_Air;
+            groundedState == GroundedState.Grounded ? acceleration_Grounded : acceleration_Air;
 
         float actualSpeedToAdd = actualAcceleration * Time.deltaTime * wishSpeed;
         if (actualSpeedToAdd > maxSpeedToAdd)
@@ -368,7 +445,7 @@ public class PlayerMovement : MonoBehaviour
     {
         var moveSpeedRatio = horizontalVelocity.magnitude / walkSpeed;
         moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
-        if (movementState == MovementState.Air)
+        if (groundedState == GroundedState.Air || isSliding)
         {
             moveSpeedRatio = 0;
         }

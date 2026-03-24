@@ -21,7 +21,7 @@ public class LandingImpact : MonoBehaviour
 
     private void Update()
     {
-        bool isGrounded = playerMovement.movementState == PlayerMovement.MovementState.Grounded;
+        bool isGrounded = playerMovement.groundedState == PlayerMovement.GroundedState.Grounded;
         if (!wasGrounded && isGrounded)
         {
             landingVelocity = landingImpactForce;

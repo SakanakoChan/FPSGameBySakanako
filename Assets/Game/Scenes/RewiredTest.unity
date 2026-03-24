@@ -43205,8 +43205,12 @@ MonoBehaviour:
   stanceHeightSmoothSpeed: 4
   standHeight_CamperaPivot: 0
   crouchHeight_CamperaPivot: -0.8
+  requiredSpeedToTriggerSlide: 6
+  slideInitialSpeedBoost: 8
+  slideFriction: 1.25
+  maxSlideTime: 1
   acceleration_Grounded: 8
-  acceleration_Air: 1.5
+  acceleration_Air: 0.5
   friction_WithoutMoveInput: 12
   friction_WithMoveInput: 6
   walkSpeed: 4.5
