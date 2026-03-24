@@ -43207,7 +43207,8 @@ MonoBehaviour:
   crouchHeight_CamperaPivot: -0.8
   requiredSpeedToTriggerSlide: 6
   slideInitialSpeedBoost: 8
-  slideFriction: 1.25
+  slideInitialSpeedBoostRatio: 1.8
+  slideFriction: 1.2
   maxSlideTime: 1
   acceleration_Grounded: 8
   acceleration_Air: 0.5

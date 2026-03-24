@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Slide info")]
     [SerializeField] private float requiredSpeedToTriggerSlide = 6f;
     [SerializeField] private float slideInitialSpeedBoost = 5f;
+    [SerializeField] private float slideInitialSpeedBoostRatio = 1.5f;
     [SerializeField] private float slideFriction = 10f;
     [SerializeField] private float maxSlideTime = 1f;
     private float slideTimer;
@@ -156,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(currentVelocity * Time.deltaTime);
 
-        //Debug.Log(horizontalVelocity.magnitude);
+        Debug.Log(horizontalVelocity.magnitude);
     }
 
 
@@ -270,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
 
         slideDirection = horizontalVelocity.normalized;
 
-        horizontalVelocity = slideDirection * (horizontalVelocity.magnitude + slideInitialSpeedBoost);
+        horizontalVelocity = slideDirection * (horizontalVelocity.magnitude * slideInitialSpeedBoostRatio/*+ slideInitialSpeedBoost*/);
     }
 
     private void StopSlide()
@@ -296,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
                     verticalVelocity = jumpForce;
                     groundedState = GroundedState.Air;
                 }
-                else if(currentStance == Stance.Crouch)
+                else if (currentStance == Stance.Crouch)
                 {
                     wantsToCrouch = false;
                     StopSlide();
@@ -438,7 +439,9 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 actualVelocityToAdd = wishDirection * actualSpeedToAdd;
         horizontalVelocity += actualVelocityToAdd;
-        horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeed);
+
+        if (groundedState == GroundedState.Grounded)
+            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeed);
     }
 
     private void UpdateMovementAnimation()
