@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float standHeight_CamperaPivot = 0f;
     [SerializeField] private float crouchHeight_CamperaPivot = -0.8f;
     private Stance currentStance;
+    private bool wantsToCrouch = false;
+    private bool isCrouching = false;
 
 
     [Header("Acceleration info")]
@@ -62,8 +64,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (currentStance == Stance.Stand)
                     return ADSWalkSpeed;
-                
-                if(currentStance == Stance.Crouch)
+
+                if (currentStance == Stance.Crouch)
                     return crouchADSWalkSpeed;
             }
 
@@ -173,19 +175,28 @@ public class PlayerMovement : MonoBehaviour
     {
         if (InputManager.instance.CrouchPressed)
         {
-            switch (currentStance)
-            {
-                case Stance.Stand:
-                    currentStance = Stance.Crouch;
-                    break;
+            wantsToCrouch = !wantsToCrouch;
+            wantsToSprint = false;
 
-                case Stance.Crouch:
-                    currentStance = Stance.Stand;
-                    break;
+            //switch (currentStance)
+            //{
+            //    case Stance.Stand:
+            //        currentStance = Stance.Crouch;
+            //        break;
 
-                default: break;
-            }
+            //    case Stance.Crouch:
+            //        currentStance = Stance.Stand;
+            //        break;
+
+            //    default: break;
+            //}
         }
+
+        bool currentMovementStateSupportsCrouch = 
+            movementState == MovementState.Grounded;
+
+        isCrouching = wantsToCrouch && currentMovementStateSupportsCrouch;
+        currentStance = isCrouching ? Stance.Crouch : Stance.Stand;
 
         float targetHeight_CC = standHeight_CC;
         float targetHeight_Pivot = standHeight_CamperaPivot;
@@ -209,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
         newCenter.y = bottomY + (cc.height * 0.5f);
         cc.center = newCenter;
     }
+
     private void JumpControl()
     {
         if (movementState == MovementState.Grounded)
@@ -263,13 +275,16 @@ public class PlayerMovement : MonoBehaviour
         if (InputManager.instance.SprintPressed)
         {
             wantsToSprint = true;
-            currentStance = Stance.Stand;
+            wantsToCrouch = false;
+            //currentStance = Stance.Stand;
         }
 
         //auto sprint settings
         if (playerCombat != null && playerCombat.isInADS == false && playerCombat.isTryingToFire == false)
         {
-            if (InputManager.instance.currentInputDevice == InputDevice.Controller && GameSettings.controllerAutoSprint == true)
+            if (InputManager.instance.currentInputDevice == InputDevice.Controller && 
+                GameSettings.controllerAutoSprint == true &&
+                wantsToCrouch == false)
             {
                 wantsToSprint = true;
             }
