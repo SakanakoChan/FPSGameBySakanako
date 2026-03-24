@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(currentVelocity * Time.deltaTime);
 
-        Debug.Log(horizontalVelocity.magnitude);
+        //Debug.Log(horizontalVelocity.magnitude);
     }
 
 
@@ -263,6 +263,7 @@ public class PlayerMovement : MonoBehaviour
         if (InputManager.instance.SprintPressed)
         {
             wantsToSprint = true;
+            currentStance = Stance.Stand;
         }
 
         //auto sprint settings
