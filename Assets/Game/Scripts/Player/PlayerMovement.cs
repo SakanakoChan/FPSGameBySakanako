@@ -18,9 +18,21 @@ public class PlayerMovement : MonoBehaviour
 
 
     [SerializeField] private Animator anim;
+    [SerializeField] private Transform cameraPivot;
     private CharacterController cc;
 
     private PlayerCombat playerCombat;
+
+    [Header("Stance info")]
+    [SerializeField] private float standHeight_CC = 2f;
+    [SerializeField] private float crouchHeight_CC = 1.55f;
+    [SerializeField] private float stanceHeightSmoothSpeed = 4f;
+    private float bottomY;
+
+    [Space]
+    [SerializeField] private float standHeight_CamperaPivot = 0f;
+    [SerializeField] private float crouchHeight_CamperaPivot = -0.8f;
+    private Stance currentStance;
 
 
     [Header("Acceleration info")]
@@ -33,8 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Move Speed info")]
     [SerializeField] private float walkSpeed;
+    [SerializeField] private float crouchWalkSpeed = 2.7f;
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float ADSWalkSpeed = 3;
+    [SerializeField] private float crouchADSWalkSpeed = 2.2f;
     public float maxSpeed
     {
         get
@@ -46,8 +60,16 @@ public class PlayerMovement : MonoBehaviour
 
             if (playerCombat != null && playerCombat.isInADS)
             {
-                return ADSWalkSpeed;
+                if (currentStance == Stance.Stand)
+                    return ADSWalkSpeed;
+                
+                if(currentStance == Stance.Crouch)
+                    return crouchADSWalkSpeed;
             }
+
+
+            if (currentStance == Stance.Crouch)
+                return crouchWalkSpeed;
 
             return walkSpeed;
         }
@@ -73,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     public MovementState movementState { get; private set; }
-    private Stance stance;
+    private Stance stance = Stance.Stand;
 
     public bool isSprinting { get; private set; } = false;
     private bool wantsToSprint = false;
@@ -90,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
 
         cc = GetComponent<CharacterController>();
         playerCombat = GetComponent<PlayerCombat>();
+
+        bottomY = cc.center.y - 0.5f * cc.height;
     }
 
     private void Update()
@@ -99,20 +123,9 @@ public class PlayerMovement : MonoBehaviour
 
         UpdateMovementState();
 
-        if (movementState == MovementState.Grounded)
-        {
-            //to make player stand on surface and avoid sudden floating
-            if (verticalVelocity < 0)
-            {
-                verticalVelocity = groundStickForce;
-            }
+        CrouchControl();
 
-            if (InputManager.instance.JumpPressed)
-            {
-                verticalVelocity = jumpForce;
-                movementState = MovementState.Air;
-            }
-        }
+        JumpControl();
 
         ApplyGravity();
 
@@ -128,8 +141,10 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(currentVelocity * Time.deltaTime);
 
-        //Debug.Log(currentVelocity.magnitude);
+        Debug.Log(horizontalVelocity.magnitude);
     }
+
+
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -140,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(hit.moveDirection * currentVelocity.magnitude * 1.5f, ForceMode.Impulse);
         }
     }
+
 
     private void UpdateMovementState()
     {
@@ -152,6 +168,65 @@ public class PlayerMovement : MonoBehaviour
             movementState = MovementState.Air;
         }
     }
+
+    private void CrouchControl()
+    {
+        if (InputManager.instance.CrouchPressed)
+        {
+            switch (currentStance)
+            {
+                case Stance.Stand:
+                    currentStance = Stance.Crouch;
+                    break;
+
+                case Stance.Crouch:
+                    currentStance = Stance.Stand;
+                    break;
+
+                default: break;
+            }
+        }
+
+        float targetHeight_CC = standHeight_CC;
+        float targetHeight_Pivot = standHeight_CamperaPivot;
+        if (currentStance == Stance.Stand)
+        {
+            targetHeight_CC = standHeight_CC;
+            targetHeight_Pivot = standHeight_CamperaPivot;
+        }
+        else if (currentStance == Stance.Crouch)
+        {
+            targetHeight_CC = crouchHeight_CC;
+            targetHeight_Pivot = crouchHeight_CamperaPivot;
+        }
+
+        cc.height = Mathf.MoveTowards(cc.height, targetHeight_CC, stanceHeightSmoothSpeed * Time.deltaTime);
+
+        Vector3 targetPivotPosition = new Vector3(0, targetHeight_Pivot, 0);
+        cameraPivot.localPosition = Vector3.MoveTowards(cameraPivot.localPosition, targetPivotPosition, stanceHeightSmoothSpeed * Time.deltaTime);
+
+        Vector3 newCenter = cc.center;
+        newCenter.y = bottomY + (cc.height * 0.5f);
+        cc.center = newCenter;
+    }
+    private void JumpControl()
+    {
+        if (movementState == MovementState.Grounded)
+        {
+            //to make player stand on surface and avoid sudden floating
+            if (verticalVelocity < 0)
+            {
+                verticalVelocity = groundStickForce;
+            }
+
+            if (InputManager.instance.JumpPressed)
+            {
+                verticalVelocity = jumpForce;
+                movementState = MovementState.Air;
+            }
+        }
+    }
+
 
 
     private void ApplyGravity()
@@ -275,7 +350,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateMovementAnimation()
     {
-        var moveSpeedRatio = horizontalVelocity.magnitude / maxSpeed;
+        var moveSpeedRatio = horizontalVelocity.magnitude / walkSpeed;
         moveSpeedRatio = Mathf.Clamp01(moveSpeedRatio);
         if (movementState == MovementState.Air)
         {
