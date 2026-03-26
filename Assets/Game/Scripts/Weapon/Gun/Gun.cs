@@ -142,16 +142,19 @@ public class Gun : Weapon
         muzzleFlash_Light = Instantiate(gunData.muzzleFlash_Light, muzzleFlashPosition.position, muzzleFlashPosition.rotation, muzzleFlashPosition.parent);
         muzzleFlash_Light?.SetActive(false);
 
+        playerCombat = GetComponentInParent<PlayerCombat>();
+        playerMovement = GetComponentInParent<PlayerMovement>();
+
         audioSource = GetComponent<AudioSource>();
         cameraRecoil = GetComponentInParent<CameraRecoil>();
         gunKick = GetComponentInParent<GunKick>();
-        cameraKick = GetComponentInParent<CameraKick>();
+        cameraKick = playerCombat.cameraKick;
+        //cameraKick = GetComponentInParent<CameraKick>();
         anim = GetComponent<Animator>();
 
         hudCanvas = hipFireCrosshair.GetComponentInParent<Canvas>();
 
-        playerCombat = GetComponentInParent<PlayerCombat>();
-        playerMovement = GetComponentInParent<PlayerMovement>();
+
         //audioSource.clip = gunData.fireSound;
     }
 

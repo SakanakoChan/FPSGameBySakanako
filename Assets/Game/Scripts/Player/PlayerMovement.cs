@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float slideInitialSpeedBoostRatio = 1.5f;
     [SerializeField] private float slideFriction = 10f;
     [SerializeField] private float maxSlideTime = 1f;
+    [SerializeField] private CameraKick cameraKick_Movement;
+    [SerializeField] private float slideCameraKickStreangth = 2f;
     private float slideTimer;
     private bool isSliding = false;
     private bool wantsToSlide = false;
@@ -131,6 +133,8 @@ public class PlayerMovement : MonoBehaviour
 
         bottomY = cc.center.y - 0.5f * cc.height;
         environmentLayerIndex = LayerMask.GetMask("Environment");
+
+        //Application.targetFrameRate = 30;
     }
 
     private void Update()
@@ -277,6 +281,9 @@ public class PlayerMovement : MonoBehaviour
             //float speed = horizontalVelocity.magnitude;
             //float reduceAmount = slideFriction * Time.deltaTime;
             //horizontalVelocity = slideDirection * Mathf.Max(speed - reduceAmount, 0f);
+
+            Vector3 cameraKickImpulse = new Vector3(0, 0, horizontalVelocity.magnitude * slideCameraKickStreangth * Time.deltaTime);
+            cameraKick_Movement?.AddCameraKick(cameraKickImpulse);
 
             if (slideTimer <= 0 || horizontalVelocity.magnitude <= crouchWalkSpeed || groundedState == GroundedState.Air)
             {

@@ -13,6 +13,10 @@ public class CameraKick : MonoBehaviour
     [SerializeField] private float springStrengthMultiplierBeforeRecovery = 0.01f;
     private float recoveryTimer = 0;
 
+    [Header("Low frame optimization")]
+    [SerializeField] private float fixedStepTime = 1 / 120f;
+    private float accumulatedTime = 0;
+
     private Vector3 rotationOffsetEuler;
     private Vector3 rotationVelocityEuler;
 
@@ -21,7 +25,13 @@ public class CameraKick : MonoBehaviour
         float deltaTime = Time.deltaTime;
         recoveryTimer -= Time.deltaTime;
 
-        RotationCameraKickLogic(deltaTime);
+        accumulatedTime += deltaTime;
+
+        while (accumulatedTime >= fixedStepTime)
+        {
+            RotationCameraKickLogic(fixedStepTime);
+            accumulatedTime -= fixedStepTime;
+        }
     }
 
     private void RotationCameraKickLogic(float deltaTime)
@@ -42,8 +52,8 @@ public class CameraKick : MonoBehaviour
         rotationOffsetEuler += rotationVelocityEuler * deltaTime;
 
         transform.localRotation =
-            Quaternion.AngleAxis(rotationOffsetEuler.x, Vector3.right) * 
-            Quaternion.AngleAxis(rotationOffsetEuler.y, Vector3.up) * 
+            Quaternion.AngleAxis(rotationOffsetEuler.x, Vector3.right) *
+            Quaternion.AngleAxis(rotationOffsetEuler.y, Vector3.up) *
             Quaternion.AngleAxis(rotationOffsetEuler.z, Vector3.forward);
 
         //Debug.Log($"Angle axis: {transform.localRotation.eulerAngles}, original: {rotationOffsetEuler}" );

@@ -6,10 +6,13 @@ using UnityEngine.Animations.Rigging;
 public class PlayerCombat : MonoBehaviour
 {
     private Weapon currentWeapon;
-    private CameraKick cameraKick;
+
+    [Header("Basic info")]
+    public CameraKick cameraKick;
     private GunKick gunKick;
     private PlayerMovement playerMovement;
 
+    [Space]
     public Animator armsAnim;
     public Animator cameraTiltAnim;
 
@@ -61,7 +64,7 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon = GetComponentInChildren<Weapon>();
         playerMovement = GetComponent<PlayerMovement>();
 
-        cameraKick = GetComponentInChildren<CameraKick>();
+        //cameraKick = GetComponentInChildren<CameraKick>();
         gunKick = GetComponentInChildren<GunKick>();
 
         if (currentWeapon != null)

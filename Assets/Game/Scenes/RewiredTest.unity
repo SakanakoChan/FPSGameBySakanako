@@ -21162,6 +21162,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 939502773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &702204038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 702204039}
+  - component: {fileID: 702204040}
+  m_Layer: 0
+  m_Name: CameraKick_Movement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &702204039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702204038}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1010893883}
+  m_Father: {fileID: 1494864531}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &702204040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702204038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e7b98c7dfa7094fa6bdf06b8297e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  springStrength: 400
+  damping: 20
+  recoveryDelay: 0
+  springStrengthMultiplierBeforeRecovery: 0
+  fixedStepTime: 0.008333334
 --- !u!1 &704361825
 GameObject:
   m_ObjectHideFlags: 0
@@ -31409,7 +31459,7 @@ GameObject:
   - component: {fileID: 1010893883}
   - component: {fileID: 1010893884}
   m_Layer: 0
-  m_Name: CameraEffects
+  m_Name: MovementCameraEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31429,7 +31479,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 629698498}
-  m_Father: {fileID: 1494864531}
+  m_Father: {fileID: 702204039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1010893884
 MonoBehaviour:
@@ -43344,15 +43394,17 @@ MonoBehaviour:
   crouchHeight_CamperaPivot: -0.8
   requiredSpeedToTriggerSlide: 6
   slideInitialSpeedBoost: 8
-  slideInitialSpeedBoostRatio: 1.8
-  slideFriction: 1.2
+  slideInitialSpeedBoostRatio: 2
+  slideFriction: 1.5
   maxSlideTime: 1
+  cameraKick_Movement: {fileID: 702204040}
+  slideCameraKickStreangth: 90
   acceleration_Grounded: 6.5
   acceleration_Air: 0.5
   friction_WithoutMoveInput: 12
   friction_WithMoveInput: 6
   walkSpeed: 4.5
-  crouchWalkSpeed: 2.7
+  crouchWalkSpeed: 2.5
   sprintSpeed: 7
   ADSWalkSpeed: 3
   crouchADSWalkSpeed: 2.2
@@ -43399,6 +43451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b1df3c20422f840ba14ed283175c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraKick: {fileID: 1494864532}
   armsAnim: {fileID: 1005843013}
   cameraTiltAnim: {fileID: 1005282836}
   hudCanvas: {fileID: 160469873}
@@ -45113,7 +45166,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1010893883}
+  - {fileID: 702204039}
   m_Father: {fileID: 1005282835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1494864532
@@ -45132,6 +45185,7 @@ MonoBehaviour:
   damping: 20
   recoveryDelay: 0.02
   springStrengthMultiplierBeforeRecovery: 0
+  fixedStepTime: 0.008333334
 --- !u!1 &1495203930
 GameObject:
   m_ObjectHideFlags: 0
