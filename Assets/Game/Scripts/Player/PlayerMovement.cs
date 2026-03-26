@@ -115,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
     private bool wantsToSprint = false;
     private bool wasSprintingInLastFrame = false;
 
+    private int environmentLayerIndex = 0;
+
     private void Awake()
     {
         PlayerReference.SetPlayerTrasnform(transform);
@@ -128,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         playerCombat = GetComponent<PlayerCombat>();
 
         bottomY = cc.center.y - 0.5f * cc.height;
+        environmentLayerIndex = LayerMask.GetMask("Environment");
     }
 
     private void Update()
@@ -157,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(currentVelocity * Time.deltaTime);
 
-        Debug.Log(horizontalVelocity.magnitude);
+        //Debug.Log(horizontalVelocity.magnitude);
     }
 
 
@@ -185,8 +188,27 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private bool CheckIfCanStandUp()
+    {
+        float radius = cc.radius * 1f;
+
+        Vector3 centerWorldPosition = transform.TransformPoint(cc.center);
+        Vector3 feetPosition = centerWorldPosition - Vector3.up * (cc.height * 0.5f);
+
+        Vector3 start = feetPosition + Vector3.up * radius;
+        Vector3 end = feetPosition + Vector3.up * (standHeight_CC - radius);
+        
+        bool result = !Physics.CheckCapsule(start, end, radius, environmentLayerIndex);
+        return result;
+    }
+
     private void CrouchAndSlideControl()
     {
+        if (CheckIfCanStandUp() == false)
+        {
+            return;
+        }
+
         if (InputManager.instance.CrouchPressed)
         {
             wantsToCrouch = !wantsToCrouch;
@@ -339,6 +361,11 @@ public class PlayerMovement : MonoBehaviour
         //manual sprint
         if (InputManager.instance.SprintPressed)
         {
+            if (currentStance == Stance.Crouch && CheckIfCanStandUp() == false)
+            {
+                return;
+            }
+
             wantsToSprint = true;
             wantsToCrouch = false;
             //currentStance = Stance.Stand;
