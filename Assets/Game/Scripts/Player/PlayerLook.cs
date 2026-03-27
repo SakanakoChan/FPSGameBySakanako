@@ -61,9 +61,19 @@ public class PlayerLook : MonoBehaviour
     public bool invertYAxis = false;
 
 
+    [Header("Controller Aim Assist")]
+    [SerializeField] private float aaRange;
+    [SerializeField] private float dotRequirementToTriggerAA = 0.98f;
+    [SerializeField] private float aaSlowDownFactor = 0.5f;
+    private Transform aaTarget;
+    private int enemyLayerIndex;
+    private int environmentLyaerIndex;
+
+
     private CameraRecoil cameraRecoil;
     private Gun currentGun;
     private PlayerCombat playerCombat;
+    private Transform camTransform;
 
 
     private void Awake()
@@ -72,6 +82,10 @@ public class PlayerLook : MonoBehaviour
         cameraRecoil = GetComponentInChildren<CameraRecoil>();
         currentGun = GetComponentInChildren<Gun>();
         playerCombat = GetComponent<PlayerCombat>();
+
+        camTransform = Camera.main.transform;
+        enemyLayerIndex = LayerMask.GetMask("Enemy");
+        environmentLyaerIndex = LayerMask.GetMask("Environment");
     }
 
     private void OnEnable()
@@ -161,6 +175,14 @@ public class PlayerLook : MonoBehaviour
                 processedLookInputY = YInputSupress(processedLookInputX, processedLookInputY);
             }
 
+            FindAimAssistTarget();
+
+            if (aaTarget != null)
+            {
+                processedLookInputX *= aaSlowDownFactor;
+                processedLookInputY *= aaSlowDownFactor;
+            }
+
             //in rewired, controller stick related axis actions always return absolute value
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent
             //under different frame rates
@@ -203,17 +225,6 @@ public class PlayerLook : MonoBehaviour
         PauseManager.instance.OnPauseStateChanged -= HandlePause;
     }
 
-    private float YInputSupress(float lookInputX, float lookInputY)
-    {
-        float absX = Mathf.Abs(lookInputX);
-        float absY = Mathf.Abs(lookInputY);
-
-        float dominance = absX / (absX + absY + 0.0001f);
-        float suppression = Mathf.Lerp(1f, 0.75f, dominance);
-
-        lookInputY *= suppression;
-        return lookInputY;
-    }
 
 
     private void ModifyPitch(float _deltaValue)
@@ -248,6 +259,8 @@ public class PlayerLook : MonoBehaviour
     }
 
 
+
+    #region Controller Input Process
     private Vector2 ApplyResponsiveCurve(Vector2 _lookInput)
     {
         float magnitude = _lookInput.magnitude;
@@ -286,6 +299,58 @@ public class PlayerLook : MonoBehaviour
 
         return direction * curvedMagnitude;
     }
+
+    private float YInputSupress(float lookInputX, float lookInputY)
+    {
+        float absX = Mathf.Abs(lookInputX);
+        float absY = Mathf.Abs(lookInputY);
+
+        float dominance = absX / (absX + absY + 0.0001f);
+        float suppression = Mathf.Lerp(1f, 0.75f, dominance);
+
+        lookInputY *= suppression;
+        return lookInputY;
+    }
+
+    private void FindAimAssistTarget()
+    {
+        Transform bestTarget = null;
+        float bestScore = -1;
+
+        var potentailTargetList = Physics.OverlapSphere(camTransform.position, aaRange, enemyLayerIndex);
+
+        foreach (var target in potentailTargetList)
+        {
+            var hitboxList = target.GetComponentsInChildren<Hitbox>();
+            foreach (var hitbox in hitboxList)
+            {
+                Vector3 directionToHitbox = (hitbox.transform.position - camTransform.position).normalized;
+
+                float dot = Vector3.Dot(camTransform.forward, directionToHitbox);
+
+                if (dot >= dotRequirementToTriggerAA)
+                {
+                    Vector3 obstacleDetectionStartPoint = camTransform.position + camTransform.forward * 0.1f;
+                    Vector3 obstacleDetectionDirection = hitbox.transform.position - obstacleDetectionStartPoint;
+                    float obstacleDetectionDistance = Vector3.Distance(hitbox.transform.position, obstacleDetectionStartPoint);
+
+                    //float castRadius = 0.1f;
+                    if (!Physics.Raycast(obstacleDetectionStartPoint, obstacleDetectionDirection, out var hitInfo, obstacleDetectionDistance, environmentLyaerIndex))
+                    {
+                        if (dot >= bestScore)
+                        {
+                            bestTarget = target.transform;
+                            bestScore = dot;
+                        }
+                    }
+                }
+            }
+        }
+
+        aaTarget = bestTarget;
+    }
+    #endregion
+
 
     private float ResistRecoil(float _lookDelta, ref float _recoilOffset)
     {

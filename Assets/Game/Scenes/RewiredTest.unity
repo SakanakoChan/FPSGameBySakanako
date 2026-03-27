@@ -8457,7 +8457,7 @@ GameObject:
   - component: {fileID: 292969696}
   - component: {fileID: 292969695}
   - component: {fileID: 292969698}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Torso
   m_TagString: Torso
   m_Icon: {fileID: 0}
@@ -8718,7 +8718,7 @@ GameObject:
   - component: {fileID: 304632541}
   - component: {fileID: 304632540}
   - component: {fileID: 304632543}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: LeftLeg
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -9204,7 +9204,7 @@ GameObject:
   - component: {fileID: 337250292}
   - component: {fileID: 337250291}
   - component: {fileID: 337250294}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: LeftArm
   m_TagString: Arm
   m_Icon: {fileID: 0}
@@ -11838,7 +11838,7 @@ GameObject:
   - component: {fileID: 434480785}
   - component: {fileID: 434480784}
   - component: {fileID: 434480787}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Head
   m_TagString: Head
   m_Icon: {fileID: 0}
@@ -16645,7 +16645,7 @@ GameObject:
   - component: {fileID: 563907936}
   - component: {fileID: 563907935}
   - component: {fileID: 563907934}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "\u739B\u62C9\u4FEE\u6B63\u5927\u5C0F (2)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36405,7 +36405,8 @@ GameObject:
   - component: {fileID: 1171642665}
   - component: {fileID: 1171642666}
   - component: {fileID: 1171642667}
-  m_Layer: 0
+  - component: {fileID: 1171642668}
+  m_Layer: 8
   m_Name: Dummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36456,6 +36457,29 @@ MonoBehaviour:
   hitFXPrefabList:
   - {fileID: 1067471869909948, guid: 432a222f7a581c44b8907bb1d0e78d93, type: 3}
   fxPositionOffset: 0.05
+--- !u!136 &1171642668
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171642664}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.4959333
+  m_Height: 4.1117754
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5558877, z: 0}
 --- !u!1 &1173019682
 GameObject:
   m_ObjectHideFlags: 0
@@ -41958,7 +41982,7 @@ GameObject:
   - component: {fileID: 1385224745}
   - component: {fileID: 1385224744}
   - component: {fileID: 1385224747}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: RightLeg
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -43373,6 +43397,9 @@ MonoBehaviour:
     turnAccelerationRampUpTime: 0.3
     maxTurnAccelerationSensitivityMultiplier: 1.4
   invertYAxis: 0
+  aaRange: 1000
+  dotRequirementToTriggerAA: 0.98
+  aaSlowDownFactor: 0.5
 --- !u!114 &1436997269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44335,7 +44362,7 @@ GameObject:
   - component: {fileID: 1457903651}
   - component: {fileID: 1457903650}
   - component: {fileID: 1457903653}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: RightArm
   m_TagString: Arm
   m_Icon: {fileID: 0}
@@ -58691,7 +58718,7 @@ GameObject:
   - component: {fileID: 1976891662}
   - component: {fileID: 1976891661}
   - component: {fileID: 1976891660}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "\u739B\u62C9\u4FEE\u6B63\u5927\u5C0F (3)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66540,7 +66567,7 @@ GameObject:
   - component: {fileID: 5866666020360017053}
   - component: {fileID: 1688824080}
   - component: {fileID: 1688824079}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "\u739B\u62C9\u4FEE\u6B63\u5927\u5C0F (1)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
