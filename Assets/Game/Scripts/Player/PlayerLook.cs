@@ -65,7 +65,11 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float aaRange;
     [SerializeField] private float dotRequirementToTriggerAA = 0.98f;
     [SerializeField] private float aaSlowDownFactor = 0.5f;
+    [SerializeField] private float aaRotationAssistStrength = 0.6f;
+    [SerializeField] private float aaRotationAssistMaxSpeedPerFrame = 60;
     private Transform aaTarget;
+    private Vector3 lastAATargetPosition_RA;
+    private Transform lastAATarget_RA;
     private int enemyLayerIndex;
     private int environmentLyaerIndex;
 
@@ -73,6 +77,7 @@ public class PlayerLook : MonoBehaviour
     private CameraRecoil cameraRecoil;
     private Gun currentGun;
     private PlayerCombat playerCombat;
+    private PlayerMovement playerMovement;
     private Transform camTransform;
 
 
@@ -82,6 +87,7 @@ public class PlayerLook : MonoBehaviour
         cameraRecoil = GetComponentInChildren<CameraRecoil>();
         currentGun = GetComponentInChildren<Gun>();
         playerCombat = GetComponent<PlayerCombat>();
+        playerMovement = GetComponent<PlayerMovement>();
 
         camTransform = Camera.main.transform;
         enemyLayerIndex = LayerMask.GetMask("Enemy");
@@ -175,19 +181,24 @@ public class PlayerLook : MonoBehaviour
                 processedLookInputY = YInputSupress(processedLookInputX, processedLookInputY);
             }
 
-            FindAimAssistTarget();
-
-            if (aaTarget != null)
+            Vector2 rotationAssist = Vector2.zero;
+            if (GameSettings.controllerAimAssistEnabled)
             {
-                processedLookInputX *= aaSlowDownFactor;
-                processedLookInputY *= aaSlowDownFactor;
+                FindAimAssistTarget();
+
+                if (aaTarget != null)
+                {
+                    ApplyAimAssistSlowDown(ref processedLookInputX, ref processedLookInputY);
+                    rotationAssist = ApplyAimAssistRotationAssist();
+                }
             }
+
 
             //in rewired, controller stick related axis actions always return absolute value
             //meaning the result has to be multiplied by Time.deltaTime to keep consistent
             //under different frame rates
-            lookDeltaX = processedLookInputX * Time.deltaTime * sensitivity;
-            lookDeltaY = processedLookInputY * Time.deltaTime * verticalSensitivityMultiplier_Controller * sensitivity;
+            lookDeltaX = (processedLookInputX * sensitivity + rotationAssist.x) * Time.deltaTime;
+            lookDeltaY = (processedLookInputY * verticalSensitivityMultiplier_Controller * sensitivity + rotationAssist.y) * Time.deltaTime;
         }
 
 
@@ -219,6 +230,8 @@ public class PlayerLook : MonoBehaviour
         player.rotation = Quaternion.Euler(0, finalYaw, 0);
         cameraPivot.localRotation = Quaternion.Euler(finalPitch, 0, 0);
     }
+
+
 
     private void OnDestroy()
     {
@@ -321,6 +334,10 @@ public class PlayerLook : MonoBehaviour
 
         foreach (var target in potentailTargetList)
         {
+            IDamageable damageable = target.GetComponentInParent<IDamageable>();
+            if (damageable == null || damageable.isDead == true)
+                continue;
+
             var hitboxList = target.GetComponentsInChildren<Hitbox>();
             foreach (var hitbox in hitboxList)
             {
@@ -348,6 +365,58 @@ public class PlayerLook : MonoBehaviour
         }
 
         aaTarget = bestTarget;
+    }
+
+
+    private Vector2 CalculateRotationAssist(Transform _aaTarget)
+    {
+        if (_aaTarget == null || _aaTarget != lastAATarget_RA)
+        {
+            lastAATargetPosition_RA = _aaTarget == null ? Vector3.zero : _aaTarget.position;
+            lastAATarget_RA = _aaTarget;
+            return Vector2.zero;
+        }
+
+        //if (lastAATargetPosition_RA == Vector3.zero)
+        //{
+        //    lastAATargetPosition_RA = _aaTarget.position;
+        //    return Vector2.zero;
+        //}
+
+        Vector3 aaTargetWorldVelocity = (_aaTarget.position - lastAATargetPosition_RA) / Time.deltaTime;
+        lastAATargetPosition_RA = _aaTarget.position;
+
+        Vector3 playerWorldVelocity = playerMovement.ccVelocity;
+        Vector3 relativeVelocity = aaTargetWorldVelocity - playerWorldVelocity;
+
+        float horizontalRelativeSpeed = Vector3.Dot(relativeVelocity, camTransform.right);
+        float verticalRelativeSpeed = Vector3.Dot(relativeVelocity, camTransform.up);
+
+        float distanceToTarget = Vector3.Distance(_aaTarget.position, camTransform.position);
+        distanceToTarget = Mathf.Max(distanceToTarget, 1f);
+
+        float aimBotAngularVelocityX = horizontalRelativeSpeed / distanceToTarget;
+        float aimBotAngularVelocityY = verticalRelativeSpeed / distanceToTarget;
+
+        float rotationAssisX = aimBotAngularVelocityX * Mathf.Rad2Deg * aaRotationAssistStrength;
+        float rotationAssistY = aimBotAngularVelocityY * Mathf.Rad2Deg * aaRotationAssistStrength;
+
+        rotationAssisX = Mathf.Clamp(rotationAssisX, -aaRotationAssistMaxSpeedPerFrame, aaRotationAssistMaxSpeedPerFrame);
+        rotationAssistY = Mathf.Clamp(rotationAssistY, -aaRotationAssistMaxSpeedPerFrame, aaRotationAssistMaxSpeedPerFrame);
+
+        Vector2 rotationAssist = new Vector2(rotationAssisX, rotationAssistY);
+        return rotationAssist;
+    }
+
+    private Vector2 ApplyAimAssistRotationAssist()
+    {
+        return CalculateRotationAssist(aaTarget);
+    }
+
+    private void ApplyAimAssistSlowDown(ref float processedLookInputX, ref float processedLookInputY)
+    {
+        processedLookInputX *= aaSlowDownFactor;
+        processedLookInputY *= aaSlowDownFactor;
     }
     #endregion
 

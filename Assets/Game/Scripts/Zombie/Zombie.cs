@@ -102,7 +102,8 @@ public class Zombie : MonoBehaviour, IDamageable, IScoreSource
 
             Debug.Log("Zombie hit: " + hit.name);
             IDamageable damageable = hit.GetComponentInParent<IDamageable>();
-            if (damageable != null)
+            PlayerHealth playerHealth = hit.GetComponentInParent<PlayerHealth>();
+            if (damageable != null && playerHealth != null)
             {
                 _hasHitTarget = true;
 

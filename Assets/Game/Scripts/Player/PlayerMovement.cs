@@ -106,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 horizontalVelocity { get; private set; }
     private float verticalVelocity;
     public Vector3 currentVelocity { get; private set; }
+    public Vector3 ccVelocity => cc.velocity;
 
     public Vector3 localVelocity { get { return transform.InverseTransformVector(currentVelocity); } }
 
