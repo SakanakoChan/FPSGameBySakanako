@@ -381,20 +381,6 @@ public class Gun : Weapon
     #endregion
 
 
-    private void ADSLogic_LateUpdate()
-    {
-        AnimationCurve adsCurve = gunData.adsCurve;
-        float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
-
-        FadeHipFireCrosshair();
-
-        GunPositionADSTransition(easedAlphaValue);
-
-        FOVADSTransition();
-
-        CrosshairADSTransition();
-    }
-
     private void UpdateADSAlpha()
     {
         float currentADSTime;
@@ -413,6 +399,22 @@ public class Gun : Weapon
 
         adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / currentADSTime);
     }
+
+    private void ADSLogic_LateUpdate()
+    {
+        AnimationCurve adsCurve = gunData.adsCurve;
+        float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
+
+        FadeHipFireCrosshair();
+
+        GunPositionADSTransition(easedAlphaValue);
+
+        FOVADSTransition();
+
+        CrosshairADSTransition();
+    }
+
+
 
     private void FadeHipFireCrosshair()
     {
