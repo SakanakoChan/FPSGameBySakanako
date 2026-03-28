@@ -160,7 +160,7 @@ public class Gun : Weapon
 
     private void Update()
     {
-        ADSLogic();
+        UpdateADSAlpha();
 
         UpdateBasicSpread();
         UpdateShotSpreadPunishment();
@@ -182,6 +182,11 @@ public class Gun : Weapon
 
         currentMoveSpeedSpreadPunishment = playerMovement.horizontalVelocity.magnitude * gunData.moveSpeedHipFireSpreadPunishmentRatio;
         currentMoveSpeedSpreadPunishment = Mathf.Clamp(currentMoveSpeedSpreadPunishment, 0, currentMaxMoveSpeedSpreadPunishment);
+    }
+
+    private void LateUpdate()
+    {
+        ADSLogic_LateUpdate();
     }
 
     public override bool TryFire()
@@ -376,7 +381,21 @@ public class Gun : Weapon
     #endregion
 
 
-    private void ADSLogic()
+    private void ADSLogic_LateUpdate()
+    {
+        AnimationCurve adsCurve = gunData.adsCurve;
+        float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
+
+        FadeHipFireCrosshair();
+
+        GunPositionADSTransition(easedAlphaValue);
+
+        FOVADSTransition();
+
+        CrosshairADSTransition();
+    }
+
+    private void UpdateADSAlpha()
     {
         float currentADSTime;
 
@@ -393,17 +412,6 @@ public class Gun : Weapon
 
 
         adsAlpha = Mathf.MoveTowards(adsAlpha, adsAlphaTargetValue, Time.deltaTime / currentADSTime);
-
-        AnimationCurve adsCurve = gunData.adsCurve;
-        float easedAlphaValue = adsCurve.Evaluate(adsAlpha);
-
-        FadeHipFireCrosshair();
-
-        GunPositionADSTransition(easedAlphaValue);
-
-        FOVADSTransition();
-
-        CrosshairADSTransition();
     }
 
     private void FadeHipFireCrosshair()
