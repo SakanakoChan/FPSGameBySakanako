@@ -20,7 +20,8 @@ public class InputHint : MonoBehaviour
         inputIndicator = GetComponentInParent<InputIndicator>();
     }
 
-    private void Update()
+
+    public void UpdateInputHint()
     {
         tmp.text = actionName;
 

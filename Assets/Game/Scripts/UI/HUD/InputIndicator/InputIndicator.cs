@@ -1,6 +1,7 @@
 using Rewired;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,11 +26,15 @@ public class InputIndicator : MonoBehaviour
     private Dictionary<string, Sprite> mouseButtonIconDictionary = new Dictionary<string, Sprite>();
     private Dictionary<string, Sprite> keyboardButtonIconDictionary = new Dictionary<string, Sprite>();
 
+    private List<InputHint> inputHints;
 
 
-    private void Start()
+
+    private void Awake()
     {
         player = ReInput.players.GetPlayer(0);
+
+        inputHints = GetComponentsInChildren<InputHint>().ToList();
 
         ConvertIconListToDictonary(PS5IconList, psButtonIconDictionary);
         ConvertIconListToDictonary(XBOXIconList, xboxButtonIconDictionary);
@@ -37,6 +42,19 @@ public class InputIndicator : MonoBehaviour
         ConvertIconListToDictonary(keyboardIconList, keyboardButtonIconDictionary);
     }
 
+    private void Start()
+    {
+        InputManager.instance.OnInputDeviceChanged += UpdateAllInputHints;
+        InputManager.instance.OnControllerLayoutChanged += UpdateAllInputHints;
+
+        UpdateAllInputHints(InputManager.instance.currentInputDevice);
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.instance.OnInputDeviceChanged -= UpdateAllInputHints;
+        InputManager.instance.OnControllerLayoutChanged -= UpdateAllInputHints;
+    }
 
     public Sprite GetSpriteAccordingToAction(string _actionName)
     {
@@ -116,6 +134,22 @@ public class InputIndicator : MonoBehaviour
             {
                 _iconDictionary.Add(entry.name, entry.icon);
             }
+        }
+    }
+
+    private void UpdateAllInputHints(InputDevice _inputDevice)
+    {
+        foreach (var inputHint in inputHints)
+        {
+            inputHint?.UpdateInputHint();
+        }
+    }
+
+    private void UpdateAllInputHints(ControllerLayout _controllerLayout)
+    {
+        foreach (var inputHint in inputHints)
+        {
+            inputHint?.UpdateInputHint();
         }
     }
 }

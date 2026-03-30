@@ -78,6 +78,7 @@ public class InputManager : MonoBehaviour
 
 
     public event System.Action<InputDevice> OnInputDeviceChanged;
+    public event System.Action<ControllerLayout> OnControllerLayoutChanged;
 
 
 
@@ -261,6 +262,11 @@ public class InputManager : MonoBehaviour
             if (previousControllerLayout != currentControllerLayout)
             {
                 Debug.Log("Current controller layout: " + currentControllerLayout);
+            }
+
+            if (previousControllerLayout != currentControllerLayout)
+            {
+                OnControllerLayoutChanged?.Invoke(currentControllerLayout);
             }
             previousControllerLayout = currentControllerLayout;
         }
