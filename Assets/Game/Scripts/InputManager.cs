@@ -57,7 +57,7 @@ public class InputManager : MonoBehaviour
     public ControllerLayout currentControllerLayout { get; private set; } = ControllerLayout.XBox;
     private ControllerLayout previousControllerLayout = ControllerLayout.XBox;
 
-    private Joystick currentActiveJoystick = null;
+    public Joystick currentActiveJoystick { get; private set; } = null;
 
     #region Input action properties
     public bool FireHeld => player.GetButton("Fire") /*|| player.GetAxis("Fire") >= 0.2f*/;
@@ -177,6 +177,7 @@ public class InputManager : MonoBehaviour
             if (joystick.GetAnyButtonDown())
             {
                 hasControllerInput = true;
+                currentActiveJoystick = joystick;
                 break;
             }
 
@@ -187,6 +188,7 @@ public class InputManager : MonoBehaviour
                 if (axisMagnitude > deadZoneToTriggerControllerInput)
                 {
                     hasControllerInput = true;
+                    currentActiveJoystick = joystick;
                     break;
                 }
             }
@@ -232,11 +234,11 @@ public class InputManager : MonoBehaviour
 
     private void DetectCurrentControllerLayout()
     {
-        Controller lastInputDevice = player.controllers.GetLastActiveController();
-        if (lastInputDevice != null && lastInputDevice.type == ControllerType.Joystick)
-        {
-            currentActiveJoystick = lastInputDevice as Joystick;
-        }
+        //Controller lastInputDevice = player.controllers.GetLastActiveController();
+        //if (lastInputDevice != null && lastInputDevice.type == ControllerType.Joystick)
+        //{
+        //    currentActiveJoystick = lastInputDevice as Joystick;
+        //}
 
 
         if (currentActiveJoystick != null)

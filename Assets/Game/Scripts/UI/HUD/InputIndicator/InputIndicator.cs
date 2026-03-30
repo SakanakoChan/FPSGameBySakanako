@@ -35,8 +35,6 @@ public class InputIndicator : MonoBehaviour
         ConvertIconListToDictonary(XBOXIconList, xboxButtonIconDictionary);
         ConvertIconListToDictonary(mouseIconList, mouseButtonIconDictionary);
         ConvertIconListToDictonary(keyboardIconList, keyboardButtonIconDictionary);
-
-        Debug.Log($"mouse icon count: {mouseButtonIconDictionary.Count}, keyboard icon count: {keyboardButtonIconDictionary.Count}, ps icon count: {psButtonIconDictionary.Count}, xbox icon count: {xboxButtonIconDictionary.Count}");
     }
 
 
@@ -82,20 +80,11 @@ public class InputIndicator : MonoBehaviour
 
         if (map != null)
         {
+            Debug.Log(map.elementIdentifierName);
             return map.elementIdentifierName;
         }
 
         return "Unbound";
-
-        //List<ActionElementMap> results = null;
-        //var map = player.controllers.maps.GetElementMapsWithAction(_actionName, true, results);
-
-        //if (map != null)
-        //{
-        //    return map.elementIdentifierName;
-        //}
-
-        //return "Unbound";
     }
 
     private ActionElementMap FindActionElementMap(string _actionName)
@@ -103,7 +92,7 @@ public class InputIndicator : MonoBehaviour
         ActionElementMap map;
         if (InputManager.instance.currentInputDevice == InputDevice.Controller)
         {
-            map = player.controllers.maps.GetFirstElementMapWithAction(ControllerType.Joystick, _actionName, true);
+            map = player.controllers.maps.GetFirstElementMapWithAction(InputManager.instance.currentActiveJoystick, _actionName, true);
         }
         else
         {
