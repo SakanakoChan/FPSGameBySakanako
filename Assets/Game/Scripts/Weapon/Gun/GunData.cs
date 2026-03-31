@@ -120,6 +120,7 @@ public class GunData : ScriptableObject
     public float IKTransitionDuration_RightHandReturnToNormalPosition = 0.2f;
 
 
+    #if UNITY_EDITOR
     [Header("Tools")]
     [SerializeField] private float multiplyAllRecoilsBy = 3f;
 
@@ -136,4 +137,5 @@ public class GunData : ScriptableObject
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
+#endif
 }

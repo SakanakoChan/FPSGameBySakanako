@@ -21,6 +21,7 @@
 // lighting and shadow functions
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
+
 // Material shader variables are not defined in SRP or URP shader library.
 // This means _BaseColor, _BaseMap, _BaseMap_ST, and all variables in the Properties section of a shader
 // must be defined by the shader itself. If you define all those properties in CBUFFER named
@@ -437,9 +438,9 @@ void AlphaClipAndLODTest(Varyings input)
 {
     DoClipTestToTargetAlphaValue(GetFinalBaseColor(input).a);
 
-    #ifdef LOD_FADE_CROSSFADE
-    LODFadeCrossFade(input.positionCS);
-    #endif
+    //#ifdef LOD_FADE_CROSSFADE
+    //LODFadeCrossFade(input.positionCS);
+    //#endif
 }
 
 // copy and edit of DepthOnlyPass.hlsl

@@ -23,6 +23,18 @@ public class PauseManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        InputManager.instance.OnInputDeviceChanged += HandleCursor;
+
+        HandleCursor(InputManager.instance.currentInputDevice);
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.instance.OnInputDeviceChanged -= HandleCursor;
+    }
+
 
     private void TogglePause()
     {
@@ -52,6 +64,12 @@ public class PauseManager : MonoBehaviour
         gameIsPaused = true;
         Time.timeScale = 0;
         OnPauseStateChanged?.Invoke(gameIsPaused);
+
+        if (InputManager.instance.currentInputDevice == InputDevice.MouseAndKeyboard)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     public void UnpauseGame()
@@ -64,5 +82,22 @@ public class PauseManager : MonoBehaviour
         gameIsPaused = false;
         Time.timeScale = 1;
         OnPauseStateChanged?.Invoke(gameIsPaused);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void HandleCursor(InputDevice _currentInputDevice)
+    {
+        if (gameIsPaused && _currentInputDevice == InputDevice.MouseAndKeyboard)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }

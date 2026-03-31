@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     {
         //OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
+        currentState = MenuState.None;
         EnterState(MenuState.None);
         //ShowPauseMenu(PauseManager.instance.gameIsPaused);
         //ShowSettingsMenu(false);

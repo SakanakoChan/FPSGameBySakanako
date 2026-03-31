@@ -2102,7 +2102,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 720a6531fb0bd3649b7771aaee7cd12e, type: 3}
+  m_Motion: {fileID: 7400000, guid: b8ea3af04d11ba749b7da32a6b9d1b4d, type: 2}
   m_Tag: 
   m_SpeedParameter: Play Rate Holster
   m_MirrorParameter: 
@@ -2129,7 +2129,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c454e0fa9f500cb4292fc34b3c21c15a, type: 3}
+  m_Motion: {fileID: 7400000, guid: 6f8206f2b2efe5d44b9aea3b91e6ad34, type: 2}
   m_Tag: 
   m_SpeedParameter: Play Rate Unholster
   m_MirrorParameter: 

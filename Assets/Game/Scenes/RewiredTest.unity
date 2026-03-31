@@ -22619,6 +22619,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4018649416326669114, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
+        type: 3}
+      propertyPath: patrolWayPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018649416326669114, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
+        type: 3}
+      propertyPath: patrolWayPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1904357136}
+    - target: {fileID: 4018649416326669114, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
+        type: 3}
+      propertyPath: patrolWayPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 796073279}
     - target: {fileID: 6607100542605324798, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
         type: 3}
       propertyPath: m_Name
@@ -36853,6 +36868,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4018649416326669114, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
+        type: 3}
+      propertyPath: patrolWayPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018649416326669114, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
+        type: 3}
+      propertyPath: patrolWayPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1904357136}
+    - target: {fileID: 4018649416326669114, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
+        type: 3}
+      propertyPath: patrolWayPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 796073279}
     - target: {fileID: 6607100542605324798, guid: 8f39cdeabdb187e4b8b54295a07ae6ee,
         type: 3}
       propertyPath: m_Name
