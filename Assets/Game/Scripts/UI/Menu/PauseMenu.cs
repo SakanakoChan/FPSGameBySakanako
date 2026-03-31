@@ -10,6 +10,11 @@ public class PauseMenu : MonoBehaviour, IUIAction
     [SerializeField] private Button exitButton;
 
 
+    private void Awake()
+    {
+        Debug.Log("Pause menu: fuck you!");
+    }
+
     private void OnEnable()
     {
         if (InputManager.instance != null)

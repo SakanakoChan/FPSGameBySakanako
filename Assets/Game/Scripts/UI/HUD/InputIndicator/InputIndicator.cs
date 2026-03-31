@@ -34,7 +34,7 @@ public class InputIndicator : MonoBehaviour
     {
         player = ReInput.players.GetPlayer(0);
 
-        inputHints = GetComponentsInChildren<InputHint>().ToList();
+        inputHints = GetComponentsInChildren<InputHint>(true).ToList();
 
         ConvertIconListToDictonary(PS5IconList, psButtonIconDictionary);
         ConvertIconListToDictonary(XBOXIconList, xboxButtonIconDictionary);
@@ -98,7 +98,7 @@ public class InputIndicator : MonoBehaviour
 
         if (map != null)
         {
-            Debug.Log(map.elementIdentifierName);
+            //Debug.Log(map.elementIdentifierName);
             return map.elementIdentifierName;
         }
 
@@ -110,14 +110,14 @@ public class InputIndicator : MonoBehaviour
         ActionElementMap map;
         if (InputManager.instance.currentInputDevice == InputDevice.Controller)
         {
-            map = player.controllers.maps.GetFirstElementMapWithAction(InputManager.instance.currentActiveJoystick, _actionName, true);
+            map = player.controllers.maps.GetFirstElementMapWithAction(InputManager.instance.currentActiveJoystick, _actionName, false);
         }
         else
         {
-            map = player.controllers.maps.GetFirstElementMapWithAction(ControllerType.Mouse, _actionName, true);
+            map = player.controllers.maps.GetFirstElementMapWithAction(ControllerType.Mouse, _actionName, false);
             if (map == null)
             {
-                map = player.controllers.maps.GetFirstElementMapWithAction(ControllerType.Keyboard, _actionName, true);
+                map = player.controllers.maps.GetFirstElementMapWithAction(ControllerType.Keyboard, _actionName, false);
             }
         }
 

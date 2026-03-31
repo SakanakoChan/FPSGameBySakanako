@@ -14,8 +14,9 @@ public class InputHint : MonoBehaviour
 
     [Space]
     [SerializeField] private string actionName;
+    [SerializeField] private bool replaceTextWithActionName = true;
 
-    private void Start()
+    private void Awake()
     {
         inputIndicator = GetComponentInParent<InputIndicator>();
     }
@@ -23,12 +24,24 @@ public class InputHint : MonoBehaviour
 
     public void UpdateInputHint()
     {
-        tmp.text = actionName;
+        if (replaceTextWithActionName)
+            tmp.text = actionName;
 
         if (inputIndicator != null)
         {
             Sprite sprite = inputIndicator.GetSpriteAccordingToAction(actionName);
             buttonIcon.sprite = sprite;
+        }
+
+        if (buttonIcon.sprite == null)
+        {
+            buttonIcon.enabled = false;
+            tmp.enabled = false;
+        }
+        else
+        {
+            buttonIcon.enabled = true;
+            tmp.enabled = true;
         }
     }
 }
