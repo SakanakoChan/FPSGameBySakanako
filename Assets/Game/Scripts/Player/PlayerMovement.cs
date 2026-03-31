@@ -103,6 +103,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundStickForce = -2f;
 
 
+    [Header("Audio info")]
+    [SerializeField] private AudioSource walkSFX;
+    [SerializeField] private AudioSource sprintSFX;
+    [SerializeField] private AudioSource slideSFX;
+
+
     public Vector3 horizontalVelocity { get; private set; }
     private float verticalVelocity;
     public Vector3 currentVelocity { get; private set; }
@@ -165,6 +171,8 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(currentVelocity * Time.deltaTime);
 
+        WalkAndSprintAudioControl();
+
         //Debug.Log(horizontalVelocity.magnitude);
     }
 
@@ -202,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 start = feetPosition + Vector3.up * radius;
         Vector3 end = feetPosition + Vector3.up * (standHeight_CC - radius);
-        
+
         bool result = !Physics.CheckCapsule(start, end, radius, environmentLayerIndex);
         return result;
     }
@@ -298,6 +306,8 @@ public class PlayerMovement : MonoBehaviour
         isSliding = true;
         wantsToSlide = false;
         slideTimer = maxSlideTime;
+
+        slideSFX?.Play();
 
         slideDirection = horizontalVelocity.normalized;
 
@@ -488,6 +498,46 @@ public class PlayerMovement : MonoBehaviour
             moveSpeedRatio = 0;
         }
         anim.SetFloat("Movement", moveSpeedRatio, 0.1f, Time.deltaTime);
+    }
+
+    private void WalkAndSprintAudioControl()
+    {
+        if (isSprinting)
+        {
+            if (sprintSFX != null && !sprintSFX.isPlaying)
+            {
+                sprintSFX.Play();
+            }
+
+            walkSFX?.Stop();
+
+            slideSFX?.Stop();
+        }
+        else if (!isSliding)
+        {
+            if (groundedState == GroundedState.Grounded && horizontalVelocity.magnitude > 0.1f)
+            {
+                if (walkSFX != null)
+                {
+                    float pitch = horizontalVelocity.magnitude / walkSpeed;
+                    pitch = Mathf.Clamp(pitch, 0, 1f);
+                    walkSFX.pitch = pitch;
+                    walkSFX.volume = pitch;
+
+                    if (!walkSFX.isPlaying)
+                        walkSFX.Play();
+                }
+
+                sprintSFX?.Stop();
+            }
+            else
+            {
+                walkSFX?.Stop();
+                sprintSFX?.Stop();
+            }
+
+            slideSFX?.Stop();
+        }
     }
 
     private void HandlePause(bool _gameIsPaused)
