@@ -15,6 +15,8 @@ public class ZombieDeathState : ZombieState
         agent.enabled = false;
 
         zombie.StartCoroutine(EnterRagdollModeWithDelay(1f));
+
+        zombie?.PlaySFX(zombie.deathSFX);
     }
 
     public override void Exit()

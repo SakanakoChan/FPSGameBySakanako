@@ -18,6 +18,8 @@ public class ZombieAttackState : ZombieState
 
         hasHit = false;
         isInAttackWindow = false;
+
+        zombie?.PlaySFX(zombie.attackSFX);
     }
 
     public override void Exit()

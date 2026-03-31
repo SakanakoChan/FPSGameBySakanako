@@ -23,6 +23,8 @@ public class ZombieChaseState : ZombieState
         lastPlayerPositionForPathFinding = playerTransform.position;
 
         agent.SetDestination(lastPlayerPositionForPathFinding);
+
+        zombie?.PlaySFX(zombie.chaseSFX);
     }
 
     public override void Exit()

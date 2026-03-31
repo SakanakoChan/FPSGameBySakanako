@@ -25,6 +25,7 @@ public class ZombiePatrolState : ZombieState
 
         isWaiting = false;
         anim.SetBool("Walking", true);
+        zombie?.PlaySFX(zombie.patrolSFX);
     }
 
     public override void Exit()

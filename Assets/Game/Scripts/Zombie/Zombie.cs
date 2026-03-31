@@ -42,6 +42,13 @@ public class Zombie : MonoBehaviour, IDamageable, IScoreSource
     [SerializeField] private float attackPower = 10f;
 
 
+    [Header("Audio info")]
+    public AudioSource patrolSFX;
+    public AudioSource chaseSFX;
+    public AudioSource attackSFX;
+    public AudioSource deathSFX;
+
+
     #region Ragdoll Control
     private List<Rigidbody> ragDollRBList;
     private Collider cd;
@@ -207,5 +214,15 @@ public class Zombie : MonoBehaviour, IDamageable, IScoreSource
     public void AddScore(ScoreType _scoreType, int _scoreValue, string _scoreDescription)
     {
         GameEvents.OnScore?.Invoke(_scoreType, _scoreValue, _scoreDescription);
+    }
+
+    public void PlaySFX(AudioSource _audioSource)
+    {
+        patrolSFX?.Stop();
+        chaseSFX?.Stop();
+        attackSFX?.Stop();
+        deathSFX?.Stop();
+
+        _audioSource?.Play();
     }
 }
