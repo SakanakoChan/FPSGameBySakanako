@@ -38,19 +38,6 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(ReturnAudioSourceToPool(audioSource, _audioClip.length));
     }
 
-    public void PlaySound(AudioClip _audioClip, Transform _parent, Vector3 _position, bool _loop)
-    {
-        AudioSource audioSource = GetAudioSourceFromPool();
-
-        audioSource.transform.position = _position;
-        audioSource.transform.SetParent(_parent);
-        audioSource.clip = _audioClip;
-        audioSource.loop = _loop;
-        audioSource.Play();
-
-        StartCoroutine(ReturnAudioSourceToPool(audioSource, _audioClip.length));
-    }
-
     public void PlaySound(AudioClip _audioClip, Vector3 _position, float _pitch)
     {
         AudioSource audioSource = GetAudioSourceFromPool();
@@ -81,6 +68,13 @@ public class AudioManager : MonoBehaviour
     private IEnumerator ReturnAudioSourceToPool(AudioSource _audioSource, float _delay)
     {
         yield return new WaitForSeconds(_delay);
+
+        _audioSource.Stop();
+        _audioSource.clip = null;
+        _audioSource.loop = false;
+        _audioSource.pitch = 1;
+        _audioSource.volume = 1;
+        _audioSource.transform.SetParent(transform);
 
         audioSourcePool.Enqueue(_audioSource);
     }
