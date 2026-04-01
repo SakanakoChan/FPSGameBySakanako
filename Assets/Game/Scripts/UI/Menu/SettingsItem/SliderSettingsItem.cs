@@ -7,7 +7,7 @@ public class SliderSettingsItem : SettingsItem
     [SerializeField] private SliderSettingsConfig config;
     [SerializeField] protected Image editModeHintImage;
 
-    private Slider slider;
+    protected Slider slider;
     private TMP_InputField inputField;
 
     private float sliderValueChangeCooldownForUIHorizontalInput = 0.1f;

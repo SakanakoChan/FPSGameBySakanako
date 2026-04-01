@@ -30,4 +30,9 @@ public static class GameSettings
     public static float mouseADSSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("MouseADSSensitivityMultiplier");
     public static ADSSensitivityTransition mouseADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("MouseADSSensitivityTransition");
     #endregion
+
+    #region Audio Settings
+    public static float masterVolume => SaveManager.instance.GetSettingsFloat("MasterVolume");
+    public static float sfxVolume => SaveManager.instance.GetSettingsFloat("SFXVolume");
+    #endregion
 }

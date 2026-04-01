@@ -7,7 +7,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
 
-    [SerializeField] private AudioMixerGroup audioMixerGroup;
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private AudioMixerGroup sfxGroup;
     private Queue<AudioSource> audioSourcePool = new Queue<AudioSource>();
     public int sourcePoolSize = 20;
 
@@ -27,6 +28,11 @@ public class AudioManager : MonoBehaviour
         InitializeAudioSourcePool();
     }
 
+    private void Start()
+    {
+        ApplyVolume("MasterVolume", GameSettings.masterVolume);
+        ApplyVolume("SFXVolume", GameSettings.sfxVolume);
+    }
 
 
     public void PlaySound(AudioClip _audioClip, Vector3 _position)
@@ -35,7 +41,7 @@ public class AudioManager : MonoBehaviour
 
         audioSource.transform.position = _position;
         audioSource.clip = _audioClip;
-        audioSource.outputAudioMixerGroup = audioMixerGroup;
+        audioSource.outputAudioMixerGroup = sfxGroup;
         audioSource.Play();
 
         StartCoroutine(ReturnAudioSourceToPool(audioSource, _audioClip.length));
@@ -48,7 +54,7 @@ public class AudioManager : MonoBehaviour
         audioSource.transform.position = _position;
         audioSource.clip = _audioClip;
         audioSource.pitch = _pitch;
-        audioSource.outputAudioMixerGroup = audioMixerGroup;
+        audioSource.outputAudioMixerGroup = sfxGroup;
         audioSource.Play();
 
         StartCoroutine(ReturnAudioSourceToPool(audioSource, _audioClip.length));
@@ -94,6 +100,17 @@ public class AudioManager : MonoBehaviour
             audioSource.playOnAwake = false;
 
             audioSourcePool.Enqueue(audioSource);
+        }
+    }
+
+    public void ApplyVolume(string _mixerParamName, float _settingValue)
+    {
+        if (mixer != null)
+        {
+            float volumeValue = Mathf.Clamp(_settingValue, 0.0001f, 1f);
+            float db = Mathf.Log10(volumeValue) * 20;
+
+            mixer.SetFloat(_mixerParamName, db);
         }
     }
 }
