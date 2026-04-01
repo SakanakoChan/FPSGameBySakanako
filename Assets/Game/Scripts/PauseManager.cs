@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class PauseManager : MonoBehaviour
     private void Start()
     {
         InputManager.instance.OnInputDeviceChanged += HandleCursor;
+        SceneManager.sceneUnloaded += ClearAllEventSubscribers;
 
         HandleCursor(InputManager.instance.currentInputDevice);
     }
@@ -33,6 +35,7 @@ public class PauseManager : MonoBehaviour
     private void OnDestroy()
     {
         InputManager.instance.OnInputDeviceChanged -= HandleCursor;
+        SceneManager.sceneUnloaded -= ClearAllEventSubscribers;
     }
 
 
@@ -85,6 +88,11 @@ public class PauseManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void ClearAllEventSubscribers(Scene _scene)
+    {
+        OnPauseStateChanged = null;
     }
 
     private void HandleCursor(InputDevice _currentInputDevice)

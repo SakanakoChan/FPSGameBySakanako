@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour, IUIAction
@@ -31,10 +32,15 @@ public class PauseMenu : MonoBehaviour, IUIAction
         SetupButtonNavigation(exitButton, settingsButton, retryButton);
 
         retryButton.onClick.RemoveAllListeners();
-        retryButton.onClick.AddListener(() => Debug.Log("Fuck you"));
+        retryButton.onClick.AddListener(Retry);
 
         settingsButton.onClick.RemoveAllListeners();
         settingsButton.onClick.AddListener(() => UIManager.instance?.SwitchState(UIManager.MenuState.SettingsMenu));
+    }
+
+    private void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 

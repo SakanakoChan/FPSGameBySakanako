@@ -93,6 +93,10 @@ public class InputManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        player = ReInput.players.GetPlayer(playerIDForRewired);
+
+        SetAllControllersRawInputDeadZonesToZero();
     }
 
     private void OnEnable()
@@ -100,12 +104,6 @@ public class InputManager : MonoBehaviour
         SyncDeadzoneFromSettings();
     }
 
-    private void Start()
-    {
-        player = ReInput.players.GetPlayer(playerIDForRewired);
-
-        SetAllControllersRawInputDeadZonesToZero();
-    }
 
     private void Update()
     {

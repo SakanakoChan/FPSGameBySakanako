@@ -47,8 +47,6 @@ public class UIManager : MonoBehaviour
 
         currentState = MenuState.None;
         EnterState(MenuState.None);
-        //ShowPauseMenu(PauseManager.instance.gameIsPaused);
-        //ShowSettingsMenu(false);
     }
 
     private void Update()
@@ -230,6 +228,9 @@ public class UIManager : MonoBehaviour
         {
             RegisterSettingsMenu(settingsMenu);
         }
+
+        currentState = MenuState.None;
+        EnterState(MenuState.None);
     }
 
 
