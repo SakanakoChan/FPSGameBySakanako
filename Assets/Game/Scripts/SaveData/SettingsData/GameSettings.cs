@@ -27,6 +27,7 @@ public static class GameSettings
     #region Mouse Settings
     public static float mouseLookSensitivity => SaveManager.instance.GetSettingsFloat("MouseLookSensitivity");
     public static bool invertYAxis_Mouse => SaveManager.instance.GetSettingsBool("MouseInvertYAxis");
+    public static float mouseADSSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("MouseADSSensitivityMultiplier");
     public static ADSSensitivityTransition mouseADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("MouseADSSensitivityTransition");
     #endregion
 }

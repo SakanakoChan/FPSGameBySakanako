@@ -113,6 +113,7 @@ public class SaveManager : MonoBehaviour
     {
         if (settingsData.settingsDictionary.TryGetValue(_key, out var value))
         {
+            Debug.Log($"Found settings key in save data: {_key}, value: {value}");
             return int.Parse(value);
         }
 

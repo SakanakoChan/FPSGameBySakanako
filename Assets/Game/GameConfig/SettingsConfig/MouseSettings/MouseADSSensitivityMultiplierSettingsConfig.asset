@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c15d8cfee9a23a41b182c2f8fa1c431, type: 3}
-  m_Name: MouseADSSensitivityTransitionSettingsConfig 1
+  m_Script: {fileID: 11500000, guid: f919696f56c60ee40aa0b4ba1d375327, type: 3}
+  m_Name: MouseADSSensitivityMultiplierSettingsConfig
   m_EditorClassIdentifier: 
-  key: MouseADSSensitivityTransition
-  displayName: Mouse ADS Sensitivity Transition
+  key: MouseADSSensitivityMultiplier
+  displayName: ADS Sensitivity Multiplier
+  minValue: 0.01
+  maxValue: 2
   defaultValue: 1
-  options:
-  - Instant
-  - Gradual
-  - After ADS
-  enumTypeName: ADSSensitivityTransition
+  valueIsWholeNumbers: 0
+  valueChangeStep: 0.05

@@ -137,7 +137,7 @@ public class PlayerLook : MonoBehaviour
             //apply ads sensitivity transition
             if (currentGun != null)
             {
-                float adsCompleteSensitivity = lookSensitivity_Mouse * (currentGun.adsFOV / currentGun.hipFireFOV);
+                float adsCompleteSensitivity = lookSensitivity_Mouse * (currentGun.adsFOV / currentGun.hipFireFOV) * GameSettings.mouseADSSensitivityMultiplier;
 
                 sensitivity = ApplyADSSensitivityTransition(lookSensitivity_Mouse, adsCompleteSensitivity);
             }

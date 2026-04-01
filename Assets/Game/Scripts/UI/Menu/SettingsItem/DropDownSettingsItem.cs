@@ -138,7 +138,7 @@ public class DropDownSettingsItem : SettingsItem
 
     public override void SaveData()
     {
-        if (dropdown == null)
+        if (dropdown == null || !dropdownOptionsHaveBeenInitialized)
         {
             return;
         }
