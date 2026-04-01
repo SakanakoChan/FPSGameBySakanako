@@ -36,6 +36,9 @@ public class PauseMenu : MonoBehaviour, IUIAction
 
         settingsButton.onClick.RemoveAllListeners();
         settingsButton.onClick.AddListener(() => UIManager.instance?.SwitchState(UIManager.MenuState.SettingsMenu));
+
+        exitButton.onClick.RemoveAllListeners();
+        exitButton.onClick.AddListener(ExitGame);
     }
 
     private void Retry()
@@ -43,6 +46,10 @@ public class PauseMenu : MonoBehaviour, IUIAction
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    private void ExitGame()
+    {
+        Application.Quit();
+    }
 
     public void UICancel()
     {
