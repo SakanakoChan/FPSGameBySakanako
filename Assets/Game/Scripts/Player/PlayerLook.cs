@@ -110,6 +110,8 @@ public class PlayerLook : MonoBehaviour
             GameSettings.verticalTurnAccelerationStartDelay,
             GameSettings.verticalTurnAccelerationRampUpTime,
             GameSettings.verticalTurnAccelerationSensitivityMultiplier);
+
+        lookSensitivity_Mouse = GameSettings.mouseLookSensitivity;
     }
 
     private void Start()

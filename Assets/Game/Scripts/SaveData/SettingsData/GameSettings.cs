@@ -25,6 +25,7 @@ public static class GameSettings
     #endregion
 
     #region Mouse Settings
+    public static float mouseLookSensitivity => SaveManager.instance.GetSettingsFloat("MouseLookSensitivity");
     public static ADSSensitivityTransition mouseADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("MouseADSSensitivityTransition");
     #endregion
 }
