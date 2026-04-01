@@ -114,6 +114,8 @@ public class SettingsMenu : MonoBehaviour, IUIAction
         mouseSettingsPanel?.gameObject.SetActive(false);
         keyboardSettingsPanel?.gameObject.SetActive(false);
         controllerSettingsPanel?.gameObject.SetActive(false);
+
+        CommitSettingsItemValueChangesToSettingsData();
     }
 
     private void SwitchPage(bool _switchToRightPage)
