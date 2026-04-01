@@ -58,7 +58,8 @@ public class PlayerLook : MonoBehaviour
 
 
     [Header("Common settings")]
-    public bool invertYAxis = false;
+    public bool invertYAxis_Controller = false;
+    public bool invertYAxis_Mouse = false;
 
 
     [Header("Controller Aim Assist")]
@@ -98,7 +99,7 @@ public class PlayerLook : MonoBehaviour
     {
         lookSensitivity_Controller = GameSettings.controllerLookSensitivity;
         verticalSensitivityMultiplier_Controller = GameSettings.controllerVerticalSensitivityMultiplier;
-        invertYAxis = GameSettings.invertYAxis;
+        invertYAxis_Controller = GameSettings.invertYAxis_Controller;
         responsiveCurve = GameSettings.responsiveCurve;
 
         horizontalTurnAcceleration.SetupTurnAcceleration(
@@ -112,6 +113,7 @@ public class PlayerLook : MonoBehaviour
             GameSettings.verticalTurnAccelerationSensitivityMultiplier);
 
         lookSensitivity_Mouse = GameSettings.mouseLookSensitivity;
+        invertYAxis_Mouse = GameSettings.invertYAxis_Mouse;
     }
 
     private void Start()
@@ -213,15 +215,30 @@ public class PlayerLook : MonoBehaviour
 
 
         yaw += lookDeltaX;
-
-        if (invertYAxis)
+        
+        if (InputManager.instance.currentInputDevice == InputDevice.Controller)
         {
-            ModifyPitch(lookDeltaY);
+            if (invertYAxis_Controller)
+            {
+                ModifyPitch(lookDeltaY);
+            }
+            else
+            {
+                ModifyPitch(-lookDeltaY);
+            }
         }
         else
         {
-            ModifyPitch(-lookDeltaY);
+            if (invertYAxis_Mouse)
+            {
+                ModifyPitch(lookDeltaY);
+            }
+            else
+            {
+                ModifyPitch(-lookDeltaY);
+            }
         }
+
 
         float finalYaw = yaw + cameraRecoil.recoilOffset.x;
         float finalPitch = pitch - cameraRecoil.recoilOffset.y;

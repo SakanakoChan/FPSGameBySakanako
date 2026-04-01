@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3860c717a8c5d4d4688f0eb8fb75f25a, type: 3}
-  m_Name: InvertYAxisSettingsConfig
+  m_Name: ControllerInvertYAxisSettingsConfig
   m_EditorClassIdentifier: 
-  key: InvertYAxis
-  displayName: Invert Y Axis
+  key: ControllerInvertYAxis
+  displayName: Controller Invert Y Axis
   defaultValue: 0

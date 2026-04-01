@@ -8,7 +8,7 @@ public static class GameSettings
     public static bool controllerAutoSprint => SaveManager.instance.GetSettingsBool("ControllerAutoSprint");
     public static float controllerLookSensitivity => SaveManager.instance.GetSettingsFloat("ControllerLookSensitivity");
     public static float controllerVerticalSensitivityMultiplier => SaveManager.instance.GetSettingsFloat("ControllerVerticalSensitivityMultiplier");
-    public static bool invertYAxis => SaveManager.instance.GetSettingsBool("InvertYAxis");
+    public static bool invertYAxis_Controller => SaveManager.instance.GetSettingsBool("ControllerInvertYAxis");
     public static float innerDeadzone => SaveManager.instance.GetSettingsFloat("InnerDeadzone");
     public static float outerDeadzone => SaveManager.instance.GetSettingsFloat("OuterDeadzone");
     public static ResponsiveCurve responsiveCurve => SaveManager.instance.GetSettingsEnum<ResponsiveCurve>("ResponsiveCurve");
@@ -26,6 +26,7 @@ public static class GameSettings
 
     #region Mouse Settings
     public static float mouseLookSensitivity => SaveManager.instance.GetSettingsFloat("MouseLookSensitivity");
+    public static bool invertYAxis_Mouse => SaveManager.instance.GetSettingsBool("MouseInvertYAxis");
     public static ADSSensitivityTransition mouseADSSensitivityTransition => SaveManager.instance.GetSettingsEnum<ADSSensitivityTransition>("MouseADSSensitivityTransition");
     #endregion
 }
