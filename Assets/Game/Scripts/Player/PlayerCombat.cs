@@ -326,4 +326,10 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon?.StartSprintToFireDelay();
     }
 
+    public void ReplenishMag()
+    {
+        currentWeapon?.ReplenishMag();
+        weaponInfoIndicator?.UpdateAmmoInfo(currentWeapon.GetCurrentAmmoInMagzine(), currentWeapon.GetReserveAmmo());
+    }
+
 }

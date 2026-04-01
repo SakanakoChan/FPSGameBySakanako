@@ -751,4 +751,9 @@ public class Gun : Weapon
     {
         return reserveAmmo;
     }
+
+    public override void ReplenishMag()
+    {
+        currentAmmoInMagzine = gunData.magSize;
+    }
 }

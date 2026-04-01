@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
 
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
     private Queue<AudioSource> audioSourcePool = new Queue<AudioSource>();
     public int sourcePoolSize = 20;
 
@@ -33,6 +35,7 @@ public class AudioManager : MonoBehaviour
 
         audioSource.transform.position = _position;
         audioSource.clip = _audioClip;
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
         audioSource.Play();
 
         StartCoroutine(ReturnAudioSourceToPool(audioSource, _audioClip.length));
@@ -45,6 +48,7 @@ public class AudioManager : MonoBehaviour
         audioSource.transform.position = _position;
         audioSource.clip = _audioClip;
         audioSource.pitch = _pitch;
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
         audioSource.Play();
 
         StartCoroutine(ReturnAudioSourceToPool(audioSource, _audioClip.length));

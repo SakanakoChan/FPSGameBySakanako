@@ -103,4 +103,8 @@ public abstract class Weapon : MonoBehaviour
         return string.Empty;
     }
 
+    public virtual void ReplenishMag()
+    {
+
+    }
 }
