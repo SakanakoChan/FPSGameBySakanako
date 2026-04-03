@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea2621cdf677cb4bb0be46f6018f3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radiusRatio: 0.3
+  directionImage: {fileID: 602237596895497803}
   fadeDelay: 2
   fadeDuration: 1
 --- !u!114 &5917227266259733302

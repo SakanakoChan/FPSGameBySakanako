@@ -7,6 +7,10 @@ public class DamageDirectionHint : MonoBehaviour
 {
     private Vector3 damageDirection;
 
+    [Header("Radius info")]
+    [SerializeField] private float radiusRatio = 0.4f;
+    [SerializeField] private RectTransform directionImage;
+
     [Header("Auto fade info")]
     [SerializeField] private float fadeDelay = 3f;
     [SerializeField] private float fadeDuration = 1f;
@@ -26,10 +30,14 @@ public class DamageDirectionHint : MonoBehaviour
         mainCam = Camera.main;
     }
 
+
+
     private void Update()
     {
         FollowDamageDirection();
     }
+
+
 
     private void FollowDamageDirection()
     {
@@ -53,10 +61,20 @@ public class DamageDirectionHint : MonoBehaviour
 
         FollowDamageDirection();
 
-        if(autoFadeCoroutine != null)
+        if (autoFadeCoroutine != null)
             StopCoroutine(autoFadeCoroutine);
 
         autoFadeCoroutine = StartCoroutine(AutoFade());
+
+        CalculateDirectionImageRadius();
+    }
+
+    private void CalculateDirectionImageRadius()
+    {
+        Canvas canvas = GetComponentInParent<Canvas>();
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        float radius = Mathf.Min(canvasRect.rect.width, canvasRect.rect.height) * radiusRatio;
+        directionImage.anchoredPosition = new Vector2(directionImage.anchoredPosition.x, radius);
     }
 
     private IEnumerator AutoFade()

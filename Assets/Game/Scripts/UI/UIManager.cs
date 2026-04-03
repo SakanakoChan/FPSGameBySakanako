@@ -11,15 +11,19 @@ public class UIManager : MonoBehaviour
     {
         None,
         PauseMenu,
-        SettingsMenu
+        SettingsMenu,
+        FailureMenu
     }
 
     private MenuState currentState = MenuState.None;
 
     private PauseMenu pauseMenu;
     private SettingsMenu settingsMenu;
+    private FailureMenu failureMenu;
 
     private IUIAction currentUIAction = null;
+
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
@@ -85,6 +89,11 @@ public class UIManager : MonoBehaviour
     private void OnDestroy()
     {
         InputManager.instance.OnInputDeviceChanged -= OnInputDeviceChanged;
+
+        if(playerHealth != null)
+        {
+            playerHealth.OnPlayerDied -= EnterFailureMenuState;
+        }
     }
 
     #region Statemachine Design
@@ -108,6 +117,7 @@ public class UIManager : MonoBehaviour
                 PauseManager.instance?.UnpauseGame();
                 ShowPauseMenu(false);
                 ShowSettingsMenu(false);
+                ShowFailureMenu(false);
                 InputManager.instance?.EnterUIMapMode(false);
                 currentUIAction = null;
                 break;
@@ -116,6 +126,7 @@ public class UIManager : MonoBehaviour
                 PauseManager.instance?.PauseGame();
                 ShowPauseMenu(true);
                 ShowSettingsMenu(false);
+                ShowFailureMenu(false);
                 InputManager.instance?.EnterUIMapMode(true);
                 currentUIAction = pauseMenu;
                 break;
@@ -123,8 +134,18 @@ public class UIManager : MonoBehaviour
             case MenuState.SettingsMenu:
                 ShowSettingsMenu(true);
                 ShowPauseMenu(false);
+                ShowFailureMenu(false);
                 InputManager.instance?.EnterUIMapMode(true);
                 currentUIAction = settingsMenu;
+                break;
+
+            case MenuState.FailureMenu:
+                PauseManager.instance?.PauseGame();
+                ShowFailureMenu(true);
+                ShowSettingsMenu(false);
+                ShowPauseMenu(false);
+                InputManager.instance?.EnterUIMapMode(true);
+                currentUIAction = failureMenu;
                 break;
         }
     }
@@ -229,8 +250,22 @@ public class UIManager : MonoBehaviour
             RegisterSettingsMenu(settingsMenu);
         }
 
+        FailureMenu failureMenu = FindObjectOfType<FailureMenu>(true);
+
+        if (failureMenu != null)
+        {
+            RegisterFailureMenu(failureMenu);
+        }
+
         currentState = MenuState.None;
         EnterState(MenuState.None);
+
+        playerHealth = PlayerReference.playerTransform.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.OnPlayerDied += EnterFailureMenuState;
+
+        }
     }
 
 
@@ -260,5 +295,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void RegisterFailureMenu(FailureMenu _failureMenu)
+    {
+        failureMenu = _failureMenu;
+    }
 
+    private void ShowFailureMenu(bool _value)
+    {
+        if (failureMenu != null)
+        {
+            failureMenu.gameObject.SetActive(_value);
+        }
+    }
+
+    private void EnterFailureMenuState()
+    {
+        SwitchState(MenuState.FailureMenu);
+    }
 }
