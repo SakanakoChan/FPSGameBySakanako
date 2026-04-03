@@ -9,8 +9,4 @@ My first real fps game
   - ~~Linear~~
   - ~~Traditional / Standard~~
   - ~~Optional dynamic curve (if feasible, COD style)~~
-- Add **pre-input mechanics**
-  - Input buffering
-  - Early input detection for smoother player actions
-
 ---
