@@ -78,12 +78,19 @@ public class Zombie : MonoBehaviour, IDamageable, IScoreSource
         deathState = new ZombieDeathState(this, stateMachine, "Death");
 
         stateMachine.Initialize(patrolState);
+
+        PauseManager.instance.OnPauseStateChanged += PauseAllSFXsAccordingToPauseState;
     }
 
     private void Update()
     {
         stateMachine.currentState.Update();
         //Debug.Log(stateMachine.currentState);
+    }
+
+    private void OnDestroy()
+    {
+        PauseManager.instance.OnPauseStateChanged -= PauseAllSFXsAccordingToPauseState;
     }
 
     private void OnAnimatorMove()
@@ -224,5 +231,23 @@ public class Zombie : MonoBehaviour, IDamageable, IScoreSource
         deathSFX?.Stop();
 
         _audioSource?.Play();
+    }
+
+    private void PauseAllSFXsAccordingToPauseState(bool _gameIsPaused)
+    {
+        if (_gameIsPaused)
+        {
+            patrolSFX?.Pause();
+            chaseSFX?.Pause();
+            attackSFX?.Pause();
+            deathSFX?.Pause();
+        }
+        else
+        {
+            patrolSFX?.UnPause();
+            chaseSFX?.UnPause();
+            attackSFX?.UnPause();
+            deathSFX?.UnPause();
+        }
     }
 }
