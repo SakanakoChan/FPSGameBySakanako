@@ -35451,7 +35451,7 @@ MonoBehaviour:
   invertYAxis_Controller: 0
   invertYAxis_Mouse: 0
   aaRange: 1000
-  dotRequirementToTriggerAA: 0.995
+  dotRequirementToTriggerAA: 0.997
   aaSlowDownFactor: 0.5
   aaRotationAssistStrength: 0.6
   aaRotationAssistMaxSpeedPerFrame: 60
