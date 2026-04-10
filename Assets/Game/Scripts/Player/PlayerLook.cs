@@ -114,6 +114,8 @@ public class PlayerLook : MonoBehaviour
 
         lookSensitivity_Mouse = GameSettings.mouseLookSensitivity;
         invertYAxis_Mouse = GameSettings.invertYAxis_Mouse;
+
+        turnAcceleration = GameSettings.turnAcceleration;
     }
 
     private void Start()
