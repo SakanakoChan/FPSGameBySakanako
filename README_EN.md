@@ -11,7 +11,7 @@ A Unity-based FPS prototype focusing on shooting feel, input systems, and weapon
 ### 🎮 Features
 - Keyboard & Mouse / Controller with hot swap
 - Controller optimization, including aim assist (slowdown + rotation assist), adjustable deadzone & responsive curve & turn acceleration settings
-- Full shooting system (recoil, gun kick, camera kick)
+- Full shooting system, COD-like gunplay (recoil, gun kick, camera kick)
 - ADS vs hip-fire bullet logic
 - Spread system (fire & movement penalty)
 - Weapon feel (sway, lag, reload IK)
