@@ -1,3 +1,10 @@
+# FPS Demo (First-Person Shooter Prototype)
+
+<p align="center">
+  <a href="./Readme_CN.md">中文</a> | <a href="./Readme_EN.md">English</a>
+</p>
+
+
 ### 📌 Overview
 A Unity-based FPS prototype focusing on shooting feel, input systems, and weapon design.
 
@@ -13,6 +20,7 @@ A Unity-based FPS prototype focusing on shooting feel, input systems, and weapon
 - Hitbox damage / hit marker / kill feedback
 - HUD (score, streak, ammo, damage indicator)
 - Object pooling optimization
+- Includes a wide range of common customizable settings in FPS games
 
 ### 🛠 Tech Stack
 Unity / C# / Animator / NavMesh
