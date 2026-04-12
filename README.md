@@ -1,7 +1,7 @@
 # FPS Demo (First-Person Shooter Prototype)
 
 <p align="center">
-  <a href="./Readme_CN.md">中文</a> | <a href="./Readme_EN.md">English</a>
+  <a href="./README.md">中文</a> | <a href="./README_EN.md">English</a>
 </p>
 
 
