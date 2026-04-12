@@ -15,7 +15,7 @@ A Unity-based FPS prototype focusing on shooting feel, input systems, and weapon
 - ADS vs hip-fire bullet logic
 - Spread system (fire & movement penalty)
 - Weapon feel (sway, lag, reload IK)
-- Player movement (sprint, slide, jump)
+- Player movement (sprint, crouch, slide, jump)
 - Zombie AI (FSM + NavMesh + ragdoll)
 - Hitbox damage / hit marker / kill feedback
 - HUD (score, streak, ammo, damage indicator)
