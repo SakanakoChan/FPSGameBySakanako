@@ -9,7 +9,7 @@
 A Unity-based FPS prototype focusing on shooting feel, input systems, and weapon design.
 
 ### 🎮 Features
-- Keyboard & Mouse / Controller with hot swap
+- Keyboard & Mouse / Controller with hot swap, based on Rewired
 - Controller optimization, including aim assist (slowdown + rotation assist), adjustable deadzone & responsive curve & turn acceleration settings
 - Full shooting system, COD-like gunplay (recoil, gun kick, camera kick)
 - ADS vs hip-fire bullet logic
