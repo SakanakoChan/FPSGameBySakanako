@@ -21,6 +21,7 @@ A Unity-based FPS prototype focusing on shooting feel, input systems, and weapon
 - HUD (score, streak, ammo, damage indicator)
 - Object pooling optimization
 - Includes a wide range of common customizable settings in FPS games
+- a mini aim training level
 
 ### 🛠 Tech Stack
 Unity / C# / Animator / NavMesh
